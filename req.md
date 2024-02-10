@@ -1,0 +1,1 @@
+- Adding a toast on every action
