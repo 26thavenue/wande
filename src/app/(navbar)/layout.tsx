@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from '@clerk/nextjs'
+// import { ClerkProvider } from '@clerk/nextjs'
 import { JetBrains_Mono } from "next/font/google";
+import { Navbar } from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Clerk } from "@clerk/nextjs/server";
 
 
 const jetbrains = JetBrains_Mono({
@@ -21,11 +26,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <ClerkProvider>
+      
       <html lang="en">
-        <body className={jetbrains.className}>{children}</body>
+        <ClerkProvider>
+        <body className={jetbrains.className}>
+          <Toaster toastOptions={{
+            style: {
+              borderRadius: '8px',
+              background: '#333',
+              color: '#fff',
+              padding: '16px',
+            }
+          
+          }}/>
+          <div className="flex flex-col min-h-screen">
+             <Navbar />
+             <div className="flex-grow">
+              {children}
+             </div>
+            
+            <Footer />
+          </div>
+         
+          </body>
+          </ClerkProvider>
       </html>
-      </ClerkProvider>
+      
     
     
   );

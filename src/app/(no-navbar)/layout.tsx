@@ -24,8 +24,7 @@ export default function RootLayout({
       <ClerkProvider>
       <html lang="en">
         <body className={jetbrains.className}>
-          <div className="h-full w-full items-center flex justify-center bg-white
-          ">
+          <div className="">
             {children}
           </div>
           
