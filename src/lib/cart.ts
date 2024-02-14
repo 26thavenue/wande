@@ -26,6 +26,7 @@ type CartStore = {
     remove: (idProduct: number) => void,
     increaseQuantity: (idProduct: number) => void,
     decreaseQuantity: (idProduct: number) => void,
+    totalPrice:(cart:CartItem[]) => number,
     removeAll: () => void
 }
 
@@ -62,6 +63,7 @@ export const useCartStore = create<CartStore>()(
             const updatedCart = decreaseCartItemQuantity(idProduct, cart);
             set({ cart: updatedCart });
         },
+        totalPrice:(cart:CartItem[]) => getTotalPrice(cart)
     }),
         {
             name:'cart-storage',
@@ -118,3 +120,7 @@ function decreaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem
     });
 }
 
+function getTotalPrice(cart: CartItem[]): number {
+    if(cart.length === 0 || !cart) return 0;
+    return cart.reduce((prev, curr) => prev + curr.price * curr.quantity, 0);
+}

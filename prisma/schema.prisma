@@ -24,6 +24,7 @@ model Product {
   @@map("products")
 }
 
+
 model Cart {
   id        String     @id @default(cuid()) 
   items     CartItem[]
@@ -103,10 +104,22 @@ model Order{
   userId      String
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   amount      Float
-  status      String
+  status      String @default("PENDING")
   createdAt   DateTime @default(now())
   products    CartItem[]
   address     String?
+  payment     Payment? 
+  paymentId   String?
+
+   @@map("orders")
+}
+
+model Payment{
+  id        String @id @default(cuid())
+  orderId   String @unique
+  order     Order @relation(fields: [orderId], references: [id])
+  amount    Float
+  status    Status@default(PENDING)
 }
 
 enum Status{
