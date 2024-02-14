@@ -6,11 +6,10 @@ import React from 'react'
 import Link from 'next/link'
 import ItemContent from './item-content';
 import { useEffect,useState } from 'react';
+
 const CartClient = () => {
    const [subTotal, setSubTotal] = useState(0);
-   useEffect(() => {
-        useCartStore.persist.rehydrate();
-    }, []);
+   
 
     useEffect(() => {
    
@@ -25,7 +24,7 @@ const CartClient = () => {
         
     }
     getTotal()
-    console.log(getTotal());
+    // console.log(getTotal());
 }, [useCartStore.getState().cart])
   const { cart } = useCartStore();
   const {removeAll:handleRemoveAllFromCart} = useCartStore()
@@ -69,13 +68,13 @@ const CartClient = () => {
                             <p>SUBTOTAL</p>
                             <span> ${subTotal}</span>
                         </div>
-                        <Button
-                        
-                        className=''>CHECKOUT</Button>
+                         <Link href='/payment'>
+                            <Button type="submit"> CHECKOUT </Button>
+                        </Link>
                         
                         <Link href='/' className='cursor-pointer text-center flex items-center gap-3 mx-auto'>
                         <MoveLeft />
-                        <p className='text-sm text-[rgb(182,182,182)] hover:underline transistion'>Continue shopping</p>
+                        <p className='text-sm text-[rgb(146,145,145)] hover:underline transistion'>Continue shopping</p>
                         </Link>
                     
                  </div>
@@ -88,7 +87,7 @@ const CartClient = () => {
               
                 <Link href='/' className='cursor-pointer text-center flex items-center gap-3 mx-auto'>
                   <MoveLeft />
-                   <p className='text-sm text-[rgb(182,182,182)] hover:underline transistion'>Go back to shopping</p>
+                   <p className='text-sm text-[rgb(146,145,145)] hover:underline transistion'>Go back to shopping</p>
                 </Link>
                 
                

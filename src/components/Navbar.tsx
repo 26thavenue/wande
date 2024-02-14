@@ -33,7 +33,7 @@ export function Navbar() {
   const { count } = useCartStore();
 
   return (
-    <div className="grid shadow-sm sticky top-0 w-full z-10 ">
+    <div className="grid bg-white shadow-sm sticky top-0 w-full z-50 ">
       <Container>
         <div className='flex justify-between items-center px-5 py-4 bottom-1'>
         <div className="flex items-center justify-center gap-6">

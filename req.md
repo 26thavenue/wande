@@ -5,8 +5,9 @@
 - [x] Mapping the pages to its category and product
 - [x]Change the any type in ItemsContentProps to cartProduct
 - [x] Properly add the quantity and imageUrl to the cart
-- Do the set quantity
+- [x] Do the set quantity
 - [x] Clear cart
+- [ ] Truncate all the text in the cart sheet and cart
 - Protect admin route with clerk
 
 

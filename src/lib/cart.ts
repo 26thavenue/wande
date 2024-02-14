@@ -24,6 +24,8 @@ type CartStore = {
     count: () => number;
     add: (product: Product) => void,
     remove: (idProduct: number) => void,
+    increaseQuantity: (idProduct: number) => void,
+    decreaseQuantity: (idProduct: number) => void,
     removeAll: () => void
 }
 
@@ -50,6 +52,16 @@ export const useCartStore = create<CartStore>()(
             set({ cart: updatedCart });
         },
         removeAll: () => set({ cart: [] }),
+        increaseQuantity: (idProduct: number) => {
+            const { cart } = get();
+            const updatedCart = increaseCartItemQuantity(idProduct, cart);
+            set({ cart: updatedCart });
+        },
+        decreaseQuantity: (idProduct: number) => {
+            const { cart } = get();
+            const updatedCart = decreaseCartItemQuantity(idProduct, cart);
+            set({ cart: updatedCart });
+        },
     }),
         {
             name:'cart-storage',
@@ -61,6 +73,7 @@ export const useCartStore = create<CartStore>()(
 
 
 function updateCart(product: Product, cart: CartItem[]): CartItem[] {
+    
     const cartItem = { ...product, count: 1 } as CartItem;
 
     const productOnCart = cart.map(item => item.id).includes(product.id);
@@ -87,5 +100,21 @@ function removeCart(idProduct: number, cart: CartItem[]): CartItem[] {
     });
 }
 
+function increaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem[] {
+    return cart.map(item => {
+        if (item.id === idProduct) {
+            return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+    });
+}
 
+function decreaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem[] {
+    return cart.map(item => {
+        if (item.id === idProduct && item.quantity > 1) {
+            return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+    });
+}
 

@@ -17,7 +17,7 @@ const FeaturedProducts = () => {
       brand: "Apple",
       category: "Electronics",
       imageUrl: "/socket.jpg",
-      quantity: 10
+      quantity: 1
     },
     {
       id: 2,
@@ -27,7 +27,7 @@ const FeaturedProducts = () => {
       brand: "Apple",
       category: "Electronics",
       imageUrl: "/socket.jpg",
-      quantity: 10
+      quantity: 1
     },
     {
       id: 3,
@@ -37,7 +37,7 @@ const FeaturedProducts = () => {
       brand: "Apple",
       category: "Electronics",
       imageUrl: "/socket.jpg",
-      quantity: 10
+      quantity: 1
     },
     
   ];

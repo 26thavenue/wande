@@ -7,8 +7,9 @@ import Image from 'next/image'
 import { useCartStore } from "@/lib/cart";
 import RelatedProducts from './related-products'
 import { Product } from '@/lib/cart'
+import QuantityButton from './quantity-button'
 
-interface ProductDetailsProps{
+interface ProductDetailsProps extends Product {
     product:Product
 }
 
@@ -25,7 +26,11 @@ const ProductDetails:React.FC<ProductDetailsProps> = ({product}) => {
             <Separator orientation='horizontal'  className='my-3' />
             <h1 className='text-justify'>{product.description}</h1>
             <Separator orientation='horizontal' className='my-3' />
-            {/* <h3>Quantity:{product.quantity}</h3> */}
+            <div className='flex gap-2'>
+              <h3>Quantity: </h3>
+              <QuantityButton product={product} />
+            </div>
+            
             <h3> Category : {product.category}</h3>
             <h3> Brand : {product.brand}</h3>
             <Button 
