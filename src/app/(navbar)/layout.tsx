@@ -5,8 +5,8 @@ import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Clerk } from "@clerk/nextjs/server";
+import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
+import Loading from "@/components/loading";
 
 
 const jetbrains = JetBrains_Mono({
@@ -29,6 +29,8 @@ export default function RootLayout({
       
       <html lang="en">
         <ClerkProvider>
+           
+            
         <body className={jetbrains.className}>
           <Toaster toastOptions={{
             style: {
@@ -39,7 +41,11 @@ export default function RootLayout({
             }
           
           }}/>
-          <div className="flex flex-col min-h-screen">
+           <ClerkLoading>
+              <Loading/>
+            </ClerkLoading>
+          <ClerkLoaded>
+            <div className="flex flex-col min-h-screen">
              <Navbar />
              <div className="flex-grow">
               {children}
@@ -47,6 +53,8 @@ export default function RootLayout({
             
             <Footer />
           </div>
+          </ClerkLoaded>
+          
          
           </body>
           </ClerkProvider>

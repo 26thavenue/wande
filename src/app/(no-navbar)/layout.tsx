@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import { JetBrains_Mono } from "next/font/google";
+import Loading from "@/components/loading"; 
 import "./globals.css";
 
 
@@ -24,9 +25,15 @@ export default function RootLayout({
       <ClerkProvider>
       <html lang="en">
         <body className={jetbrains.className}>
-          <div className="">
-            {children}
-          </div>
+           <ClerkLoading>
+              <Loading/>
+            </ClerkLoading>
+            <ClerkLoaded>
+              <div className="">
+                {children}
+              </div>
+            </ClerkLoaded>
+          
           
           </body>
       </html>

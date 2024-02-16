@@ -16,7 +16,7 @@ export type Product = {
 }
 
 interface CartItem extends Product {
-    count: number;
+    count:number
 }
 
 type CartStore = {
@@ -51,6 +51,7 @@ export const useCartStore = create<CartStore>()(
             const { cart } = get();
             const updatedCart = removeCart(idProduct, cart);
             set({ cart: updatedCart });
+            toast.success('Product removed from cart')
         },
         removeAll: () => set({ cart: [] }),
         increaseQuantity: (idProduct: number) => {

@@ -14,7 +14,7 @@
 Version 2
 - Handle Review
 - Add rating
-- Adding brand to the db 
+- Logging and test
 
 
 Check: 

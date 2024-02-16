@@ -17,13 +17,38 @@ model Product {
   name        String
   price       Int
   brand       String
+  numberInStock Int  @default(1)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  cartItems   CartItem[]
+  cartItems   CartItem?
+  categoryId  String?
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  categoryName String?
 
   @@map("products")
 }
 
+model Category{
+  id          String     @id @default(cuid()) 
+  name        String     @unique
+  products    Product[]
+  imageUrl    String?
+  @@map("categories")
+
+}
+
+model CartItem {
+  id        String  @id @default(cuid()) 
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id])
+  productName String 
+  quantity  Int
+  cartId    String  
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  @@map("cartitems")
+}
 
 model Cart {
   id        String     @id @default(cuid()) 
@@ -36,51 +61,13 @@ model Cart {
   @@map("carts")
 }
 
-model CartItem {
-  id        String  @id @default(cuid()) 
-  productId String  
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity  Int
-  cartId    String  
-  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  @@map("cartitems")
-}
 
-// model Account {
-//   id                String  @id @default(cuid()) 
-//   userId            String  
-//   type              String
-//   provider          String
-//   providerAccountId String
-//   refresh_token     String? 
-//   access_token      String? 
-//   expires_at        Int?
-//   token_type        String?
-//   scope             String?
-//   id_token          String? 
-//   session_state     String?
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-//   @@unique([provider, providerAccountId])
-//   @@map("accounts")
-// }
-
-// model Session {
-//   id           String   @id @default(cuid()) 
-//   sessionToken String   @unique
-//   userId       String   
-//   expires      DateTime
-//   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-//   @@map("sessions")
-// }
 enum Role{
   USER
   ADMIN
 }
+
 model User {
   id            String    @id @default(cuid()) 
   name          String?
@@ -88,6 +75,7 @@ model User {
   Cart          Cart[]
   Order         Order[]
   role          Role
+  address      String?
   @@map("users")
 }
 
@@ -113,6 +101,8 @@ model Order{
 
    @@map("orders")
 }
+
+
 
 model Payment{
   id        String @id @default(cuid())

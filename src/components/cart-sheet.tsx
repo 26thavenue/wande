@@ -76,7 +76,7 @@ export function Cart({count}:{count:number}) {
         <SheetFooter>
             
           <SheetClose asChild>
-            <Link href='/payment'>
+            <Link href='/checkout'>
               <Button type="submit"> CHECKOUT </Button>
             </Link>
             
