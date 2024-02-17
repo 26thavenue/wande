@@ -2,10 +2,10 @@
 
 import {  NextResponse} from "next/server";
 
-import { Product } from "@/lib/cart";
+import { CartItemType, PaymentType } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
 
-const calculateTotalAmount = (items: Product[]):number=> {
+const calculateTotalAmount = (items: CartItemType[]):number=> {
     if(items){
         const total = items?.reduce((prev, curr) => prev + curr.price * curr.quantity,0 );
         return total
@@ -14,64 +14,43 @@ const calculateTotalAmount = (items: Product[]):number=> {
     
 }
 
+export async function GET(req:Request){
+    const payments = await prisma.payment.findMany();
+    if(!payments || payments.length === 0) return NextResponse.json({message:'No payments found'}, {status: 404});
+    return NextResponse.json(payments, {status: 200});
+
+}
 
 
-
-
-export async function POST(req: Request, res:Response) {
-
-    const body = await req.json()
-    const total = calculateTotalAmount(body.items)
-    const orderData = {
-        userId:body.userId,
-        products:body.items,
-        amount:total,  
-        payment_id:body.payment_id   
-    }
-
-    const newOrder = await prisma.order.create({
-            data:orderData
-    
-        })
-    
-    const newPaymentItem = await prisma.payment.create({
-        data:{
-            orderId:newOrder.id ,
-            amount:total,
-        }
-    })     
-    if(!body.payment_id){
-        await Promise.all([
-            prisma.order.update({
-            where:{
-                id:newOrder.id
-            },
+export async function POST(req: Request) {
+  const {orderId, amount ,status} = await req.json() as unknown as PaymentType;
+  if(!orderId || !amount || !status) return NextResponse.json({message:'Invalid params'}, {status: 400});
+    const order = await prisma.order.findUnique({
+        where: {
+            id: orderId,
+        },
+    });
+    if(!order) return NextResponse.json({message:'Order not found'}, {status: 404});
+    try{
+        const payment = await prisma.payment.create({
             data:{
-                paymentId:newPaymentItem.id
+                amount,
+                status,
+                order:{
+                    connect:{
+                        id: orderId
+                    }
+                }
             }
-        })
-        ]) 
+        });
+        return NextResponse.json(payment, {status: 201});
+    }catch(err) {
+        return NextResponse.json({message:'An error occured'}, {status: 500});
     }
-          
-    return NextResponse.json({ message: `Your order with id:${newOrder.id} has been created`} )
-        
+
+    
         
     
     
 }
 
-export async function GET(req: Request) {
-    // const { user } = useUser();
-    // const  {isSignedIn} = useAuth()
-
-    // if(!user || !isSignedIn) {
-    //     return res.status(401).json({message: 'Unauthorized'})
-    // }
-
-    // const orders = await prisma.order.findMany({
-    //     where:{
-    //         userId:user.id
-    //     }
-    // })
-    return NextResponse.json('Hi there')
-}

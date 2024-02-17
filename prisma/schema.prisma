@@ -42,11 +42,13 @@ model CartItem {
   productId String  @unique
   product   Product @relation(fields: [productId], references: [id])
   productName String 
-  quantity  Int
-  cartId    String  
-  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  quantity    Int
+  cartId    String?  
+  cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  orderId   String?
+  order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  price     Int
+  imageUrl String
   @@map("cartitems")
 }
 
@@ -57,6 +59,7 @@ model Cart {
   user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  totalPrice  Int? 
 
   @@map("carts")
 }
@@ -109,7 +112,7 @@ model Payment{
   orderId   String @unique
   order     Order @relation(fields: [orderId], references: [id])
   amount    Float
-  status    Status@default(PENDING)
+  status    String
 }
 
 enum Status{

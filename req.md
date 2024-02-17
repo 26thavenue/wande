@@ -15,6 +15,7 @@ Version 2
 - Handle Review
 - Add rating
 - Logging and test
+- Calculating price at the backend
 
 
 Check: 

@@ -5,10 +5,9 @@ import {NextResponse} from 'next/server'
 export async function PUT(req: Request , { params }: { params: { id: string } }) {
  const categoryId = params.id as string
  if(!categoryId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-//  console.log(categoryId);
 
   const {  id: productId} = await req.json() as unknown as  ProductType;
-//   console.log(productId);
+
   if(!productId) return NextResponse.json({message:'Invalid params'}, {status: 400});
   const product = await prisma.product.findUnique({
         where: {

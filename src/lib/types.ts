@@ -16,7 +16,8 @@ export type CategoryType ={
     products? : ProductType[]
 }
 
-type CartItemType ={
+export type CartItemType ={
+    id?: string,
     productId: string,
     productName: string,
     price: number,
@@ -24,15 +25,17 @@ type CartItemType ={
     imageUrl: string,
 }
 
-type OrderType = {
+export type OrderType = {
     userId: string,
     amount: number,
-    products: ProductType[],
-    payment_id?: string,
+    products: CartItemType[],
+    paymentId?: string,
     address?: string,
+    cartItemId?: string,
 }
 
-type PaymentType = {
+export type PaymentType = {
     orderId: string,
     amount: number,
+    status?: string,
 }
