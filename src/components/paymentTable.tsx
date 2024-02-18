@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { CategoryType } from '@/lib/types'
-import { getAllCategories } from '@/lib/data'
+import { PaymentType } from '@/lib/types'
+import { getAllPayments } from '@/lib/data'
 import {
   Table,
   TableBody,
@@ -25,36 +25,34 @@ import { Separator } from '@/components/ui/separator'
 import { MoreHorizontal } from 'lucide-react'
 
 
-export  function CategoryTable()  {
-  const[ data, setData] = React.useState<CategoryType[] | null>([])
+export  function PaymentTable()  {
+  const[ data, setData] = React.useState([])
   React.useEffect(() => {
-    const fetchData = async () => {
-      const data = await getAllCategories()
-      setData(data)
-    }
-    fetchData()
-  }, [])
+    getAllPayments().then((data) => { setData(data) }).catch((error) => { console.log(error) })
+  }
+  , [])
   // console.log(data);
   return (
     <div>
+        
         <Table className='w-1/2'>
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
       <TableHeader className='bg-muted'>
         <TableRow>
           <TableHead className="">Name</TableHead>
-          <TableHead>Number of Products</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead className="text-right">Total</TableHead>
+          <TableHead className="text-right">Status</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data ? data.map((category:CategoryType) => (
-          <TableRow key={category.id}>
-            <TableCell className="font-medium">{category.name}</TableCell>
-            <TableCell className="font-medium">{category.products ? <p className="font-medium my-auto ">{category.products.length}  products </p> : <p>0 products</p>}</TableCell>
-
-            
-            
-        
+        {data ? data.map((payment:PaymentType) => (
+          <TableRow key={payment.id}>
+            <TableCell className="font-medium">{payment.user?.name}</TableCell>
+            <TableCell>{payment.user?.email}</TableCell>
+            <TableCell className="text-right">{payment.amount}</TableCell>
+            <TableCell className="text-right">{payment.status}</TableCell>       
             <TableCell className="text-right flex justify-end ">
               <div>
                   <DropdownMenu >
@@ -75,7 +73,7 @@ export  function CategoryTable()  {
             </TableCell>
             
           </TableRow>
-        )): <p>No Category</p>}
+        )): <p>No Payments Recorded</p>}
         <TableCell className="text-right"></TableCell>
       </TableBody>
       
@@ -84,4 +82,4 @@ export  function CategoryTable()  {
   )
 }
 
-export default CategoryTable
+export default PaymentTable

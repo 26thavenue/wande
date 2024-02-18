@@ -28,7 +28,7 @@ import { UserButton, UserProfile } from "@clerk/nextjs";
 
 export function Navbar() {
   const { isSignedIn } = useAuth();
-
+ 
 
   const { count } = useCartStore();
 
@@ -48,8 +48,10 @@ export function Navbar() {
                 </div>
              </DropdownMenuTrigger>
              <DropdownMenuContent className="w-56">
+              <DropdownMenuItem className="text-sm">No categories yet</DropdownMenuItem>
               
-               <DropdownMenuItem className="text-sm">No categories yet</DropdownMenuItem>
+              
+               
              </DropdownMenuContent>
            </DropdownMenu>
           

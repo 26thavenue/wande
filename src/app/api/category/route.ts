@@ -16,6 +16,14 @@ export  async function POST(req:Request){
     if(!name){
         return NextResponse.json({message:'Invalid params'})
     }
+  const checkDuplicate = await prisma.category.findFirst({
+        where:{
+            name
+        }
+    })
+    if(checkDuplicate){
+        return NextResponse.json({message:'Category already exists'})
+    }
     try {
         const category = await prisma.category.create({
             data: {

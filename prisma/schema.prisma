@@ -55,13 +55,13 @@ model CartItem {
 model Cart {
   id        String     @id @default(cuid()) 
   items     CartItem[]
-  userId    String?   
+  userId    String?    @unique  
   user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   totalPrice  Int
 
-  @@map("carts")
+  @@map("carts") 
 }
 
 
@@ -73,11 +73,12 @@ enum Role{
 
 model User {
   id            String    @id @default(cuid()) 
-  name          String?
-  email         String?   @unique
-  Cart          Cart[]
+  externalId    String    @unique
+  name          String
+  email         String   @unique
+  Cart          Cart?
   Order         Order[]
-  role          Role
+  role          Role @default(USER)
   address      String?
   @@map("users")
 }

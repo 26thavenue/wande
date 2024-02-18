@@ -1,3 +1,4 @@
+
 export type ProductType = {
   id?: string,
   name: string,
@@ -7,7 +8,7 @@ export type ProductType = {
   imageUrl:string,
   brand:string,
   categoryId?:string,
-  categoryName?:string
+  category?: CategoryType
 }
 
 export type CategoryType ={
@@ -33,16 +34,31 @@ export type CartType = {
 }
 
 export type OrderType = {
-    userId: string,
+    id?:string,
+    user: UserType,
+    phone: number,
     amount: number,
     products: CartItemType[],
     paymentId?: string,
     address?: string,
-    cartItemId?: string,
 }
 
 export type PaymentType = {
+    id?: string,
     orderId: string,
     amount: number,
     status?: string,
+    user?: UserType,
+}
+
+export type UserType = {
+    id?: string,
+    name: string,
+    email: string,
+    password: string,
+    externalId: string,
+    role?: string,
+    cart?: CartType,
+    orders?: OrderType[],
+    address?: string
 }

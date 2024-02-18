@@ -1,22 +1,18 @@
-import {Navbar} from '@/components/admin-nav'
+'use client'
 import Container from '@/components/Container'
-import { Separator } from '@/components/ui/separator'
 
-async function getAllProducts(){
-  const res = await fetch('http://localhost:3000/api/product')
-  const products = await res.json()
-  return products
 
-}
-async function getAllCategories(){
-  const res = await fetch('http://localhost:3000/api/category')
-  const categories = await res.json()
-  return categories
+import { getAllCategories, getAllProducts } from '@/lib/data'
+import { useEffect,useState } from 'react'
 
-}
-
-async function page() {
-  const [products, categories] = await Promise.all([getAllProducts(), getAllCategories()])
+export  function page() {
+  const[products,setProducts] = useState([])
+  const[categories,setCategories] = useState([])
+  useEffect(() => {
+    getAllCategories().then((data) => { setCategories(data) }).catch((error) => { console.log(error) }) 
+    getAllProducts().then((data) => { setProducts(data) }).catch((error) => { console.log(error) })
+  }
+  , [])
   return (
     <div >
       <Container>
@@ -28,7 +24,7 @@ async function page() {
         <div className="grid md:grid-cols-2 lg:grid-ccols-3 xl:grid-cols-3 gap-6 cursor-pointer">
           <div className=" p-6 shadow-md flex flex-col gap-4 items-center hover:shadow-sm transition">
             <h2 className='text-xl'>Total Revenue</h2>
-            <p className='text-3xl text-bold'></p>
+            <p className='text-3xl text-bold'> $240</p>
           </div>
           <div className=" p-6 shadow-md flex flex-col gap-4 items-center hover:shadow-sm transition">
             <h2 className='text-xl'>Total Products</h2>

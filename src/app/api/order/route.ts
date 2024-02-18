@@ -15,22 +15,14 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     const { userId, amount, products, paymentId, address } = await req.json() as unknown as OrderType;
     if(!userId || !amount || !products || products.length === 0) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const {  id: cartItemId} = await req.json() as unknown as  CartItemType;
-     const cartItem= await prisma.cartItem.findUnique({
-        where: {
-            id: cartItemId,
-        },
-    });
-     if (!cartItem) {
-        return NextResponse.json({ message: 'Cart Item  not found' }, {status: 404});
-    }
+    
     //
     const order = await prisma.order.create({
         data: {
             userId,
             amount,
              products: {
-                connect: { id: cartItemId },
+                create: products,
             },         
             paymentId,
             address,

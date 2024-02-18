@@ -6,7 +6,7 @@ export async function PUT(req: Request , { params }: { params: { id: string } })
  const categoryId = params.id as string
  if(!categoryId) return NextResponse.json({message:'Invalid params'}, {status: 400});
 
-  const {  id: productId} = await req.json() as unknown as  ProductType;
+ const {  id: productId} = await req.json() as unknown as  ProductType;
 
   if(!productId) return NextResponse.json({message:'Invalid params'}, {status: 400});
   const product = await prisma.product.findUnique({
@@ -24,7 +24,7 @@ export async function PUT(req: Request , { params }: { params: { id: string } })
       where: { id: categoryId },
       data: {
         products: {
-          connect: { id: productId },
+          create: product,
         },
       },
       include: {

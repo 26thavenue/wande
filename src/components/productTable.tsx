@@ -1,4 +1,4 @@
-
+'use client'
 
 import React from 'react'
 import { ProductType } from '@/lib/types'
@@ -20,13 +20,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Separator } from '@/components/ui/separator'
-
+import {  getAllProducts } from '@/lib/data'
 import { MoreHorizontal } from 'lucide-react'
+import { useEffect,useState } from 'react'
 
-
-export async function ProductTable()  {
-  const res = await fetch('http://localhost:3000/api/product')
-  const data = await res.json()
+export  function ProductTable()  {
+  const[products,setProducts] = useState([])
+  
+  useEffect(() => {
+    getAllProducts().then((data) => { setProducts(data) }).catch((error) => { console.log(error) })
+  }
+  , [])
   return (
     <div>
         <Table>
@@ -42,12 +46,14 @@ export async function ProductTable()  {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((product:ProductType) => (
+        {products.map((product:ProductType) => (
           <TableRow key={product.id}>
             <TableCell className="font-medium">{product.name}</TableCell>
             <TableCell>{product.price}</TableCell>
             <TableCell>{product.numberInStock}</TableCell>
-            <TableCell className="text-right">{product.categoryName}</TableCell>
+            <TableCell></TableCell>
+
+            <TableCell className="font-medium">{product?.category?.name}</TableCell>
             <TableCell className="text-right">{product.brand}</TableCell>
             <TableCell className="text-right flex justify-end ">
               <div>
@@ -78,9 +84,9 @@ export async function ProductTable()  {
       
     </Table>
     <div className="flex w-full text-xs text-[#b6b6b6]  justify-end items-center gap-4 my-4 cursor-pointer">
-        <p>Previous</p>
+        <p className='hover:text-black'>Previous</p>
           <Separator orientation="vertical" className='h-4' />
-          <p>Next</p>
+          <p className='hover:text-black'>Next</p>
       </div>
     </div>
   )

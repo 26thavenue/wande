@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { CategoryType } from '@/lib/types'
-import { getAllCategories } from '@/lib/data'
+import { OrderType } from '@/lib/types'
+import { getAllOrders } from '@/lib/data'
 import {
   Table,
   TableBody,
@@ -25,11 +25,11 @@ import { Separator } from '@/components/ui/separator'
 import { MoreHorizontal } from 'lucide-react'
 
 
-export  function CategoryTable()  {
-  const[ data, setData] = React.useState<CategoryType[] | null>([])
+export  function OrderTable()  {
+  const[ data, setData] = React.useState<OrderType[] | null>([])
   React.useEffect(() => {
     const fetchData = async () => {
-      const data = await getAllCategories()
+      const data = await getAllOrders()
       setData(data)
     }
     fetchData()
@@ -37,23 +37,26 @@ export  function CategoryTable()  {
   // console.log(data);
   return (
     <div>
+        
         <Table className='w-1/2'>
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
       <TableHeader className='bg-muted'>
         <TableRow>
           <TableHead className="">Name</TableHead>
-          <TableHead>Number of Products</TableHead>
+          <TableHead>Total Amount</TableHead>
+          <TableHead className="text-right">Phone number</TableHead>
+          <TableHead className="text-right">Address</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data ? data.map((category:CategoryType) => (
-          <TableRow key={category.id}>
-            <TableCell className="font-medium">{category.name}</TableCell>
-            <TableCell className="font-medium">{category.products ? <p className="font-medium my-auto ">{category.products.length}  products </p> : <p>0 products</p>}</TableCell>
-
-            
-            
+        {data ? data.map((order:OrderType) => (
+          <TableRow key={order.id}>
+            <TableCell className="font-medium">{order.user?.name}</TableCell>
+            <TableCell>{order.user?.email}</TableCell>
+            <TableCell className="text-right">{order.amount}</TableCell>
+            <TableCell className="text-right">{order.phone}</TableCell>
+            <TableCell className="text-right">{order.address}</TableCell>         
         
             <TableCell className="text-right flex justify-end ">
               <div>
@@ -65,7 +68,7 @@ export  function CategoryTable()  {
                     <DropdownMenuGroup>
 
                       <DropdownMenuItem>
-                      Delete Category
+                      Delete Order
                         
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
@@ -75,7 +78,7 @@ export  function CategoryTable()  {
             </TableCell>
             
           </TableRow>
-        )): <p>No Category</p>}
+        )): <p>No Orders Recorded</p>}
         <TableCell className="text-right"></TableCell>
       </TableBody>
       
@@ -84,4 +87,4 @@ export  function CategoryTable()  {
   )
 }
 
-export default CategoryTable
+export default OrderTable

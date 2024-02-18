@@ -18,10 +18,7 @@ export default async function Page (){
       <div className='flex gap-8 justify-between '>
          <Input placeholder='Search for products' className='w-1/4 mb-6 justify-self-start'/>
           <AddProductButton/>
-      </div>
-      <p className='text-[#b6b6b6] text-xs mb-3 '> Showing 1|14 of 100 products</p>
-     
-      
+      </div>  
         <ProductTable/>
       
     </Container>

@@ -1,6 +1,6 @@
 "use server"
 import {prisma} from '@/lib/prisma';
-import {ProductType} from '@/lib/types'
+import {ProductType, CategoryType} from '@/lib/types'
 import { NextResponse } from "next/server"
 
 export async function PUT(req:Request, { params }: { params: { id: string } }){
@@ -8,8 +8,16 @@ export async function PUT(req:Request, { params }: { params: { id: string } }){
   console.log(productId);
   if(!productId) return NextResponse.json({message:'Invalid params'}, {status: 400});
   const { description, imageUrl, name, price, brand, categoryId } = await req.json() as unknown as ProductType;
-
-  try {
+  const cat = await prisma.category.findFirst({
+    where: {
+      id: categoryId,
+    },
+  });
+  if (!cat) {
+   return NextResponse.json({message:'Category does not exist'}, {status: 400})
+  }
+   
+   try {
     const updatedProduct = await prisma.product.update({
       where: {
         id: productId,
@@ -21,6 +29,7 @@ export async function PUT(req:Request, { params }: { params: { id: string } }){
         price,
         brand,
         categoryId,
+        categoryName:cat.name 
       },
     });
     return NextResponse.json(updatedProduct, {status: 200});
@@ -30,6 +39,8 @@ export async function PUT(req:Request, { params }: { params: { id: string } }){
   }
 
 }
+
+ 
 
 export async function DELETE(req:Request, { params }: { params: { id: string } }){
 
