@@ -25,6 +25,13 @@ export type CartItemType ={
     imageUrl: string,
 }
 
+export type CartType = {
+    id: string,
+    items: CartItemType[],
+    userId: string,
+    totalPrice: number,
+}
+
 export type OrderType = {
     userId: string,
     amount: number,

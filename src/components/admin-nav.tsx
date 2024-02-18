@@ -11,47 +11,45 @@ export function Navbar({
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
+  console.log(params);
 
   const routes = [
     {
-      href: `/${params.storeId}`,
+      href: `/admin`,
       label: 'Overview',
-      active: pathname === `/${params.storeId}`,
+      active: pathname === '/admin',
+    },
+    
+    {
+      href: `/admin/category`,
+      label: 'CATEGORIES',
+      active: pathname === `/admin/category`,
+    },
+  
+    {
+      href: `/admin/payments`,
+      label: 'PAYMENT',
+      active: pathname === `/${params.storeId}/payment`,
     },
     {
-      href: `/${params.storeId}/billboards`,
-      label: 'Billboards',
-      active: pathname === `/${params.storeId}/billboards`,
-    },
-    {
-      href: `/${params.storeId}/categories`,
-      label: 'Categories',
-      active: pathname === `/${params.storeId}/categories`,
-    },
-    {
-      href: `/${params.storeId}/sizes`,
-      label: 'Sizes',
-      active: pathname === `/${params.storeId}/sizes`,
-    },
-    {
-      href: `/${params.storeId}/colors`,
-      label: 'Colors',
-      active: pathname === `/${params.storeId}/colors`,
-    },
-    {
-      href: `/${params.storeId}/products`,
+      href: `/admin/products`,
       label: 'Products',
-      active: pathname === `/${params.storeId}/products`,
+      active: pathname === `/admin/products`,
     },
     {
-      href: `/${params.storeId}/orders`,
+      href: `/admin/orders`,
       label: 'Orders',
-      active: pathname === `/${params.storeId}/orders`,
+      active: pathname === `/admin/orders`,
     },
     {
       href: `/${params.storeId}/settings`,
-      label: 'Settings',
-      active: pathname === `/${params.storeId}/settings`,
+      label: 'Users',
+      active: pathname === `/admin/users`,
+    },
+    {
+      href: `/${params.storeId}/settings`,
+      label: 'Inventory',
+      active: pathname === `/admin/inventory`,
     },
   ]
 

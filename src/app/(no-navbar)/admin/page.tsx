@@ -1,76 +1,50 @@
-// import { prisma } from "@/lib/prisma";
-// import { getServerSession } from "next-auth";
-// import { redirect } from "next/navigation";
-// import { Button } from "@/components/ui/button";
+import {Navbar} from '@/components/admin-nav'
+import Container from '@/components/Container'
+import { Separator } from '@/components/ui/separator'
 
-// export const metadata = {
-//   title: "Add Product",
-// };
+async function getAllProducts(){
+  const res = await fetch('http://localhost:3000/api/product')
+  const products = await res.json()
+  return products
 
-// async function addProduct(formData: FormData) {
-//   "use server";
+}
+async function getAllCategories(){
+  const res = await fetch('http://localhost:3000/api/category')
+  const categories = await res.json()
+  return categories
 
-//   // const session = await getServerSession(authOptions);
+}
 
-//   // if (!session) {
-//   //   redirect("/api/auth/signin?callbackUrl=/add-product");
-//   // }
+async function page() {
+  const [products, categories] = await Promise.all([getAllProducts(), getAllCategories()])
+  return (
+    <div >
+      <Container>
+        <main className="flex-col my-3">
+            <h1 className="text-4xl font-bold">Dashboard</h1>
+            <p className="text-[14px] mb-6  text-[#b6b6b6]">Overview of your store's activity</p>
+        </main>
 
-//   const name = formData.get("name")?.toString();
-//   const description = formData.get("description")?.toString();
-//   const imageUrl = formData.get("imageUrl")?.toString();
-//   const price = Number(formData.get("price") || 0);
+        <div className="grid md:grid-cols-2 lg:grid-ccols-3 xl:grid-cols-3 gap-6 cursor-pointer">
+          <div className=" p-6 shadow-md flex flex-col gap-4 items-center hover:shadow-sm transition">
+            <h2 className='text-xl'>Total Revenue</h2>
+            <p className='text-3xl text-bold'></p>
+          </div>
+          <div className=" p-6 shadow-md flex flex-col gap-4 items-center hover:shadow-sm transition">
+            <h2 className='text-xl'>Total Products</h2>
 
-//   if (!name || !description || !imageUrl || !price) {
-//     throw Error("Missing required fields");
-//   }
+            <p className='text-3xl text-bold'>{products.length}</p>
+          </div>
+          <div className=" p-6 shadow-md flex flex-col gap-4 items-center hover:shadow-sm transition">
+            <h2 className='text-xl '>Categories</h2>
+            <p className='text-3xl text-bold'>{categories.length}</p>
+          </div>
+          
 
-//   await prisma.product.create({
-//     data: { name, description, imageUrl, price },
-//   });
+        </div>
+      </Container>     
+    </div>
+  )
+}
 
-//   redirect("/");
-// }
-
-// export default async function AddProductPage() {
-//   // const session = await getServerSession(authOptions);
-
-//   // if (!session) {
-//   //   redirect("/api/auth/signin?callbackUrl=/add-product");
-//   // }
-
-//   return (
-//     <div>
-//       <h1 className="mb-3 text-lg font-bold">Add Product</h1>
-//       <form action={addProduct}>
-//         <input
-//           required
-//           name="name"
-//           placeholder="Name"
-//           className="input-bordered input mb-3 w-full"
-//         />
-//         <textarea
-//           required
-//           name="description"
-//           placeholder="Description"
-//           className="textarea-bordered textarea mb-3 w-full"
-//         />
-//         <input
-//           required
-//           name="imageUrl"
-//           placeholder="Image URL"
-//           type="url"
-//           className="input-bordered input mb-3 w-full"
-//         />
-//         <input
-//           required
-//           name="price"
-//           placeholder="Price"
-//           type="number"
-//           className="input-bordered input mb-3 w-full"
-//         />
-//         <Button className="btn-block">Add Product</Button>
-//       </form>
-//     </div>
-//   );
-// }
+export default page
