@@ -4,10 +4,10 @@ export type ProductType = {
   name: string,
   price: number,
   description: string,
-  numberInStock?: number,
+  numberInStock: number,
   imageUrl:string,
   brand:string,
-  categoryId?:string,
+  categoryId:string,
   category?: CategoryType
 }
 
@@ -55,7 +55,6 @@ export type UserType = {
     id?: string,
     name: string,
     email: string,
-    password: string,
     externalId: string,
     role?: string,
     cart?: CartType,

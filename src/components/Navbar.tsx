@@ -56,7 +56,7 @@ export function Navbar() {
           <DropdownMenu>
              <DropdownMenuTrigger asChild>
                 <div className="flex gap-1 items-center justify-center cursor-pointer">
-                  <p className="text-sm text-[#575757] ">Categories</p>
+                  <p className="text-sm text-[#575757] ">CATEGORIES</p>
                   <ChevronDown className="w-3" />
                 </div>
              </DropdownMenuTrigger>

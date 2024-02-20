@@ -45,6 +45,9 @@ export async function GET(req:Request, { params }: { params: { id: string } }){
         where: {
             id: categoryId,
         },
+        include: {
+            products: true,
+        },
     });
 
     if (!category) {

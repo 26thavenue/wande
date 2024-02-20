@@ -273,13 +273,13 @@ export async function getAllOrders(){
 
 // USER API
 
-export async function createUser(data:any){
+export async function createUser({name,email,externalId}:{name:string,email:string,externalId:string}){
     const res = await fetch('http://localhost:3000/api/user',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'
         },
-        body:JSON.stringify(data)
+        body:JSON.stringify({name,email,externalId})
     })
     const user = await res.json()
     return user

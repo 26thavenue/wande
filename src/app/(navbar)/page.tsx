@@ -1,10 +1,28 @@
+'use client'
+
 import React from 'react'
 import Banner from '@/components/Banner'
 import FeaturedProducts from '@/components/featured-products'
 import Container from '@/components/Container'
 import ExploreCategory from '@/components/exploreCategory'
 import WhyChooseUs from '@/components/WhyChooseUs'
+import Discount from '@/components/Discount'
+import { useEffect } from "react";
+import {useUser} from '@clerk/nextjs'
+import { useSignUp } from "@clerk/nextjs";
+import { createUser } from "@/lib/data";
 const page = () => {
+  const {user} = useUser()
+  const name = user?.firstName
+  const email = user?.emailAddresses[0]?.emailAddress
+  const externalId = user?.id
+  useEffect(()=>{
+    if(user){
+      if(!name || !email || !externalId) return
+      createUser({name,email,externalId})
+    }
+    return 
+  },[])
   return (
     <div>
       <Container>
@@ -12,6 +30,7 @@ const page = () => {
         <div className="">
           <FeaturedProducts />
           <ExploreCategory />
+          <Discount />
           <WhyChooseUs />
         </div>
         
