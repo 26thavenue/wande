@@ -6,41 +6,17 @@ import {NextResponse,NextRequest} from 'next/server'
 
 
 export async function GET(req: NextRequest) {
-    const searchParams = req.nextUrl.searchParams
-    const query = searchParams.get('query')
-    if(query){
-      const page = parseInt(query as string) || 1;
-      const pageSize = 3;
-      const skip = (page - 1) * pageSize;
-      const products = await prisma.product.findMany({
-        take: pageSize,
-        skip,
-        include: {
-          category: true,
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-    });
-      if(!products) return NextResponse.json({message:'No products found'})
-      return NextResponse.json(products, {status: 200})
-    }
-    else
-    {
-        const products = await prisma.product.findMany();
-        if(!products) return NextResponse.json({message:'No products found'})
-        return NextResponse.json(products, {status: 200})
-    }
-   
-    
+    const products = await prisma.product.findMany();
+    if(!products) return NextResponse.json({message:'No products found'})
+    return NextResponse.json(products, {status: 200})  
 }
 
 
 export  async function POST(req:Request){
   const body = await req.json() as unknown  as ProductType  ;
-  console.log(body.description);
-  const {name, description, imageUrl, price, brand, numberInStock, categoryId, categoryName} = body;
-  if(!name || !description || !imageUrl || !price || !brand ){
+  // console.log(body.description);
+  const {name, description, imageUrl, price, brand, numberInStock, categoryId} = body;
+  if(!name || !description || !imageUrl || !price || !brand || !categoryId){
     return NextResponse.json({message:'Invalid params'})
   }
   const categoryExists = await prisma.category.findFirst({
@@ -62,7 +38,6 @@ export  async function POST(req:Request){
         brand,
         numberInStock,
         categoryId,
-        categoryName
       },
     });
     return NextResponse.json(product);

@@ -48,7 +48,7 @@ export type PaymentType = {
     orderId: string,
     amount: number,
     status?: string,
-    user?: UserType,
+    user: UserType,
 }
 
 export type UserType = {

@@ -62,6 +62,12 @@ export async function updateProducts(id:string,data:any){
 
 //  CATEGORY API
 
+export async function getCategoryById(id:string){
+    const res = await fetch(`http://localhost:3000/api/category/${id}`)
+    const category = await res.json()
+    return category
+}
+
 export async function getAllCategories(){
     const res = await fetch('http://localhost:3000/api/category')
     const categories = await res.json()

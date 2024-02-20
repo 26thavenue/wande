@@ -4,7 +4,7 @@ const page = () => {
   return (
     <div>
         <Container>
-            
+            <p>No users found</p>
         </Container>
     </div>
   )

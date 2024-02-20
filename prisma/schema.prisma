@@ -20,10 +20,10 @@ model Product {
   numberInStock Int  @default(1)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  cartItems   CartItem?
+  cartId      String?
+  cart        Cart?       @relation(fields: [cartId], references: [id])
   categoryId  String?
   category    Category?   @relation(fields: [categoryId], references: [id])
-  categoryName String?
 
   @@map("products")
 }
@@ -37,34 +37,36 @@ model Category{
 
 }
 
-model CartItem {
-  id        String  @id @default(cuid()) 
-  productId String  @unique
-  product   Product @relation(fields: [productId], references: [id])
-  productName String 
-  quantity    Int
-  cartId    String?  
-  cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  orderId   String?
-  order     Order?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  price     Int
-  imageUrl String
-  @@map("cartitems")
-}
+
 
 model Cart {
   id        String     @id @default(cuid()) 
-  items     CartItem[]
+  items     Product[]
   userId    String?    @unique  
   user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   totalPrice  Int
-
+  orderId   String?    @unique
+  order     Order?     @relation(fields: [orderId], references: [id])
+  quantity  Int
   @@map("carts") 
 }
 
+model Order{
+  id          String @id @default(cuid())
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Float
+  status      String @default("PENDING")
+  createdAt   DateTime @default(now())
+  products    Cart?
+  address     String?
+  payment     Payment? 
+  paymentId   String?
 
+   @@map("orders")
+}
 
 enum Role{
   USER
@@ -91,20 +93,7 @@ model Admin{
   @@map("admins")
 }
 
-model Order{
-  id          String @id @default(cuid())
-  userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount      Float
-  status      String @default("PENDING")
-  createdAt   DateTime @default(now())
-  products    CartItem[]
-  address     String?
-  payment     Payment? 
-  paymentId   String?
 
-   @@map("orders")
-}
 
 
 
@@ -127,15 +116,4 @@ enum Status{
   DELIVERED
   RETURNED
  
-}
-
-
-model VerificationToken {
-  id         String   @id @default(cuid()) 
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-  @@map("verificationtokens")
 }

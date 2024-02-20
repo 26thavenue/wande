@@ -3,6 +3,7 @@ import Banner from '@/components/Banner'
 import FeaturedProducts from '@/components/featured-products'
 import Container from '@/components/Container'
 import ExploreCategory from '@/components/exploreCategory'
+import WhyChooseUs from '@/components/WhyChooseUs'
 const page = () => {
   return (
     <div>
@@ -11,6 +12,7 @@ const page = () => {
         <div className="">
           <FeaturedProducts />
           <ExploreCategory />
+          <WhyChooseUs />
         </div>
         
       

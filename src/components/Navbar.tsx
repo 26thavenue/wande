@@ -24,10 +24,23 @@ import { useCartStore } from "@/lib/cart";
 import Container from "./Container";
 import Link from 'next/link'
 import { UserButton, UserProfile } from "@clerk/nextjs";
-
-
+import {useEffect,useState} from "react"
+import { getAllCategories } from "@/lib/data";
+import { CategoryType } from "@/lib/types";
 export function Navbar() {
   const { isSignedIn } = useAuth();
+  const [data,setData] = useState([])
+  const [error,setError] = useState(false)
+
+  useEffect(() => {
+    getAllCategories().then((data) => {
+      // console.log(data)
+      setData(data)
+    }).catch((error) => {
+      console.log(error)
+      setError(true)
+    })
+  }, [])
  
 
   const { count } = useCartStore();
@@ -47,8 +60,18 @@ export function Navbar() {
                   <ChevronDown className="w-3" />
                 </div>
              </DropdownMenuTrigger>
-             <DropdownMenuContent className="w-56">
-              <DropdownMenuItem className="text-sm">No categories yet</DropdownMenuItem>
+             <DropdownMenuContent className="w-56 ">
+              {
+                data ? 
+                data.map((category:CategoryType) => 
+                   (
+                   <Link href={`/category/${category.id}`} key={category.id} className="">
+                    <DropdownMenuItem className="text-sm  uppercase">
+                      {category.name}
+                    </DropdownMenuItem>
+                    </Link>)) : <p> No categories</p>
+                    }
+                  
               
               
                

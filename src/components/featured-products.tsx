@@ -16,8 +16,8 @@ const FeaturedProducts = () => {
   
 
   return (
-    <div className='mx-auto w-full'>
-        <p className="text-lg  p-6">FEATURED PRODUCTS</p>
+    <div className='mx-auto w-full '>
+        <p className="text-xl  p-6">FEATURED PRODUCTS</p>
         <Separator orientation='horizontal' className="w-full" />
         <div className="text-sm pt-4 grid  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {products.map((product:ProductType) => 

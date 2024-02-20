@@ -42,7 +42,7 @@ export function Navbar({
       active: pathname === `/admin/orders`,
     },
     {
-      href: `/${params.storeId}/settings`,
+      href: `/admin/users`,
       label: 'Users',
       active: pathname === `/admin/users`,
     },
