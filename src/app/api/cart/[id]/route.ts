@@ -17,6 +17,16 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         return NextResponse.json({ error: 'Error deleting cart' }, {status: 500});
     }
 }
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+    const userId = params.id as string
+    const carts = await prisma.cart.findFirst({
+      where: {
+        userId: userId // Assuming userId is a number, if it's a string, remove parseInt
+      }
+    });
+    if(!carts ) return NextResponse.json({message:'No carts found'})
+    return NextResponse.json(carts, {status: 200})
+}
 
 export async function UPDATE(req:Request,{ params }: { params: { id: string } } ){
     const cartId = params.id as string

@@ -5,8 +5,7 @@ import {NextResponse} from 'next/server'
 
 export async function GET(req: Request) {
     const categories = await prisma.category.findMany(
-        {
-            
+        {         
             include: {
                 products: true
             }

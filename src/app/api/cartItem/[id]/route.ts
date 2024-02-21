@@ -1,6 +1,6 @@
 import {prisma} from '@/lib/prisma';
 import {NextResponse} from 'next/server'
-import {CartItemType} from '@/lib/types'
+import {CartItem} from '@/lib/types'
 
 export async function GET(req:Request, { params }: { params: { id: string } }){
     const cartItemId = params.id as string
@@ -28,19 +28,19 @@ export async function DELETE(req:Request, { params }: { params: { id: string } }
     return NextResponse.json(cartItem, {status: 200});
 }
 
+
 export async function PUT(req: Request , { params }: { params: { id: string } }) {
     const cartItemId = params.id as string
     if(!cartItemId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const {  productId, productName, price, quantity, imageUrl} = await req.json() as unknown as  CartItemType;
-    if(!productId || !productName || !price || !quantity || !imageUrl) return NextResponse.json({message:'Invalid params'}, {status: 400});
+    const {  productId, quantity, orderId } = await req.json() as unknown as  CartItem;
+    if(!productId ||  !quantity ) return NextResponse.json({message:'Invalid params'}, {status: 400});
+    
     const cartItem = await prisma.cartItem.update({
         where: { id: cartItemId },
         data: {
-            productId,
-            productName,
-            price,
+            productId,   
             quantity,
-            imageUrl,
+            orderId
         },
     });
     return NextResponse.json(cartItem,{status: 200});

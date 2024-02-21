@@ -2,7 +2,7 @@
 
 import {  NextResponse} from "next/server";
 import { prisma } from "@/lib/prisma";
-import { OrderType, CartItemType } from "@/lib/types";
+import { Order} from "@/lib/types";
 
 export async function GET(req: Request) {
     const orders = await prisma.order.findMany();
@@ -13,23 +13,28 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-    const { userId, amount, products, paymentId, address } = await req.json() as unknown as OrderType;
-    if(!userId || !amount || !products || products.length === 0) return NextResponse.json({message:'Invalid params'}, {status: 400});
+    const {userId, items, address, phoneNumber } = await req.json() as unknown as Order
+    const total = items.reduce((acc:any, item:any) => acc + ((item.price) * item.quantity), 0)
+    try{
+        if(!userId || !items|| !address || !phoneNumber || !total) return NextResponse.json({message:'Please attach all the parameters'}, {status: 400});
+        const order = await prisma.order.create({
+            data: {
+                userId,
+                address,
+                items: {
+                    create: items
+                },
+                phoneNumber,
+                total
+            },
+            include:{
+                items:true
+            }
+        })
+
+    return NextResponse.json({message:'Order succesfully created'}, {status: 201})
+    }catch(err:any){
+        return NextResponse.json({message:err.message}, {status: 500});
+    }
     
-    //
-    const order = await prisma.order.create({
-        data: {
-            userId,
-            amount,
-             products: {
-                create: products,
-            },         
-            paymentId,
-            address,
-        },
-        include: {
-                products: true, 
-        },
-    });
-    return NextResponse.json(order, {status: 201});
 }

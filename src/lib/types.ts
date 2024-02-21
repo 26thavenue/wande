@@ -7,7 +7,6 @@ export type ProductType = {
   numberInStock: number,
   imageUrl:string,
   brand:string,
-  categoryId:string,
   category?: CategoryType
 }
 
@@ -20,11 +19,40 @@ export type CategoryType ={
 export type CartItemType ={
     id?: string,
     productId: string,
-    productName: string,
     price: number,
     quantity: number,
+    orderId?: string,
     imageUrl: string,
 }
+
+export interface CartItem {
+    id: string;
+    productId: string;
+    quantity: number;
+    cartId? : string;
+    orderId?: string;
+    product: ProductType;
+}
+
+export interface Order{
+    id: string;
+    userId: string;
+    phoneNumber: number;
+    total: number;
+    items: CartItemType[];
+    paymentId?: string;
+    address: string;
+}
+
+export interface Cart{
+    id: string;
+    items: CartItemType[];
+    userId: string;
+    totalPrice: number;
+    user:UserType;
+}
+
+
 
 export type CartType = {
     id: string,
@@ -35,10 +63,10 @@ export type CartType = {
 
 export type OrderType = {
     id?:string,
-    user: UserType,
+    userId: string,
     phone: number,
-    amount: number,
-    products: CartItemType[],
+    totalPrice: number,
+    products: CartItemType,
     paymentId?: string,
     address?: string,
 }
@@ -48,7 +76,9 @@ export type PaymentType = {
     orderId: string,
     amount: number,
     status?: string,
+    deliveryDate?: Date,
     user: UserType,
+    order: Order,
 }
 
 export type UserType = {

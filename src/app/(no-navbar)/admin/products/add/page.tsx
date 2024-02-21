@@ -14,6 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
 
 interface FormProps {
   data: CategoryType[];
@@ -31,6 +33,19 @@ const schema = z.object({
 
 const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
   const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+
+  useEffect(() => {
+    getAllCategories()
+     .then((data) => {
+        setCategories(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching categories:', error);
+      }); 
+  },[])
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,21 +65,21 @@ const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
       schema.parse(product);
       await createProducts(product);
       setError(null);
-      alert('Product added successfully');
+      toast.success('Product added successfully');
     } catch (err) {
       if (err instanceof ZodError) {
         setError(err.errors[0].message);
       } else {
         console.error('Error adding product:', err);
-        alert('Error adding product');
+        toast.error('Error adding product');
       }
     }
   };
 
   return (
-    <div className='flex justify-center items-center'>
+    <div className='bg-white flex flex-col gap-4 font-semibold items-center justify-center  w-full  h-screen'>
       <Container>
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm">
+        <form onSubmit={handleSubmit} className=" border-[#f6f6f6] px-8 pt-6 pb-8 mb-4 w-full max-w-sm">
           <h3>Enter Product Name</h3>  
           <div className="mb-4 flex flex-col">
             <label className="block text-white text-sm font-bold mb-2" htmlFor="name">
@@ -111,38 +126,42 @@ const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
               id="numberInStock"
               name="numberInStock"
               type="number"
-              placeholder="Number of items"
+              placeholder="Number of in Stock"
             />
           </div>
           
 
-          <div className="my-4 flex flex-col">
-            <Select>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select a Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Category</SelectLabel>
-                  {data ? (
-                    data.map((category) => (
+          {categories  ? (
+            <div className="my-8 flex flex-col">
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Category</SelectLabel>
+                    {categories.map((category) => (
                       <SelectGroup key={category.id}>
-                        <SelectItem value={category.name} className="font-medium">
+                        <SelectItem
+                          value={category.name}
+                          className="font-medium"
+                          onClick={() => setSelectedCategory(category.id)}
+                        >
                           {category.name}
                         </SelectItem>
                       </SelectGroup>
-                    ))
-                  ) : (
-                    <p>No Category</p>
-                  )}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          ) : (
+            <p>No categories available</p>
+          )}
 
           {error && <p className="text-red-500 text-xs italic">{error}</p>}
-
-          <div className="flex items-center justify-between">
+          {data && data.length > 0  ? (
+            <div className="flex items-center justify-between">
             <button
               className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
@@ -150,6 +169,8 @@ const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
               Add Product
             </button>
           </div>
+          ):<button disabled className="p-6 text-black bg-white" >Add a Product</button>}
+          
         </form>
       </Container>
     </div>

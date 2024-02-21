@@ -2,17 +2,9 @@
 
 import {  NextResponse} from "next/server";
 
-import { CartItemType, PaymentType } from "@/lib/types";
+import {  PaymentType } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
 
-const calculateTotalAmount = (items: CartItemType[]):number=> {
-    if(items){
-        const total = items?.reduce((prev, curr) => prev + curr.price * curr.quantity,0 );
-        return total
-    }
-    return 0
-    
-}
 
 export async function GET(req:Request){
     const payments = await prisma.payment.findMany();
@@ -23,19 +15,19 @@ export async function GET(req:Request){
 
 
 export async function POST(req: Request) {
-  const {orderId, amount ,status} = await req.json() as unknown as PaymentType;
-  if(!orderId || !amount || !status) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const order = await prisma.order.findUnique({
+  const {orderId, amount } = await req.json() as unknown as PaymentType;
+  if(!orderId || !amount ) return NextResponse.json({message:'Invalid params'}, {status: 400});
+  const order = await prisma.order.findUnique({
         where: {
             id: orderId,
         },
     });
-    if(!order) return NextResponse.json({message:'Order not found'}, {status: 404});
+  if(!order) return NextResponse.json({message:'Order not found'}, {status: 404});
+  
     try{
         const payment = await prisma.payment.create({
             data:{
                 amount,
-                status,
                 order:{
                     connect:{
                         id: orderId

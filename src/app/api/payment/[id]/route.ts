@@ -31,13 +31,14 @@ export async function  DELETE(req:Request, { params }: { params: { id: string } 
 export async function UPDATE(req:Request, { params }: { params: { id: string } }){
     const paymentId = params.id as string;
     if(!paymentId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const {status} = await req.json() as unknown as PaymentType;
+    const {status,deliveryDate} = await req.json() as unknown as PaymentType;
     const payment = await prisma.payment.update({
         where: {
             id: paymentId,
         },
         data: {
-            status
+            status,
+            deliveryDate,
         },
     });
     return NextResponse.json(payment, {status: 200});

@@ -17,11 +17,10 @@ model Product {
   name        String
   price       Int
   brand       String
-  numberInStock Int  @default(1)
+  numberInStock Int      @default(1)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  cartId      String?
-  cart        Cart?       @relation(fields: [cartId], references: [id])
+  cartItem   CartItem?
   categoryId  String?
   category    Category?   @relation(fields: [categoryId], references: [id])
 
@@ -32,24 +31,34 @@ model Category{
   id          String     @id @default(cuid()) 
   name        String     @unique
   products    Product[]
-  imageUrl    String?
   @@map("categories")
 
 }
 
+model CartItem{
+  id        String     @id @default(cuid()) 
+  product   Product    @relation(fields: [productId], references: [id])
+  productId String     @unique
+  cartId   String? 
+  cart      Cart?  @relation(fields: [cartId], references: [id]) 
+  quantity  Int
+  orderId   String? 
+  order     Order? @relation(fields: [orderId], references: [id])
+  @@map("cartItems")
+
+}
 
 
 model Cart {
   id        String     @id @default(cuid()) 
-  items     Product[]
-  userId    String?    @unique  
-  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  userId    String    @unique  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   totalPrice  Int
-  orderId   String?    @unique
-  order     Order?     @relation(fields: [orderId], references: [id])
-  quantity  Int
+
+  
   @@map("carts") 
 }
 
@@ -57,20 +66,15 @@ model Order{
   id          String @id @default(cuid())
   userId      String
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount      Float
-  status      String @default("PENDING")
+  status      String @default("created")
   createdAt   DateTime @default(now())
-  products    Cart?
-  address     String?
+  items       CartItem[]
+  address     String
   payment     Payment? 
   paymentId   String?
-
+  total       Int
+  phoneNumber  Int
    @@map("orders")
-}
-
-enum Role{
-  USER
-  ADMIN
 }
 
 model User {
@@ -85,16 +89,10 @@ model User {
   @@map("users")
 }
 
-model Admin{
-  id            String    @id @default(cuid()) 
-  name          String?
-  email         String? @unique
- 
-  @@map("admins")
+enum Role {
+  USER
+  ADMIN
 }
-
-
-
 
 
 model Payment{
@@ -102,18 +100,20 @@ model Payment{
   orderId   String @unique
   order     Order @relation(fields: [orderId], references: [id])
   amount    Float
-  status    String
+  status    String @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deliveryDate DateTime?
+  @@map("payments")
+
 }
 
-enum Status{
+enum PaymentStatus{
   PENDING
-  COMPLETED
+  DELIVERED
+  FAILED
   CANCELLED
   REFUNDED
-  FAILED
-  PROCESSING
-  SHIPPED
-  DELIVERED
-  RETURNED
- 
+  SUCCESS
+  DECLINED
 }
