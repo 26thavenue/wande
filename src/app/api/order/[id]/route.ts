@@ -32,31 +32,18 @@ export async function DELETE(req: Request,{ params }: { params: { id: string } }
 export async function UPDATE(req: Request,{ params }: { params: { id: string } }){
     const orderId = params.id as string
     if(!orderId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const { userId, amount, products, paymentId, address } = await req.json() as unknown as OrderType;
-    if(!userId || !amount || !products || products.length === 0) return NextResponse.json({message:'Invalid params'}, {status: 400});
-
-    const {  id: cartItemId} = await req.json() as unknown as  CartItemType;
-     const cartItem= await prisma.cartItem.findUnique({
-        where: {
-            id: cartItemId,
-        },
-    });
-     if (!cartItem) {
-        return NextResponse.json({ message: 'Cart Item  not found' }, {status: 404});
-    }
+    const {deliveryStatus, deliveryDate } = await req.json() as unknown as OrderType;
     //
-    const order = await prisma.order.create({
+    const order = await prisma.order.update({
         data: {
-            userId,
-            amount,
-             products: {
-                connect: { id: cartItemId },
-            },         
-            paymentId,
-            address,
+            deliveryStatus,
+            deliveryDate
+        },
+        where: {
+            id: orderId,
         },
         include: {
-                products: true, 
+                items: true, 
         },
     });
     return NextResponse.json(order, {status: 201});

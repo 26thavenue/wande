@@ -1,36 +1,69 @@
-import { prisma } from "@/lib/prisma"
-import { NextResponse } from "next/server"
-import {Cart} from '@/lib/types'
+import { CartItemType, UserType } from "@/lib/types";
+import {prisma} from '@/lib/prisma';
+import { NextResponse } from "next/server";
+
+// export async function GET(req: Request){
+//     const {id} = req.query as unknown as UserType;
+//     const cart = await prisma.cartItem.findFirst({
+//         where: {
+//             userId
+//         },
+//         include:{
+//             items:{
+//                 include:{
+//                     product:true
+//                 }
+//             }
+//         }
+//     });
+//     if(!cart){
+//         return NextResponse.json({message:'No cart found'}, {status: 404})
+//     }
+//     return NextResponse.json(cart, {status: 200})
+// }
 
 
+export async function POST(req: Request){
+    const {productId, quantity, userId} = req.json() as unknown as CartItemType;
 
+    const product = await prisma.product.findUnique({
+        where: {
+            id: productId
+        }
+    });
 
-export async function POST(req: Request) {
-    const body = await req.json() as unknown as Cart ;
-    const {userId, items}= body
-    if(!userId) return NextResponse.json({message:'No user attached'}, {status: 400});
-    if(!items || !Array.isArray(items) ) return NextResponse.json({message:'No items attached'}, {status: 400});
+    if(!product){
+        return NextResponse.json({message:'Product not found'}, {status: 404})
+    }
+
     const user = await prisma.user.findUnique({
         where: {
-            id: userId,
-        },
+            id: userId
+        }
     });
-    if(!user) return NextResponse.json({message:'User not found'}, {status: 404});
-    const totalPrice = items.reduce((acc:any, item:any) => acc + ((item.price) * item.quantity), 0)
-    const newCart = await prisma.cart.create({
+    if(!user){
+        return NextResponse.json({message:'User not found'}, {status: 404})
+    }
+    try {
+        const newCartItem = await prisma.cartItem.create({
         data: {
-            userId,
-            totalPrice,
-            items: {
-                create: items
+            quantity,
+            product:{
+                connect:{
+                    id: productId
+                }
             },
-
-            
-        },
-        include:{
-                items:true,
-        },
-        })
-
-    return NextResponse.json({message:' Cart succesfully created'}, {status: 201})   
+            user:{
+                connect:{
+                    id: userId
+                }
+            }
+        }
+    })
+    
+    return NextResponse.json(newCartItem, {status: 201});
+    } catch (error) {
+        return NextResponse.json({message:'Error creating cart item'}, {status: 500})
+    }
+   
 }

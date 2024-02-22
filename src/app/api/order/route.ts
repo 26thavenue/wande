@@ -2,7 +2,7 @@
 
 import {  NextResponse} from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Order} from "@/lib/types";
+import { OrderType} from "@/lib/types";
 
 export async function GET(req: Request) {
     const orders = await prisma.order.findMany();
@@ -13,7 +13,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-    const {userId, items, address, phoneNumber } = await req.json() as unknown as Order
+    const {userId, items, address, phoneNumber} = await req.json() as unknown as OrderType
     const total = items.reduce((acc:any, item:any) => acc + ((item.price) * item.quantity), 0)
     try{
         if(!userId || !items|| !address || !phoneNumber || !total) return NextResponse.json({message:'Please attach all the parameters'}, {status: 400});

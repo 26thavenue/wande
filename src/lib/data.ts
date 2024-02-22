@@ -1,4 +1,4 @@
-import {ProductType, CartItemType, CartType, PaymentType, CategoryType} from '@/lib/types'
+import {ProductType, CartItemType,OrderType, PaymentType, CategoryType} from '@/lib/types'
 
 export async function getAllProducts(){
     const res = await fetch('http://localhost:3000/api/product')
@@ -34,7 +34,7 @@ export async function getProductById(id:string){
     return product
 }
 
-export async function createProducts(data:any){
+export async function createProducts(data:ProductType){
     const res = await fetch('http://localhost:3000/api/product',{
         method:'POST',
         headers:{
@@ -46,7 +46,7 @@ export async function createProducts(data:any){
     return product
 }
 
-export async function updateProducts(id:string,data:any){
+export async function updateProducts(id:string,data:ProductType){
     const res = await fetch(`http://localhost:3000/api/product/${id}`,{
         method:'PUT',
         headers:{
@@ -74,7 +74,7 @@ export async function getAllCategories(){
     return categories
 }
 
-export async function deleteCategory(id:string,data:any){
+export async function deleteCategory(id:string,data:CategoryType){
     const res = await fetch(`http://localhost:3000/api/product/${id}`,{
         method:'DELETE',
         headers:{
@@ -86,7 +86,7 @@ export async function deleteCategory(id:string,data:any){
     return category
 }
 
-export async function createCategory(data:any){
+export async function createCategory(data:CategoryType){
     const res = await fetch('http://localhost:3000/api/category',{
         method:'POST',
         headers:{
@@ -106,7 +106,7 @@ export async function createCategory(data:any){
 //     return cartItems
 // }
 
-export async function createCartItem(data:any){
+export async function createCartItem(data:CartItemType){
     const res = await fetch('http://localhost:3000/api/cartItem',{
         method:'POST',
         headers:{
@@ -118,7 +118,7 @@ export async function createCartItem(data:any){
     return cartItem
 }
 
-export async function updateCartItem(id:string,data:any){
+export async function updateCartItem(id:string,data:CartItemType){
     const res = await fetch(`http://localhost:3000/api/cartItem/${id}`,{
         method:'PUT',
         headers:{
@@ -138,48 +138,11 @@ export async function deleteCartItem(id:string){
     return cartItem
 }
 
-//  CART API
 
-export async function createCart(){
-    const res = await fetch('http://localhost:3000/api/cart',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        }
-    })
-    const cart = await res.json()
-    return cart
-}
-
-export async function getCartById(id:string){
-    const res = await fetch(`http://localhost:3000/api/cart/${id}`)
-    const cart = await res.json()
-    return cart
-}
-
-export async function updateCart(id:string,data:any){
-    const res = await fetch(`http://localhost:3000/api/cart/${id}`,{
-        method:'PUT',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(data)
-    })
-    const cart = await res.json()
-    return cart
-}
-
-export async function deleteCart(id:string){
-    const res = await fetch(`http://localhost:3000/api/cart/${id}`,{
-        method:'DELETE'
-    })
-    const cart = await res.json()
-    return cart
-}
 
 //  PAYMENT API
 
-export async function createPayment(data:any){
+export async function createPayment(data:PaymentType){
     const res = await fetch('http://localhost:3000/api/payment',{
         method:'POST',
         headers:{
@@ -197,7 +160,7 @@ export async function getPaymentById(id:string){
     return payment
 }
 
-export async function updatePayment(id:string,data:any){
+export async function updatePayment(id:string,data:PaymentType){
     const res = await fetch(`http://localhost:3000/api/payment/${id}`,{
         method:'PUT',
         headers:{
@@ -225,7 +188,7 @@ export async function getAllPayments(){
 
 // ORDER API
 
-export async function createOrder(data:any){
+export async function createOrder(data:OrderType){
     const res = await fetch('http://localhost:3000/api/order',{
         method:'POST',
         headers:{
@@ -243,7 +206,7 @@ export async function getOrderById(id:string){
     return order
 }
 
-export async function updateOrder(id:string,data:any){
+export async function updateOrder(id:string,data:OrderType){
     const res = await fetch(`http://localhost:3000/api/order/${id}`,{
         method:'PUT',
         headers:{

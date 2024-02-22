@@ -1,31 +1,25 @@
+
 "use client"
 import toast from 'react-hot-toast';
 import { create , StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useEffect } from 'react';
+import {CartItemType, ProductType} from '@/lib/types'
 
-export type Product = {
-  id: number,
-  name: string,
-  price: number,
-  description: string,
-  quantity:number,
-  imageUrl:string,
-  brand:string,
-  category:string
-}
 
-interface CartItem extends Product {
+interface CartItem extends CartItemType {
     count:number
 }
+
+
 
 type CartStore = {
     cart: CartItem[],
     count: () => number;
-    add: (product: Product) => void,
-    remove: (idProduct: number) => void,
-    increaseQuantity: (idProduct: number) => void,
-    decreaseQuantity: (idProduct: number) => void,
+    add: (product: ProductType) => void,
+    remove: (idProduct: string) => void,
+    increaseQuantity: (idProduct: string) => void,
+    decreaseQuantity: (idProduct: string) => void,
     totalPrice:(cart:CartItem[]) => number,
     removeAll: () => void
 }
@@ -41,25 +35,25 @@ export const useCartStore = create<CartStore>()(
                 return cart.map(item => item.quantity).reduce((prev, curr) => prev + curr);
             return 0;
         },
-        add: (product: Product) => {
+        add: (product: ProductType) => {
             const { cart } = get();
             const updatedCart = updateCart(product, cart)
             set({ cart: updatedCart });
             toast.success('Product added to cart');
         },
-        remove: (idProduct: number) => {
+        remove: (idProduct: string) => {
             const { cart } = get();
             const updatedCart = removeCart(idProduct, cart);
             set({ cart: updatedCart });
             toast.success('Product removed from cart')
         },
         removeAll: () => set({ cart: [] }),
-        increaseQuantity: (idProduct: number) => {
+        increaseQuantity: (idProduct: string) => {
             const { cart } = get();
             const updatedCart = increaseCartItemQuantity(idProduct, cart);
             set({ cart: updatedCart });
         },
-        decreaseQuantity: (idProduct: number) => {
+        decreaseQuantity: (idProduct: string) => {
             const { cart } = get();
             const updatedCart = decreaseCartItemQuantity(idProduct, cart);
             set({ cart: updatedCart });
@@ -75,9 +69,9 @@ export const useCartStore = create<CartStore>()(
 );
 
 
-function updateCart(product: Product, cart: CartItem[]): CartItem[] {
+function updateCart(product: ProductType, cart: CartItem[]): CartItem[] {
     
-    const cartItem = { ...product, count: 1 } as CartItem;
+    const cartItem = { ...product, count: 1 } as unknown as CartItem;
 
     const productOnCart = cart.map(item => item.id).includes(product.id);
     
@@ -93,7 +87,7 @@ function updateCart(product: Product, cart: CartItem[]): CartItem[] {
     return cart;
 }
 
-function removeCart(idProduct: number, cart: CartItem[]): CartItem[] {
+function removeCart(idProduct: string, cart: CartItem[]): CartItem[] {
     return cart.map(item => {
         if (item.id === idProduct)
             return { ...item, count: item.count - 1 }
@@ -103,7 +97,7 @@ function removeCart(idProduct: number, cart: CartItem[]): CartItem[] {
     });
 }
 
-function increaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem[] {
+function increaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem[] {
     return cart.map(item => {
         if (item.id === idProduct) {
             return { ...item, quantity: item.quantity + 1 };
@@ -112,7 +106,7 @@ function increaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem
     });
 }
 
-function decreaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem[] {
+function decreaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem[] {
     return cart.map(item => {
         if (item.id === idProduct && item.quantity > 1) {
             return { ...item, quantity: item.quantity - 1 };
@@ -123,5 +117,5 @@ function decreaseCartItemQuantity(idProduct: number, cart: CartItem[]): CartItem
 
 function getTotalPrice(cart: CartItem[]): number {
     if(cart.length === 0 || !cart) return 0;
-    return cart.reduce((prev, curr) => prev + curr.price * curr.quantity, 0);
+    return cart.reduce((total, item) => total + item.product.price * item.count, 0);
 }

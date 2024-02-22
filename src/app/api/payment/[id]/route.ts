@@ -1,6 +1,6 @@
 import {  NextResponse} from "next/server";
 
-import { CartItemType, PaymentType } from "@/lib/types";
+import {  PaymentType } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
 
 
@@ -31,14 +31,13 @@ export async function  DELETE(req:Request, { params }: { params: { id: string } 
 export async function UPDATE(req:Request, { params }: { params: { id: string } }){
     const paymentId = params.id as string;
     if(!paymentId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const {status,deliveryDate} = await req.json() as unknown as PaymentType;
+    const {status} = await req.json() as unknown as PaymentType;
     const payment = await prisma.payment.update({
         where: {
             id: paymentId,
         },
         data: {
             status,
-            deliveryDate,
         },
     });
     return NextResponse.json(payment, {status: 200});

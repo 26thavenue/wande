@@ -39,42 +39,48 @@ model CartItem{
   id        String     @id @default(cuid()) 
   product   Product    @relation(fields: [productId], references: [id])
   productId String     @unique
-  cartId   String? 
-  cart      Cart?  @relation(fields: [cartId], references: [id]) 
+  userId    String 
+  user      User  @relation(fields: [userId], references: [id]) 
   quantity  Int
   orderId   String? 
   order     Order? @relation(fields: [orderId], references: [id])
+  createdAt DateTime   @default(now())
+
   @@map("cartItems")
 
 }
 
 
-model Cart {
-  id        String     @id @default(cuid()) 
-  items     CartItem[]
-  userId    String    @unique  
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  totalPrice  Int
+// model Cart {
+//   id        String     @id @default(cuid()) 
+//   items     CartItem[]
+//   userId    String    @unique  
+//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   createdAt DateTime   @default(now())
+//   updatedAt DateTime   @updatedAt
+//   totalPrice  Int
 
   
-  @@map("carts") 
-}
+//   @@map("carts") 
+// }
 
 model Order{
   id          String @id @default(cuid())
   userId      String
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   status      String @default("created")
+  deliveryStatus String @default("PENDING")
+  deliveryDate DateTime?
   createdAt   DateTime @default(now())
   items       CartItem[]
   address     String
   payment     Payment? 
-  paymentId   String?
+  paymentId   String? @unique
   total       Int
   phoneNumber  Int
-   @@map("orders")
+
+  
+  @@map("orders")
 }
 
 model User {
@@ -82,8 +88,9 @@ model User {
   externalId    String    @unique
   name          String
   email         String   @unique
-  Cart          Cart?
+  items         CartItem[]
   Order         Order[]
+
   role          Role @default(USER)
   address      String?
   @@map("users")
@@ -103,7 +110,6 @@ model Payment{
   status    String @default("PENDING")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  deliveryDate DateTime?
   @@map("payments")
 
 }
