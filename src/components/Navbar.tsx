@@ -31,6 +31,7 @@ export function Navbar() {
   const { isSignedIn } = useAuth();
   const [data,setData] = useState([])
   const [error,setError] = useState(false)
+  const { count } = useCartStore();
 
   useEffect(() => {
     getAllCategories().then((data) => {
@@ -41,9 +42,11 @@ export function Navbar() {
       setError(true)
     })
   }, [])
+  
  
 
-  const { count } = useCartStore();
+  
+  // console.log(count());
 
   return (
     <div className="grid bg-white shadow-sm sticky top-0 w-full z-50 ">
@@ -62,14 +65,14 @@ export function Navbar() {
              </DropdownMenuTrigger>
              <DropdownMenuContent className="w-56 ">
               {
-                data ? 
+                data && data.length > 0 ? 
                 data.map((category:CategoryType) => 
                    (
                    <Link href={`/category/${category.id}`} key={category.id} className="">
                     <DropdownMenuItem className="text-sm  uppercase">
                       {category.name}
                     </DropdownMenuItem>
-                    </Link>)) : <p> No categories</p>
+                    </Link>)) : <p className="text-sm p-2"> No categories</p>
                     }
                   
               

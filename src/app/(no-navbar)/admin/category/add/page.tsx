@@ -4,28 +4,33 @@ import React, { useState } from 'react';
 import Container from '@/components/Container';
 import { z, ZodError } from 'zod';
 import {createCategory} from '@/lib/data'
+import toast, { Toaster } from 'react-hot-toast';
 const schema = z.string().min(4, { message: 'Name must be at least 4 characters long' });
+
 
 const Page = () => {
   const [categoryName, setCategoryName] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       schema.parse(categoryName);
-      const response = await createCategory({ name: categoryName })
-      const data = await response.json;
-      if (!response.ok) {
-        setError(data.error || 'Failed to add category');
-        return;
+      const res = await createCategory({ name: categoryName })
+      if(res) {
+        toast.success('Category added successfully');
       }
       setCategoryName('');
       setError(null);
-      alert('Category added successfully');
+      
     } catch (err) {
-      console.error('Error adding category:', err);
-      setError('Failed to add category');
+       if (err instanceof ZodError) {
+        setError(err.errors[0].message);
+      } else {
+        toast.error('Error adding product');
+        console.log( err);
+        
+      }
     }
   };
 
@@ -34,9 +39,10 @@ const Page = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-white">
-      <Container>
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm">
+    <div className="flex sm:mt-8  md:mt-14 xl:mt-20 lg:mt-20 justify-center h-screen bg-white">
+      
+        <form onSubmit={handleSubmit} className="bg-white  rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm">
+          <h1>Create a Category</h1>
           <div className="mb-4 flex flex-col">
             <label className="block text-white text-sm font-bold mb-2" htmlFor="name">
               Name
@@ -61,7 +67,8 @@ const Page = () => {
             </button>
           </div>
         </form>
-      </Container>
+        <Toaster />
+      
     </div>
   );
 };

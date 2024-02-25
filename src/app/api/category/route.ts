@@ -1,6 +1,7 @@
 import {prisma} from '@/lib/prisma';
 import {ProductType, CategoryType} from '@/lib/types'
 import {NextResponse} from 'next/server'
+import toast from 'react-hot-toast';
 
 
 export async function GET(req: Request) {
@@ -22,21 +23,22 @@ export  async function POST(req:Request){
     if(!name){
         return NextResponse.json({message:'Invalid params'})
     }
-  const checkDuplicate = await prisma.category.findFirst({
+   const lowerCaseName = name.toLowerCase()
+   const checkDuplicate = await prisma.category.findFirst({
         where:{
-            name
+            name:lowerCaseName
         }
     })
     if(checkDuplicate){
-        return NextResponse.json({message:'Category already exists'})
+        return NextResponse.json({message:'Category already exists'}, {status:400})
     }
     try {
         const category = await prisma.category.create({
             data: {
-                name,
+                name:lowerCaseName,
             }
         });
-        return NextResponse.json(category);
+        return NextResponse.json({message:'Category succesfull created'}, {status: 201});
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: 'Error creating category' }, {status: 500});

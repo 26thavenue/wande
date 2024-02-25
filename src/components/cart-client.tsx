@@ -16,7 +16,7 @@ const CartClient = () => {
     const getTotal = () =>{
         const { cart } = useCartStore.getState();
         if(cart){
-            const total = cart?.reduce((prev, curr) => prev + curr.price * curr.quantity,0 );
+            const total = cart?.reduce((prev, curr) => prev + curr.price * curr.count,0 );
             setSubTotal(total)
         return total 
         }
@@ -49,11 +49,13 @@ const CartClient = () => {
 
             </div>
             <div>
-                {cart.map((item,index) => {
+                { cart && cart.length > 0  ?
+                (cart.map((item,index) => {
                     return(
                         <ItemContent key={item.id} item={item}/>
                     )
-                })}
+                })) : ''
+            }
             </div>
 
             <div className='border-t-[1.5px] my-6 border-slate-100 py-4 flex  justify-between gap-4 '>
@@ -87,7 +89,7 @@ const CartClient = () => {
               
                 <Link href='/' className='cursor-pointer text-center flex items-center gap-3 mx-auto'>
                   <MoveLeft />
-                   <p className='text-sm text-[rgb(146,145,145)] hover:underline transistion'>Go back to shopping</p>
+                   <p className='text-sm text-[rgb(107,106,106)] hover:underline transistion'>Go back to shopping</p>
                 </Link>
                 
                

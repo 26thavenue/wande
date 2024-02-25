@@ -17,3 +17,9 @@ export function formatNumber(number: number) {
 export const truncateText = (text:string) =>{
     return text.length > 25 ? text.substring(0, 100) + '...' : text;
 }
+
+export const parseImageUrl = (url: string) => {
+    const parts = url.split(/[\\\/]/);
+    const relativePath = "/" + parts[parts.length - 1];
+    return relativePath;
+}

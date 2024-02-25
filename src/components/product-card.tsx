@@ -3,9 +3,10 @@
 import { useCartStore } from "@/lib/cart";
 import { formatNumber,truncateText } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { Product } from "@/lib/cart";
 import Image from "next/image";
 import { ProductType } from "@/lib/types";
+import { parseImageUrl } from "@/lib/utils";
+
 
 interface ProductCardProps extends ProductType  {
   
@@ -21,9 +22,9 @@ export default function ProductCard({ id, name, price,description, imageUrl, bra
   return (
     <div
     onClick={() => router.push(`/products/${id}`)} 
-    className="border p-3 rounded-xl border-slate-200 flex flex-col items-center bg-slate-50 transistion cursor-pointer hover:scale-105">
+    className=" h-96 border p-3 rounded-xl border-slate-200 flex flex-col items-center bg-slate-50 transistion cursor-pointer hover:scale-105">
       <div className=" w-full flex items-center justify-center rounded-md mb-2">
-        <Image src='/socket.jpg' width={200} height={200} alt="coffee" className=" rounded object-cover " />
+        <Image src={parseImageUrl(imageUrl)} width={200} height={200} alt="coffee" className=" rounded object-cover " />
       </div>
       <h2 className="text-slate-400 font-bold ">{name}</h2>
       <h2 className="font-semibold text-green-400">$ {formatNumber(price)}</h2>

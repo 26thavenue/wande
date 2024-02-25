@@ -7,7 +7,7 @@ import { Separator } from './ui/separator';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { useCartStore } from '@/lib/cart';
-
+import { parseImageUrl } from '@/lib/utils';
 import QuantityButton from './quantity-button';
 
 interface ProductDetailsProps {
@@ -34,7 +34,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <Image src='/socket.jpg' alt={product.name} width={500} height={500} />
+      <Image src={parseImageUrl(product.imageUrl)} alt={product.name} width={500} height={500} />
       <div className="flex flex-col gap-1 text-slate-500">
         <h1 className="text-3xl font-medium text-slate-600">{product.name}</h1>
         <h1 className="text-2xl font-medium text-black mt-2">${product.price}</h1>
@@ -49,7 +49,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         <h3>Brand: {product.brand}</h3>
         {product.numberInStock > 1 ? (
           <Button 
-          // onClick={() => handleAddToCart(product)} 
+          onClick={() => handleAddToCart(product)} 
           className="my-3">
             Add to Cart
           </Button>

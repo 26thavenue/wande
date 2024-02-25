@@ -47,9 +47,9 @@ export  function CategoryTable()  {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data ? data.map((category:CategoryType) => (
+        {data && data.length > 0 ? data.map((category:CategoryType) => (
           <TableRow key={category.id}>
-            <TableCell className="font-medium">{category.name}</TableCell>
+            <TableCell className="font-medium">{category.name.toUpperCase()}</TableCell>
             <TableCell className="font-medium">{category.products ? <p className="font-medium my-auto ">{category.products.length}  products </p> : <p>0 products</p>}</TableCell>
 
             
@@ -75,7 +75,7 @@ export  function CategoryTable()  {
             </TableCell>
             
           </TableRow>
-        )): <p>No Category</p>}
+        )): <p>  </p>}
         <TableCell className="text-right"></TableCell>
       </TableBody>
       

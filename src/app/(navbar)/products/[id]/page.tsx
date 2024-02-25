@@ -42,7 +42,7 @@ const ProductPage = () => {
   return (
     <div className="p-8">
       <Container>
-        <h1 className="text-2xl font-semibold">{product?.name}</h1>
+        {/* <h1 className="text-2xl font-semibold">{product?.name}</h1> */}
         <ProductDetails 
          product={product} />
          {/* <RelatedProducts id={id} /> */}

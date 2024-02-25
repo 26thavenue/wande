@@ -1,4 +1,4 @@
-import {ProductType, CartItemType,OrderType, PaymentType, CategoryType} from '@/lib/types'
+import {ProductType, CartItemType,OrderType,Category, PaymentType, CategoryType} from '@/lib/types'
 
 export async function getAllProducts(){
     const res = await fetch('http://localhost:3000/api/product')
@@ -34,16 +34,17 @@ export async function getProductById(id:string){
     return product
 }
 
-export async function createProducts(data:ProductType){
+export async function createProducts(data:FormData){
     const res = await fetch('http://localhost:3000/api/product',{
         method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(data)
+        body: data
     })
-    const product = await res.json()
-    return product
+    if(!res.ok) {
+        const errorMessage = await res.text();
+        throw new Error(errorMessage);
+    }
+    return res.json();
+    // return res.json()
 }
 
 export async function updateProducts(id:string,data:ProductType){
@@ -86,7 +87,7 @@ export async function deleteCategory(id:string,data:CategoryType){
     return category
 }
 
-export async function createCategory(data:CategoryType){
+export async function createCategory(data:Category){
     const res = await fetch('http://localhost:3000/api/category',{
         method:'POST',
         headers:{
@@ -94,8 +95,11 @@ export async function createCategory(data:CategoryType){
         },
         body:JSON.stringify(data)
     })
-    const category = await res.json()
-    return category
+    if(!res.ok){
+        const errorMessage = await res.text();
+        throw new Error(errorMessage);
+    } 
+    return res.json();
 }
 
 //  CARTITEM API
@@ -244,8 +248,11 @@ export async function createUser({name,email,externalId}:{name:string,email:stri
         },
         body:JSON.stringify({name,email,externalId})
     })
-    const user = await res.json()
-    return user
+    if(!res.ok) {
+        const errorMessage = await res.text();
+        throw new Error(errorMessage);
+    }
+    return res.json();
 }
 
 export async function getUserById(id:string){

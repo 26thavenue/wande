@@ -2,31 +2,26 @@ import { CartItemType, UserType } from "@/lib/types";
 import {prisma} from '@/lib/prisma';
 import { NextResponse } from "next/server";
 
-// export async function GET(req: Request){
-//     const {id} = req.query as unknown as UserType;
-//     const cart = await prisma.cartItem.findFirst({
-//         where: {
-//             userId
-//         },
-//         include:{
-//             items:{
-//                 include:{
-//                     product:true
-//                 }
-//             }
-//         }
-//     });
-//     if(!cart){
-//         return NextResponse.json({message:'No cart found'}, {status: 404})
-//     }
-//     return NextResponse.json(cart, {status: 200})
-// }
+
+
+export async function GET(req: Request){
+    const cartItems = await prisma.cartItem.findMany({
+        include: {
+            product: true,
+            user: true
+        }
+    });
+    return NextResponse.json(cartItems, {status: 200});
+}
 
 
 export async function POST(req: Request){
-    const {productId, quantity, userId} = req.json() as unknown as CartItemType;
+    const {productId, quantity, userId} = await req.json();
+    if(!productId || !quantity || !userId){
+        return NextResponse.json({message:'Invalid request'}, {status: 400})
+    }
 
-    const product = await prisma.product.findUnique({
+    const product = await prisma.product.findFirst({
         where: {
             id: productId
         }
@@ -36,7 +31,10 @@ export async function POST(req: Request){
         return NextResponse.json({message:'Product not found'}, {status: 404})
     }
 
-    const user = await prisma.user.findUnique({
+    const price =  product.price;
+    // console.log(price);
+
+    const user = await prisma.user.findFirst({
         where: {
             id: userId
         }
@@ -48,6 +46,7 @@ export async function POST(req: Request){
         const newCartItem = await prisma.cartItem.create({
         data: {
             quantity,
+            price,
             product:{
                 connect:{
                     id: productId
@@ -62,8 +61,8 @@ export async function POST(req: Request){
     })
     
     return NextResponse.json(newCartItem, {status: 201});
-    } catch (error) {
-        return NextResponse.json({message:'Error creating cart item'}, {status: 500})
+    } catch (error:any) {
+        return NextResponse.json({message: error.message as unknown as  string}, {status: 500})
     }
    
 }

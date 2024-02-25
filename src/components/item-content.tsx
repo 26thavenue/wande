@@ -4,15 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { useCartStore } from "@/lib/cart";
-
+import {parseImageUrl} from '@/lib/utils'
 type CartProductType = {
-    id:number,
+    id:string,
     name:string,
     price:number,
-    quantity:number
+    count:number
     imageUrl:string
 
 }
+
 interface ItemContentProps{
     item:CartProductType
 }
@@ -24,7 +25,7 @@ const ItemContent:React.FC<ItemContentProps> = ({item}) => {
         <div className='col-span-2 justify-self-start items-center '>
             <div className='flex gap-2 md:gap-4 items-center'>
                 <Link href={`/product/${item.id}`}>
-                    <Image src={item.imageUrl} width={180} height={180} alt='product'/>
+                    <Image src={parseImageUrl(item.imageUrl)} width={180} height={180} alt='product'/>
                 </Link>
                 <div className="flex flex-col  justify-center">
                 <p className='mb-6'>{item.name}</p>
@@ -39,8 +40,8 @@ const ItemContent:React.FC<ItemContentProps> = ({item}) => {
             
         </div>
         <div className='justify-self-center'>{item.price}</div>
-        <div className='justify-self-center'>{item.quantity}</div>
-        <div className='justify-self-end'>{item.price * item.quantity}</div>
+        <div className='justify-self-center'>{item.count}</div>
+        <div className='justify-self-end'>{item.price * item.count}</div>
     </div>
   )
 }

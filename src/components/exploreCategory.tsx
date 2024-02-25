@@ -122,6 +122,7 @@ const ExploreCategory = () => {
             imageUrl={product.imageUrl}
             description={product.description}
             numberInStock={product.numberInStock}
+            categoryId={product.categoryId}
             brand={product.brand}
           />
         ))}
@@ -144,7 +145,7 @@ const ExploreCategory = () => {
           >
             <h1 className="hover:bg-[#b6b6b6]/10 p-2 transition">All</h1>
           </div>
-          {categories.map((category) => (
+          {categories && categories.length > 0 ? categories.map((category) => (
             <div
               key={category.id}
               className={`cursor-pointer ${activeCategory === category.id ? 'bg-black text-white' : ''}`}
@@ -152,7 +153,7 @@ const ExploreCategory = () => {
             >
               <h1 className="hover:bg-[#b6b6b6]/10 p-2 transition">{category.name}</h1>
             </div>
-          ))}
+          )): <p></p>}
         </div>
       )}
       {showSlider && (

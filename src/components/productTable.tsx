@@ -51,9 +51,8 @@ export  function ProductTable()  {
             <TableCell className="font-medium">{product.name}</TableCell>
             <TableCell>{product.price}</TableCell>
             <TableCell>{product.numberInStock}</TableCell>
-            <TableCell></TableCell>
 
-            <TableCell className="font-medium">{product?.category?.name}</TableCell>
+            <TableCell className="font-medium">{product.categoryName}</TableCell>
             <TableCell className="text-right">{product.brand}</TableCell>
             <TableCell className="text-right flex justify-end ">
               <div>

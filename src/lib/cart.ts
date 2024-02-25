@@ -4,11 +4,14 @@ import toast from 'react-hot-toast';
 import { create , StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useEffect } from 'react';
-import {CartItemType, ProductType} from '@/lib/types'
+import {CartItems, ProductType} from '@/lib/types'
 
 
-interface CartItem extends CartItemType {
+interface CartItem extends CartItems {
     count:number
+    imageUrl: string
+    name: string
+    
 }
 
 
@@ -31,8 +34,8 @@ export const useCartStore = create<CartStore>()(
         cart: [],
         count: () => {
             const { cart } = get();
-            if (cart.length)
-                return cart.map(item => item.quantity).reduce((prev, curr) => prev + curr);
+            if (cart.length > 0)
+                return cart.reduce((prev, curr) => prev + curr.count, 0);
             return 0;
         },
         add: (product: ProductType) => {
@@ -70,21 +73,19 @@ export const useCartStore = create<CartStore>()(
 
 
 function updateCart(product: ProductType, cart: CartItem[]): CartItem[] {
+    const productOnCart = cart.find(item => item.id === product.id);
     
-    const cartItem = { ...product, count: 1 } as unknown as CartItem;
-
-    const productOnCart = cart.map(item => item.id).includes(product.id);
-    
-    if (!productOnCart) cart.push(cartItem)
-    else {
+    if (!productOnCart) {
+        const cartItem = { ...product, count: 1 } as unknown as CartItem;
+        return [...cart, cartItem];
+    } else {
         return cart.map(item => {
-            if (item.id === product.id)
+            if (item.id === product.id) {
                 return { ...item, count: item.count + 1 } as CartItem;
-            return item
-        })        
+            }
+            return item;
+        });
     }
-    
-    return cart;
 }
 
 function removeCart(idProduct: string, cart: CartItem[]): CartItem[] {

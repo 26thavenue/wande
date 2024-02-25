@@ -18,6 +18,25 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     }
 }
 
+export async function  PUT(req: Request, { params }: { params: { id: string } }) {
+    const cartItemId = params.id as string
+    const {quantity} = await req.json() as unknown as CartItemType;
+    if(!cartItemId || !quantity) return NextResponse.json({message:'Invalid request'}, {status: 400});
+    try {
+        const cart = await prisma.cartItem.update({
+            where: {
+                id: cartItemId,
+            },
+            data: {
+                quantity
+            },
+        });
+        return NextResponse.json(cart, {status: 200});
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: 'Error updating cart' }, {status: 500});
+    }
+}
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     const userId = params.id as string

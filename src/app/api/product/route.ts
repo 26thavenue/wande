@@ -1,5 +1,7 @@
 'use server'
-
+import { writeFile } from 'fs/promises';
+import fs from 'fs';
+import {dirname,join} from 'path';
 import {prisma} from '@/lib/prisma';
 import {ProductType} from '@/lib/types'
 import {NextResponse,NextRequest} from 'next/server'
@@ -11,39 +13,79 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(products, {status: 200})  
 }
 
+interface ProductFormData {
+  name: string;
+  description: string;
+  price: number;
+  brand: string;
+  categoryId: string;
+  image: File;
+  numberInStock: number;
+}
 
-export  async function POST(req:Request){
-  const body = await req.json() as unknown  as ProductType  ;
-  // console.log(body.description);
-  const {name, description, imageUrl, price, brand, numberInStock, categoryId} = body;
-  if(!name || !description || !imageUrl || !price || !brand || !categoryId){
-    return NextResponse.json({message:'Invalid params'})
-  }
+async function saveImage(image: File): Promise<string> {
+  const bytes = await image.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  const publicDirectory = join(process.cwd(), 'public');
+  const path = join(publicDirectory, image.name);
+  await writeFile(path, buffer);
+  return path;
+}
+
+async function createProduct(data: ProductFormData) {
+  const { name, description, price, brand, categoryId, image, numberInStock } = data;
+
   const categoryExists = await prisma.category.findFirst({
-    where: {
-      id: categoryId,
+    where: { id: categoryId },
+  });
+
+  if (!categoryExists) {
+    throw new Error('Invalid category');
+  }
+
+  const imageUrl = await saveImage(image);
+
+  const product = await prisma.product.create({
+    data: {
+      description,
+      imageUrl,
+      name,
+      price,
+      brand,
+      numberInStock,
+      categoryId,
+      categoryName: categoryExists?.name,
     },
   });
-  if (!categoryExists) {
-    return NextResponse.json({message:'Invalid category'})
-  }
 
+  return product;
+}
+
+export async function POST(req: NextRequest) {
   try {
-    const product = await prisma.product.create({
-      data: {
-        description,
-        imageUrl,
-        name,
-        price,
-        brand,
-        numberInStock,
-        categoryId,
-      },
-    });
-    return NextResponse.json(product);
+    const body = await req.formData();
+    const formData = Object.fromEntries(body.entries()) as Record<string, unknown>;
+
+    const { name, description,  brand, categoryId, image,  } = formData as unknown as  ProductFormData;
+    let { price, numberInStock } = formData as unknown as  ProductFormData;
+    price = Number(price);
+    numberInStock = Number(numberInStock);
+
+    if (!image) {
+      return NextResponse.json({ message: 'Invalid file' });
+    }
+
+    if (!name || !description || !price || !brand || !categoryId) {
+      return NextResponse.json({ message: 'Invalid params' });
+    }
+
+    const product = await createProduct({ name, description, price, brand, categoryId, image, numberInStock });
+
+    return NextResponse.json('Product created successfully', { status: 201 });  
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Error creating product' }, {status: 500});
+    return NextResponse.json({ error: 'Error creating product' }, { status: 500 });
   }
 }
+
 

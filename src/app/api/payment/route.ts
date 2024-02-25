@@ -15,14 +15,15 @@ export async function GET(req:Request){
 
 
 export async function POST(req: Request) {
-  const {orderId, amount } = await req.json() as unknown as PaymentType;
-  if(!orderId || !amount ) return NextResponse.json({message:'Invalid params'}, {status: 400});
+  const {orderId} = await req.json() as unknown as PaymentType;
+  if(!orderId  ) return NextResponse.json({message:'Invalid params'}, {status: 400});
   const order = await prisma.order.findUnique({
         where: {
             id: orderId,
         },
     });
   if(!order) return NextResponse.json({message:'Order not found'}, {status: 404});
+  const amount = order.total
   
     try{
         const payment = await prisma.payment.create({

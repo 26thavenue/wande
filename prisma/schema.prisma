@@ -20,10 +20,13 @@ model Product {
   numberInStock Int      @default(1)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  cartItem   CartItem?
-  categoryId  String?
-  category    Category?   @relation(fields: [categoryId], references: [id])
+  
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+  categoryName String
 
+  orders OrderProduct[]
+  cartItem   CartItem[]
   @@map("products")
 }
 
@@ -37,32 +40,31 @@ model Category{
 
 model CartItem{
   id        String     @id @default(cuid()) 
-  product   Product    @relation(fields: [productId], references: [id])
-  productId String     @unique
+  product   Product   @relation(fields: [productId], references: [id],onDelete: Cascade)
+  productId String    @unique
   userId    String 
-  user      User  @relation(fields: [userId], references: [id]) 
+  user      User       @relation(fields: [userId], references: [id]) 
   quantity  Int
-  orderId   String? 
-  order     Order? @relation(fields: [orderId], references: [id])
+  price     Int
   createdAt DateTime   @default(now())
 
   @@map("cartItems")
 
 }
 
+model OrderProduct {
+  id Int @id @default(autoincrement())
+  orderId String
+  order Order @relation(fields: [orderId], references: [id])
+  productId String
+  product Product @relation(fields: [productId], references: [id])
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-// model Cart {
-//   id        String     @id @default(cuid()) 
-//   items     CartItem[]
-//   userId    String    @unique  
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   createdAt DateTime   @default(now())
-//   updatedAt DateTime   @updatedAt
-//   totalPrice  Int
+  @@map("order_products")
+}
 
-  
-//   @@map("carts") 
-// }
 
 model Order{
   id          String @id @default(cuid())
@@ -71,15 +73,15 @@ model Order{
   status      String @default("created")
   deliveryStatus String @default("PENDING")
   deliveryDate DateTime?
-  createdAt   DateTime @default(now())
-  items       CartItem[]
+  createdAt   DateTime @default(now()) 
   address     String
   payment     Payment? 
   paymentId   String? @unique
   total       Int
-  phoneNumber  Int
+  phoneNumber  String
 
-  
+  products OrderProduct[]
+
   @@map("orders")
 }
 
@@ -90,7 +92,6 @@ model User {
   email         String   @unique
   items         CartItem[]
   Order         Order[]
-
   role          Role @default(USER)
   address      String?
   @@map("users")
