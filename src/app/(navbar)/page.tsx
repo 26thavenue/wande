@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import {useUser} from '@clerk/nextjs'
 import { useSignUp } from "@clerk/nextjs";
 import { createUser } from "@/lib/data";
+import { useCartStore } from '@/lib/cart'
 const page = () => {
   const {user} = useUser()
   const name = user?.firstName
@@ -21,6 +22,7 @@ const page = () => {
       if(!name || !email || !externalId) return
       createUser({name,email,externalId})
     }
+   
     return 
   },[])
   return (

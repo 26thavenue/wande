@@ -3,12 +3,7 @@
 
 import { useUser, useAuth } from "@clerk/nextjs";
 import { ChevronDown, ShoppingBasket } from "lucide-react";
-import {
-  Command,
 
-  CommandInput,
- 
-} from "@/components/ui/command"
 import { Separator } from "@/components/ui/separator"
 import {Button} from "@/components/ui/button"
 import { Cart } from "./cart-sheet";
@@ -27,6 +22,7 @@ import { UserButton, UserProfile } from "@clerk/nextjs";
 import {useEffect,useState} from "react"
 import { getAllCategories } from "@/lib/data";
 import { CategoryType } from "@/lib/types";
+import SearchBar from "@/components/searchInput";
 export function Navbar() {
   const { isSignedIn } = useAuth();
   const [data,setData] = useState([])
@@ -42,6 +38,10 @@ export function Navbar() {
       setError(true)
     })
   }, [])
+
+  useEffect(() => {
+        useCartStore.persist.rehydrate();
+    }, []);
   
  
 
@@ -85,10 +85,7 @@ export function Navbar() {
       </div>
       
 
-        <Command className="rounded-lg border  w-96 hidden md:block">
-            <CommandInput placeholder="Search for building materials" />
-            
-          </Command>
+        <SearchBar/>
 
         <div className="flex gap-3 items-center ">
            <Cart count={count()} />

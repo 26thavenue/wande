@@ -1,63 +1,3 @@
-// 'use client'
-// import React from 'react';
-// import { getAllCategories } from '@/lib/data';
-// import { Separator } from '@/components/ui/separator';
-// import { CategoryType, ProductType } from '@/lib/types';
-// import ProductCard from '@/components/product-card'
-
-// const ExploreCategory = () => {
-//   const [data, setData] = React.useState<CategoryType[]>([]);
-//   const [error, setError] = React.useState(false);
-//   const [loading, setLoading] = React.useState(true);
-
-//   React.useEffect(() => {
-//     getAllCategories()
-//       .then((data) => {
-//         setLoading(false); // Set loading to false when data is fetched
-//         setData(data);
-//       })
-//       .catch((error) => {
-//         setError(true);
-//         console.error('Error fetching categories:', error);
-//       });
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1 className="my-16  uppercase text-center text-xl font-bold">Explore Category</h1>
-//       {/* <Separator className="mb-3" /> */}
-//       {loading ? (
-//         <div>Loading...</div>
-//       ) : error ? (
-//         <div>Error occurred while fetching data</div>
-//       ) : (
-//         <div className="flex gap-4 uppercase cursor-pointer items-center justify-between">
-//           {/* <h3 className='bg-black text-white p-2 rounded-md'>All</h3> */}
-//           {data.map((category) => (
-//             <div key={category.id} className="cursor-pointer">
-//               <h1 className='hover:bg-[#b6b6b6]/10  p-2 transition'>{category.name}</h1>
-//               <div className="flex gap-4">
-//                 {category.products?.map((product) => (
-//                   <ProductCard 
-//                   id={product.id} 
-//                   name={product.name}
-//                   price={product.price}
-//                   imageUrl={product.imageUrl}
-//                   description={product.description}
-//                   numberInStock={product.numberInStock}
-//                   brand={product.brand}                 
-//                    />
-//                 ))}
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ExploreCategory;
 
 'use client'
 import React, { useState, useEffect } from 'react';
@@ -123,6 +63,8 @@ const ExploreCategory = () => {
             description={product.description}
             numberInStock={product.numberInStock}
             categoryId={product.categoryId}
+            categoryName={product.categoryName}
+            image = {product.image}
             brand={product.brand}
           />
         ))}

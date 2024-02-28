@@ -94,6 +94,12 @@ export async function POST (req:Request){
                 total
             },
         })
+
+        await prisma.cartItem.deleteMany({
+        where: {
+            userId: userId
+        }
+    })
         return NextResponse.json({message:'Order succesfully created'}, {status: 201})  
     })
     

@@ -192,16 +192,16 @@ export async function getAllPayments(){
 
 // ORDER API
 
-export async function createOrder(data:OrderType){
+export async function createOrder(data:any){
     const res = await fetch('http://localhost:3000/api/order',{
         method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
         body:JSON.stringify(data)
     })
-    const order = await res.json()
-    return order
+    if(!res.ok) {
+        const errorMessage = await res.text();
+        throw new Error(errorMessage);
+    }
+    return res.json();
 }
 
 export async function getOrderById(id:string){

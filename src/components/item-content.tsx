@@ -4,7 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { useCartStore } from "@/lib/cart";
-import {parseImageUrl} from '@/lib/utils'
+
+import {parseImageUrl,truncateText} from '@/lib/utils'
 type CartProductType = {
     id:string,
     name:string,
@@ -28,7 +29,7 @@ const ItemContent:React.FC<ItemContentProps> = ({item}) => {
                     <Image src={parseImageUrl(item.imageUrl)} width={180} height={180} alt='product'/>
                 </Link>
                 <div className="flex flex-col  justify-center">
-                <p className='mb-6'>{item.name}</p>
+                <p className='mb-6'>{truncateText(item.name)}</p>
                 <button
                  onClick={() => handleRemoveFromCart(item.id)}
                  className='text-slate-500  underline transistion '>Remove</button>

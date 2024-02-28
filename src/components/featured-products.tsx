@@ -20,7 +20,7 @@ const FeaturedProducts = () => {
         <p className="text-xl  p-6">FEATURED PRODUCTS</p>
         <Separator orientation='horizontal' className="w-full" />
         <div className="text-sm pt-4 grid  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {products ? products.map((product:ProductType) => 
+            {products ? products.slice(0, 20).map((product:ProductType) => 
                 <ProductCard key={product.id} 
                 id={product.id} 
                 name={product.name} 
@@ -32,6 +32,7 @@ const FeaturedProducts = () => {
                 image = {product.image}
                 imageUrl={product.imageUrl}
                 brand={product.brand}
+                product={product}
                 />
             ): <p>No products available</p>}
         </div>

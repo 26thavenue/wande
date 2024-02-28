@@ -32,7 +32,7 @@ export function Cart({count}:{count:number}) {
   console.log(cart);
 
   return (
-    <Sheet>
+    <Sheet >
       <SheetTrigger asChild>
         <div className="flex gap-2 items-center text-white bg-black rounded-xl p-2">
             <ShoppingBasket className="w-4 h-4" />
@@ -43,7 +43,7 @@ export function Cart({count}:{count:number}) {
         <SheetHeader>
           <SheetTitle> YOUR CART</SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-6 mb-3">
+        <div className="flex flex-col gap-6 mb-3 h-[60vh]  overflow-y-auto no-scrollbar">
           {cart.length > 0 && cart
             ? 
             cart.map((item, index) => 
@@ -73,10 +73,11 @@ export function Cart({count}:{count:number}) {
         <SheetFooter>
             
           <SheetClose asChild>
-            <div className="flex flex-col gap-3 items-center justify-center w-full mt-8 ">
-               <Link href='/checkout' className="w-full">
+            <div className="flex flex-col gap-3 items-center justify-center w-full mt-8 h-fit">
+               <Link href='/order' className="w-full">
               <button type="submit" className="w-full bg-black hover:bg-black/75 p-3 rounded-md  text-white"> CHECKOUT </button>
               </Link>
+              
               <Link href='/cart' className="w-full">
                 <button type="submit" className="w-full bg-[#dddddd] p-3 rounded-md  text-black hover:bg-[#dddddd]/35"> View Cart </button>
               </Link>

@@ -8,20 +8,26 @@
 - [x] Do the set quantity
 - [x] Clear cart
 - [x] Mae the category Name check case sensitive
-- [ ] Truncate all the text in the cart sheet and cart
+- [x] Truncate all the text in the cart sheet and cart
 - [ ] Protect admin route with clerk
-- [ ] An out of stock banner on the app
-- [] Adding pagination to the products
+- [x] An out of stock banner on the app
+- [x] Adding pagination to the products
 - [] Adding pagination for the payments table
 - [x] Use navigation menu for category
 - Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
 - [ ] Add metadata
 - [ ] Add a loading state for everything that has useEffect
-- [ ] Check if the user id matches the userid in the cart and cart item before deleting or updating
+- [ ] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [x] Add transactions in the order page
-- [ ] If the user is logged in they cant go to the login and signup page
+- [x] If the user is logged in they cant go to the login and signup page
 - [x] The image
 - [x] Calculating price at the backend
+- [ ] Connect the cart Item
+- [x] If there is no internet
+- [ ] Fix the search params
+- [ ] Add more life e.gillustrations and all to the pages
+- [ ] Order page
+- [x] Fix the state
 
 Version 2
 - Handle Review
@@ -30,9 +36,5 @@ Version 2
 - Logging and test
 - Create a new brand table
 - Better error handling
+- Create a layout folder in the components
 
-Check: 
-useUser
-auth
-useClerk for signout import { useClerk } from "@clerk/nextjs";
-useAuth

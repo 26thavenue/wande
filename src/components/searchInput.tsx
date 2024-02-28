@@ -22,7 +22,7 @@ export default function SearchBar() {
       params.delete('query');
     }
     replace(`${pathname}?${params.toString()}`);
-  }, 300);
+  }, 200);
 
   useEffect(() => {
     const query = searchParams.get('query');
@@ -33,6 +33,7 @@ export default function SearchBar() {
         .then((products: ProductType[]) => {
           setData(products);
           setLoading(false);
+          console.log(data);
         })
         .catch((error) => {
           console.error('Error fetching products:', error);
@@ -44,7 +45,7 @@ export default function SearchBar() {
   }, [handleSearch]);
 
   return (
-    <div>
+    <div className='relative bg-red-500'>
       <input
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         placeholder="Search for products"
@@ -53,20 +54,36 @@ export default function SearchBar() {
         }}
         defaultValue={searchParams.get('query')?.toString()}
       />
-
-      {loading ? (
-        <div className='mt-2 flex flex-col shadow-sm p-1'><p className='p-2'>Loading...</p></div>
-      ) : data.length > 0 ? (
-        <div className="mt-2 flex flex-col shadow-sm p-1 text-xs ">
-          {data.map((product: ProductType) => (
-            <div key={product.id} className="hover:bg-[#f6f6f6] rounded-md text-xs cursor-pointer mt-2">
-              <p className="p-2">{product.name}</p>
+      {!loading && data.length <= 0 && null}
+      
+       {loading  ? (
+            <div className=' absolute bg-green-800  w-full top-full left-0 mt-2 flex flex-col shadow-sm p-1'><p className='p-2'>Loading...</p></div>
+          ) : data.length > 0 && searchParams.get('query') ? (
+            <div className="mt-2 z-10 absolute top-full left-0 bg-gray-700 overflow-y-auto no-scrollable flex flex-col shadow-sm p-1 text-xs">
+              {data.map((product: ProductType) => (
+                <div key={product.id} className="hover:bg-[#f6f6f6]  rounded-md z-100  text-xs cursor-pointer mt-2">
+                  <p className="p-2">{product.name}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className='mt-2 flex flex-col shadow-sm p-1'>No products found</div>
-      )}
+          ) : (
+            <>
+
+              {data.length <= 0 && !data ? null: 
+              (
+                    
+                      <div className= { `mt-2  flex flex-col  absolute bg-blue-100 w-full top-full left-0 z-10 shadow-sm py-1`} >
+                      {searchParams.get('query') ? (
+                        <p className='p-3'>No products found</p>
+                      ) : null}
+                    </div>
+            )
+              }
+            </>
+            
+            
+            
+          )}
     </div>
   );
 }
