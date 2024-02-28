@@ -6,6 +6,7 @@ import Container from "@/components/Container";
 import ProductDetails from "@/components/product-details";
 import { usePathname } from 'next/navigation';
 import {ProductType} from '@/lib/types'
+import { PuffLoader } from "react-spinners";
 // import RelatedProducts from '@/components/related-products';
 
 const ProductPage = () => {
@@ -32,7 +33,10 @@ const ProductPage = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>;
   }
 
   if (error || !product) {

@@ -5,6 +5,7 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { getProductsBySearch } from '@/lib/data';
 import { ProductType } from '@/lib/types';
+import { SyncLoader } from "react-spinners";
 
 export default function SearchBar() {
   const [data, setData] = useState<ProductType[]>([]);
@@ -45,7 +46,7 @@ export default function SearchBar() {
   }, [handleSearch]);
 
   return (
-    <div className='relative bg-red-500'>
+    <div className='relative '>
       <input
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         placeholder="Search for products"
@@ -57,7 +58,10 @@ export default function SearchBar() {
       {!loading && data.length <= 0 && null}
       
        {loading  ? (
-            <div className=' absolute bg-green-800  w-full top-full left-0 mt-2 flex flex-col shadow-sm p-1'><p className='p-2'>Loading...</p></div>
+             <div className="h-screen flex justify-center items-center">
+
+                 <SyncLoader color="#b6b6b6" className="mx-auto "/>
+              </div>
           ) : data.length > 0 && searchParams.get('query') ? (
             <div className="mt-2 z-10 absolute top-full left-0 bg-gray-700 overflow-y-auto no-scrollable flex flex-col shadow-sm p-1 text-xs">
               {data.map((product: ProductType) => (

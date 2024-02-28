@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import { JetBrains_Mono } from "next/font/google";
-import Loading from "@/components/loading"; 
+
+import { PuffLoader } from "react-spinners";
 import "./globals.css";
 
 
@@ -26,7 +27,10 @@ export default function RootLayout({
       <html lang="en">
         <body className={jetbrains.className}>
            <ClerkLoading>
-              <Loading/>
+               <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>
             </ClerkLoading>
             <ClerkLoaded>
               <div className="">

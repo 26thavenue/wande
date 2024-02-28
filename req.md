@@ -16,7 +16,7 @@
 - [x] Use navigation menu for category
 - Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
 - [ ] Add metadata
-- [ ] Add a loading state for everything that has useEffect
+- [x] Add a loading state for everything that has useEffect
 - [ ] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [x] Add transactions in the order page
 - [x] If the user is logged in they cant go to the login and signup page
@@ -25,6 +25,9 @@
 - [ ] Connect the cart Item
 - [x] If there is no internet
 - [ ] Fix the search params
+- [ ] Confrim order to trigger the payment api and confirmation mail
+- [ ] Delivery fee
+- [ ] Add A suspense
 - [ ] Add more life e.gillustrations and all to the pages
 - [ ] Order page
 - [x] Fix the state

@@ -4,6 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { getPaginatedProducts } from '@/lib/data';
 import { ProductType } from '@/lib/types';
 import ProductCard from '@/components/product-card'
+import { PuffLoader } from "react-spinners";
+
+
+
 const PAGE_LIMIT = 5; // Number of products per page
 
 export default function CustomPagination() {
@@ -57,7 +61,10 @@ export default function CustomPagination() {
       <div className=" mt-8 grid grid-cols-4 gap-4">
         
         {loading ? (
-          <p>Loading...</p>
+           <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>
         ) : products && products.length > 0 ? (
           products.map((product) => (
             <ProductCard 

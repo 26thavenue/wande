@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
+import { PuffLoader } from "react-spinners";
 import Loading from "@/components/loading";
 
 
@@ -42,7 +43,11 @@ export default function RootLayout({
           
           }}/>
            <ClerkLoading>
-              <Loading/>
+              <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>
+             
             </ClerkLoading>
           <ClerkLoaded>
             <div className="flex flex-col min-h-screen">

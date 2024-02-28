@@ -6,7 +6,7 @@ import { CategoryType, ProductType } from '@/lib/types';
 import Container from '@/components/Container';
 import ProductCard from '@/components/product-card';
 import { usePathname } from 'next/navigation';
-
+import { PuffLoader } from "react-spinners";
 const CategoryPage = () => {
   const [category, setCategory] = useState<CategoryType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,10 @@ const CategoryPage = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>;
   }
 
   if (error) {
@@ -45,12 +48,15 @@ const CategoryPage = () => {
   return (
     <div className="flex items-center justify-center flex-col mt-10 gap-6">
       <Container>
-        <h1 className="text-2xl font-semibold">{category?.name}</h1>
-        <h2>Explore products in the {category?.name} category</h2>
-        {category?.products ? (
+        <h1 className="text-2xl font-semibold mb-2">{category?.name.toUpperCase()}</h1>
+        
+        {category?.products && category?.products.length > 0? (
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-            {category.products.map((product: ProductType) => (
+          <div >
+            <h2 className='text-[#898989]'>Explore products in the {category?.name} category</h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+              {category.products.map((product: ProductType) => (
               
               <ProductCard
                 key={product.id}
@@ -63,6 +69,8 @@ const CategoryPage = () => {
                 brand={product.brand}
               />
             ))}
+            </div>
+            
           </div>
         ) : (
           <p>No products found in this category.</p>

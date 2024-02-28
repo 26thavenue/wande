@@ -1,19 +1,9 @@
 'use client'
 
 import React from 'react'
-import { ProductType } from '@/lib/types'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem, 
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import Container from '@/components/Container'
 import { getAllProducts } from '@/lib/data'
-import ProductCard from '@/components/product-card'
-import { set } from 'zod'
+import { PuffLoader } from "react-spinners";
 import CustomPagination from '@/components/Pagination'
 export  function pages()  {
    const [products, setProducts] = React.useState([])
@@ -30,6 +20,10 @@ export  function pages()  {
     // }, []);
   return (
     <div>
+      {loading &&  <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>}
       <Container>
         <p className="text-2xl font-bold text-center mt-6 text-slate-700"> Explore our Products</p>
         <CustomPagination/>

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { getAllCategories, getAllProducts } from '@/lib/data';
 import { CategoryType, ProductType } from '@/lib/types';
 import ProductCard from '@/components/product-card';
+import { PuffLoader } from "react-spinners";
 
 const ExploreCategory = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
@@ -76,7 +77,10 @@ const ExploreCategory = () => {
     <div>
       <h1 className="my-16 uppercase text-center text-xl font-bold">Explore Category</h1>
       {loading ? (
-        <div>Loading...</div>
+        <div className="h-screen flex justify-center items-center">
+
+                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
+              </div>
       ) : error ? (
         <div>Error occurred while fetching data</div>
       ) : (
