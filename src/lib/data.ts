@@ -256,9 +256,12 @@ export async function createUser({name,email,externalId}:{name:string,email:stri
 }
 
 export async function getUserById(id:string){
-    const res = await fetch(`http://localhost:3000/api/user/${id}`)
-    const user = await res.json()
-    return user
+    const res = await fetch(`http://localhost:3000/api/user/${id}`) 
+    if(!res.ok) {
+        const errorMessage = await res.text();
+        throw new Error(errorMessage);
+    }
+    return res.json();
 }
 
 export async function getAllUsers(){

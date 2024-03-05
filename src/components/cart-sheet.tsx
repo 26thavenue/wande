@@ -25,11 +25,11 @@ export function Cart({count}:{count:number}) {
   // console.log(cart)
   
   useEffect(() => {
-    const total = cart.reduce((prev, curr) => prev + curr.price * curr.count, 0);
+    const total = cart.reduce((prev:any, curr:any) => prev + curr.price * curr.count, 0);
     setSubTotal(total);
   }, [cart]);
   
-  console.log(cart);
+  // console.log(cart);
 
   return (
     <Sheet >
@@ -46,7 +46,7 @@ export function Cart({count}:{count:number}) {
         <div className="flex flex-col gap-6 mb-3 h-[60vh]  overflow-y-auto no-scrollbar">
           {cart.length > 0 && cart
             ? 
-            cart.map((item, index) => 
+            cart.map((item:any, index:any) => 
             <div key={item.id} className="flex items-center justify-between gap-2">
               <Image alt='cartItem' src={parseImageUrl(item.imageUrl)} width={150} height={150}/>
               <div className="flex flex-col gap-1 justify-start  items-center">

@@ -7,15 +7,19 @@
 - [x] Properly add the quantity and imageUrl to the cart
 - [x] Do the set quantity
 - [x] Clear cart
-- [x] Mae the category Name check case sensitive
+- [x] Make the category Name check case sensitive
 - [x] Truncate all the text in the cart sheet and cart
 - [ ] Protect admin route with clerk
 - [x] An out of stock banner on the app
 - [x] Adding pagination to the products
-- [] Adding pagination for the payments table
+- [ ] Adding pagination for the payments table
 - [x] Use navigation menu for category
 - Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
 - [ ] Add metadata
+- [ ] Disable normal email signup
+- [ ] Make the email big
+- [ ] Turn the remove button to remove all the instances of the objectn, 
+- [ ] We have to make sure that the products being ordered is lesser than the number in stock
 - [x] Add a loading state for everything that has useEffect
 - [ ] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [x] Add transactions in the order page
@@ -26,10 +30,12 @@
 - [x] If there is no internet
 - [ ] Fix the search params
 - [ ] Confrim order to trigger the payment api and confirmation mail
-- [ ] Delivery fee
-- [ ] Add A suspense
+- [x] Delivery fee
+- [ ] Add a suspense
 - [ ] Add more life e.gillustrations and all to the pages
 - [ ] Order page
+- [ ] Add loader for the feature page
+- [ ] If its out of stock diable the add to cart button on the product details 
 - [x] Fix the state
 
 Version 2
@@ -41,3 +47,6 @@ Version 2
 - Better error handling
 - Create a layout folder in the components
 
+
+Flow
+- Checkout button -> Order form page -> (Your order has been received/Payment Details page / Go back to shopping/Fire the orderReceivedMail button with a link to the website and some images/Fires the post request on the payment api ) -> Payment received mail by changing the status of the order from not paid to paid

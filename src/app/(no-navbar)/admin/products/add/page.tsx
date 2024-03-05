@@ -109,10 +109,10 @@ const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
               Description
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded h-32 o w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="description"
               name="description"
-              type="text"
+              type = 'text'
               placeholder="Enter a Description "
             />
           </div>

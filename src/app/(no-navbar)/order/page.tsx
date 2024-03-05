@@ -93,9 +93,9 @@ const OrderForm = () => {
       (
         <div className=' flex xl:flex-row md:flex-col l:flex-row flex-col-reverse  '>
       
-        <div className='bg-white flex flex-col gap-4 font-semibold items-center justify-center  w-3/5 h-screen'>
-          <h2 className='text-2xl'> Order Information</h2>
-          <form onSubmit={handleSubmit} className="bg-white  rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm">
+        <div className='flex bg-white flex-col gap-4  font-semibold items-start justify-center w-3/5 mt-8 p-6'>
+          <h2 className='text-2xl justify-self-start px-8  '> Billing Details</h2>
+          <form onSubmit={handleSubmit} className="bg-white  rounded px-8 pt-6 pb-8 mb-4 w-full ">
             <div className="mb-4 flex flex-col gap-3">
 
               <div className=" flex flex-col mb-4">
@@ -103,20 +103,20 @@ const OrderForm = () => {
                   Name
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black/50 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-black/50 leading-tight focus:outline-none focus:shadow-outline"
                   id="name"
                   name="name"
                   type="text"
                   placeholder=""
                 />
               </div>
-              <div className='flex gap-2'>
-                <div className=" flex flex-col mb-4">
+              <div className='flex w-full justify-between gap-2'>
+                <div className=" flex flex-col mb-4 w-full">
                   <label className="block text-black text-sm font-bold mb-2" htmlFor="name">
                     City
                   </label>
                   <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black/50 backdrop:leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-black/50 backdrop:leading-tight focus:outline-none focus:shadow-outline"
                     id="City"
                     name="city"
                     type="text"
@@ -125,12 +125,12 @@ const OrderForm = () => {
                   />
                 </div>
 
-                <div className=" flex flex-col mb-4">
+                <div className=" flex flex-col mb-4 w-full">
                   <label className="block text-black text-sm font-bold mb-2" htmlFor="name">
                     State
                   </label>
                   <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black/50leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-black/50leading-tight focus:outline-none focus:shadow-outline"
                     id="state"
                     name="state"
                     type="text"
@@ -145,7 +145,7 @@ const OrderForm = () => {
                   Home Address
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black/50 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-black/50 leading-tight focus:outline-none focus:shadow-outline"
                   id="address"
                   name="address"
                   type="text"
@@ -159,7 +159,7 @@ const OrderForm = () => {
                   Phone Number
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black/50 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-black/50 leading-tight focus:outline-none focus:shadow-outline"
                   id="phoneNumber"
                   name="phoneNumber"
                   type="text"
@@ -168,25 +168,24 @@ const OrderForm = () => {
                 />
               </div>
             <div className="mb-6 flex justify-between items-center ">
-              <Link href='/received' className='underline p-2 hover:no-underline transition'> Back to cart</Link>
-                <Button type="submit" >
-                  Place Order
-                </Button>
+              <Link href='/cart' className='underline p-2 hover:no-underline transition'> Back to cart</Link>
+               
             </div>
             {error && <p className="text-red-500 text-xs italic">{error}</p>}
           </form>
         
       </div>
-      <div className='bg-[#f6f6f6] w-2/5 flex flex-col '>
-        <div className="flex flex-col max-h-[90%] p-6   gap-6 mb-3">
+      <div className=' w-2/5 flex flex-col '>
+        <div className="flex flex-col max-h-[40%] p-6 mt-8  gap-6 ">
           {cart.length > 0 && cart
             ? 
 
             <>
+            <h2 className="text-2xl font-semibold">Your Order</h2>
               {cart.map((item, index) => 
-                <div key={item.id} className="flex p-6 overflow-y-auto no-scrollbar    items-center justify-between gap-2 ">
-                  <Image alt='cartItem' src={parseImageUrl(item.imageUrl)} width={100} height={100}/>
-                  <div className="flex flex-col gap-1 justify-start  items-center">
+                <div key={item.id} className="flex p-6 xl:gap-24 lg:gap-20 md:gap-16 sm:gap-8  overflow-y-auto no-scrollbar    items-center   ">
+                  <Image alt='cartItem' src={parseImageUrl(item.imageUrl)} width={50} height={50}/>
+                  <div className="flex text-sm flex-col gap-1 justify-start  items-center">
                     <p>{item.name}</p>
                     
                     <p className="text-center justify-self-start">{item.count} pieces</p>
@@ -196,19 +195,34 @@ const OrderForm = () => {
                 
                 </div>
             )}
-              <div className="flex items-center justify-between p-6">
-                <p className="font-semibold text-lg">TOTAL:</p>
-                <span className="font-bold text-xl">{formatNumber(subTotal)}</span>
-              </div>
+             
+              
             </>
+            
             
             
           
             
-            : <div><p  className="text-center text-slate-600 py-2">No Data</p></div>
+            : <div><p  className="text-center text-slate-600 py-2">''</p></div>
           }
           </div>
-        
+           <div className="flex items-center gap-3  p-6">
+                <p className="font-semibold text-sm">TOTAL:</p>
+                <span className="font-bold text-xl">${formatNumber(subTotal)}</span>
+            </div>
+            <div className="bg-[#f6f6f6] flex flex-col gap-3 p-6">
+              <h2 className="text-center text-xl p-4 font-bold">Payment Method</h2>
+              <h3 className="text-sm font-semibold">Direct bank transfer</h3>
+              <p className="text-sm mb-4">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+              {/* <h3 className="text-sm font-semibold">Pay with card</h3>
+              <p className="text-sm">Not yet supported...</p> */}
+              <Link href='/received'>
+                   <Button type="submit"  className="float-right">
+                  Place Order
+                </Button>
+              </Link>
+            
+            </div>  
       </div>
           
      </div>
@@ -218,7 +232,7 @@ const OrderForm = () => {
         <div className="flex flex-col justify-center items-center p-2 gap-4 w-full h-screen ">
             <h1 className="xl:text-4xl lg:text-3xl md:text-2xl text-xl text-semibold">Your cart is empty </h1>
             <Link href="/products">
-              <p className="text-lg text-[#b6b6b6] hover:underline transition ">Go to back to shopping</p>
+              <p className="text-lg text-[#dcdcdc] hover:underline transition ">Go to back to shopping</p>
             </Link>
         </div>
       )

@@ -66,3 +66,6 @@ async function sendPaymentConfirmationMail(recipient){
 
 
 sendOrderConfirmationMail('temitopeoni001@gmail.com')
+
+
+module.exports = {sendOrderConfirmationMail, sendPaymentConfirmationMail}

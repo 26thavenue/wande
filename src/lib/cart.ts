@@ -3,18 +3,23 @@
 import toast from 'react-hot-toast';
 import { create , StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { useEffect } from 'react';
 import {CartItems, ProductType} from '@/lib/types'
+import {getUserById, createCartItem, updateCartItem} from '@/lib/data'
 
 
-interface CartItem extends CartItems {
+interface CartItem extends ProductType {
     count:number
-    imageUrl: string
+    quantity:number
     name: string
     
 }
 
-
+interface UserWithItems{
+    id: string
+    email: string
+    items: CartItem[]
+    
+}
 
 type CartStore = {
     cart: CartItem[],
@@ -25,10 +30,11 @@ type CartStore = {
     decreaseQuantity: (idProduct: string) => void,
     totalPrice:(cart:CartItem[]) => number,
     removeAll: () => void
+    populateCart:(user:any) => void
 }
 
 
-export const useCartStore = create<CartStore>()(
+export const useCartStore:any = create<CartStore>()(
    persist(
     (set, get) => ({
         cart: [],
@@ -38,10 +44,11 @@ export const useCartStore = create<CartStore>()(
                 return cart.reduce((prev, curr) => prev + curr.count, 0);
             return 0;
         },
-        add: (product: ProductType) => {
+        add: async(product: ProductType) => {
             const { cart } = get();
             const updatedCart = updateCart(product, cart)
             set({ cart: updatedCart });
+            // await createCartItem()
             toast.success('Product added to cart');
         },
         remove: (idProduct: string) => {
@@ -59,9 +66,24 @@ export const useCartStore = create<CartStore>()(
         decreaseQuantity: (idProduct: string) => {
             const { cart } = get();
             const updatedCart = decreaseCartItemQuantity(idProduct, cart);
+
             set({ cart: updatedCart });
         },
-        totalPrice:(cart:CartItem[]) => getTotalPrice(cart)
+        totalPrice:(cart:CartItem[]) => getTotalPrice(cart),
+
+        populateCart: async(user:any) => { 
+            const {cart} = get();
+            
+            
+            const updatedCart = await populateCartIfUserWithCartItemsExist(user, cart)
+            console.log(updatedCart)
+            set({cart:updatedCart})
+            console.log('cart:', cart);
+        }
+            
+        
+        
+        
     }),
         {
             name:'cart-storage',
@@ -109,7 +131,7 @@ function increaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem
 
 function decreaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem[] {
     return cart.map(item => {
-        if (item.id === idProduct && item.quantity > 1) {
+        if (item.id === idProduct && item.count > 1) {
             return { ...item, quantity: item.quantity - 1 };
         }
         return item;
@@ -118,5 +140,38 @@ function decreaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem
 
 function getTotalPrice(cart: CartItem[]): number {
     if(cart.length === 0 || !cart) return 0;
-    return cart.reduce((total, item) => total + item.product.price * item.count, 0);
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+}
+
+async function populateCartIfUserWithCartItemsExist(user: any, cart: CartItem[]) {
+    const externalId = user?.id as string;
+
+    try {
+        const data: UserWithItems = await getUserById(externalId);
+        
+        if (data.items.length > 0) {
+            const products = data.items.map((item: any) => ({
+                ...item.product,
+                count: item.quantity
+            }));
+
+            const mergedCartItems: CartItem[] = [...cart, ...products];
+            const groupedProducts: { [id: string]: CartItem } = {};
+
+            mergedCartItems.forEach((product: any) => {
+                if (groupedProducts[product.id]) {
+                    groupedProducts[product.id].count += product.count;
+                } else {
+                    groupedProducts[product.id] = { ...product };
+                }
+            });
+
+            const productArray = Object.values(groupedProducts);
+            return productArray;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    return cart;
 }

@@ -15,23 +15,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { useCartStore } from "@/lib/cart";
+import { useCartStore  } from "@/lib/cart";
 import Container from "./Container";
 import Link from 'next/link'
-import { UserButton, UserProfile } from "@clerk/nextjs";
+import { UserButton} from "@clerk/nextjs";
 import {useEffect,useState} from "react"
 import { getAllCategories } from "@/lib/data";
 import { CategoryType } from "@/lib/types";
 import SearchBar from "@/components/searchInput";
 export function Navbar() {
   const { isSignedIn } = useAuth();
+  const {user} = useUser();
   const [data,setData] = useState([])
   const [error,setError] = useState(false)
-  const { count } = useCartStore();
+  const { count, populateCart } = useCartStore();
 
   useEffect(() => {
+    populateCart(user);
     getAllCategories().then((data) => {
-      // console.log(data)
       setData(data)
     }).catch((error) => {
       console.log(error)
@@ -46,7 +47,7 @@ export function Navbar() {
  
 
   
-  // console.log(count());
+ 
 
   return (
     <div className="grid bg-white shadow-sm sticky top-0 w-full z-50 ">

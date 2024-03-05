@@ -14,7 +14,9 @@ import { createUser } from "@/lib/data";
 import { useCartStore } from '@/lib/cart'
 const page = () => {
   const {user} = useUser()
-  const name = user?.firstName
+  const firstName = user?.firstName as string
+  const lastName = user?.lastName
+  const name =  firstName + "" + lastName
   const email = user?.emailAddresses[0]?.emailAddress
   const externalId = user?.id
   useEffect(()=>{
