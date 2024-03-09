@@ -1,16 +1,27 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { Button } from './ui/button'
 import { useCartStore } from '@/lib/cart'
-import { Product } from '@/lib/cart'
+import { CartItemType, ProductType } from '@/lib/types'
 
 interface QuantityProps {
-  product:Product
+  product:ProductType
 }
 
 const QuantityButton:React.FC<QuantityProps> = ({product}) => {
   const {increaseQuantity:handleIncreaseQuantity} = useCartStore()
   const {decreaseQuantity:handleDecreaseQuantity} = useCartStore()
-  const [quantity, setQuantity] = useState<number>(product.quantity)
+  const {cart} = useCartStore()
+  const [quantity, setQuantity] = useState<number>(0)
+
+   useEffect(() => {
+    const cartItem = cart.find((item: CartItemType) => item.id === product.id);
+    console.log(cartItem)
+    if (cartItem) {
+      setQuantity(cartItem.count);
+    } else {
+      setQuantity(0);
+    }
+  }, [cart, product]);
 
    const handleIncrease = () => {
     handleIncreaseQuantity(product.id);

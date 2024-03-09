@@ -16,7 +16,7 @@ const CartClient = () => {
     const getTotal = () =>{
         const { cart } = useCartStore.getState();
         if(cart){
-            const total = cart?.reduce((prev, curr) => prev + curr.price * curr.count,0 );
+            const total = cart?.reduce((prev:any, curr:any) => prev + curr.price * curr.count,0 );
             setSubTotal(total)
         return total 
         }
@@ -50,7 +50,7 @@ const CartClient = () => {
             </div>
             <div>
                 { cart && cart.length > 0  ?
-                (cart.map((item,index) => {
+                (cart.map((item:any,index:any) => {
                     return(
                         <ItemContent key={item.id} item={item}/>
                     )

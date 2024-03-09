@@ -7,10 +7,7 @@ import Image from "next/image";
 import { ProductType } from "@/lib/types";
 import { parseImageUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
-interface ProductCardProps extends ProductType  {
-  
-}
+import {useUser} from '@clerk/nextjs'
 
 
 
@@ -19,6 +16,8 @@ export default function ProductCard({ id, name, price,description, imageUrl, bra
   const router = useRouter()
   const {add: handleAddToCart} = useCartStore();
   const isNumberInStock = numberInStock > 0;
+  const {user} = useUser()
+  const userId = user?.id ? user.id : null;
 
   return (
     <div
@@ -27,16 +26,16 @@ export default function ProductCard({ id, name, price,description, imageUrl, bra
     >
       <div
       onClick={() => router.push(`/products/${id}`)}  
-      className=" bg-slate-100  w-[250px] h-[300px] flex items-center justify-center rounded-md mb-2 transistion cursor-pointer hover:scale-105">
+      className=" bg-slate-100 w-full h-[250px]   xl:w-[250px] xl:h-[300px] flex items-center justify-center rounded-md mb-2 transistion cursor-pointer hover:scale-105">
         {!numberInStock && (
           <div className="absolute bg-black bg-opacity-50 p-3 text-sm  rounded-md text-white ">Out of Stock</div>
         )}
-        <Image src={parseImageUrl(imageUrl)} width={100} height={150} alt="coffee" className=" rounded object-cover " />
+        <Image src={parseImageUrl(imageUrl)} width={200} height={250} alt="coffee" className=" rounded-md" />
       </div>
       <h2 className="text-slate-400 font-bold ">{truncateText(name)}</h2>
       <h2 className="font-semibold text-green-400">$ {formatNumber(price)}</h2>
       <Button
-      onClick={() => handleAddToCart(product)} 
+      onClick={() => handleAddToCart(product,userId)} 
       className="mt-4 font-semibold text-sm text-white bg-black  rounded-md p-3  text-center w-full"
       >
         Add To Cart

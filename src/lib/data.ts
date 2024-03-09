@@ -110,15 +110,17 @@ export async function createCategory(data:Category){
 //     return cartItems
 // }
 
-export async function createCartItem(data:CartItemType){
-    const res = await fetch('http://localhost:3000/api/cartItem',{
+export async function createCartItem(productId:string, userId:string, quantity:number){
+    console.log({productId,userId,quantity})
+    const res = await fetch('http://localhost:3000/api/cart',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'
         },
-        body:JSON.stringify(data)
+        body:JSON.stringify({productId, userId ,quantity})
     })
     const cartItem = await res.json()
+    console.log(cartItem)
     return cartItem
 }
 
@@ -192,10 +194,10 @@ export async function getAllPayments(){
 
 // ORDER API
 
-export async function createOrder(data:any){
+export async function createOrder(address:string,phoneNumber:string,userId:string){
     const res = await fetch('http://localhost:3000/api/order',{
         method:'POST',
-        body:JSON.stringify(data)
+        body:JSON.stringify({address,phoneNumber,userId})
     })
     if(!res.ok) {
         const errorMessage = await res.text();

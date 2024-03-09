@@ -23,6 +23,8 @@ import {useEffect,useState} from "react"
 import { getAllCategories } from "@/lib/data";
 import { CategoryType } from "@/lib/types";
 import SearchBar from "@/components/searchInput";
+
+
 export function Navbar() {
   const { isSignedIn } = useAuth();
   const {user} = useUser();
@@ -31,13 +33,13 @@ export function Navbar() {
   const { count, populateCart } = useCartStore();
 
   useEffect(() => {
-    populateCart(user);
     getAllCategories().then((data) => {
       setData(data)
     }).catch((error) => {
       console.log(error)
       setError(true)
     })
+    
   }, [])
 
   useEffect(() => {
@@ -52,16 +54,16 @@ export function Navbar() {
   return (
     <div className="grid bg-white shadow-sm sticky top-0 w-full z-50 ">
       <Container>
-        <div className='flex justify-between items-center px-5 py-4 bottom-1'>
+        <div className='flex justify-between items-center  py-4 bottom-1'>
         <div className="flex items-center justify-center gap-6">
         <Link href='/'><p className="text-xl font-bold">STORE</p></Link>
         
        
-          <DropdownMenu>
+          <DropdownMenu >
              <DropdownMenuTrigger asChild>
                 <div className="flex gap-1 items-center justify-center cursor-pointer">
-                  <p className="text-sm text-[#575757] ">CATEGORIES</p>
-                  <ChevronDown className="w-3" />
+                  <p className="text-sm text-[#575757] hidden xl:block lg:block md:block  ">CATEGORIES</p>
+                  <ChevronDown className="w-3 hidden xl:block lg:block md:block  " />
                 </div>
              </DropdownMenuTrigger>
              <DropdownMenuContent className="w-56 ">
@@ -100,10 +102,10 @@ export function Navbar() {
               </div>)
              : (
               <div className="flex gap-3 items-center ">
-                      <Link href='sign-in'>
+                      <Link href='/sign-in'>
                         <Button className="text-white text-sm rounded-xl"> Login</Button>
                       </Link>
-                      <Link href='sign-up'>
+                      <Link href='/sign-up'>
                         <Button variant="secondary" className="text-sm"> Signup</Button>
                       </Link>
               </div>)  }

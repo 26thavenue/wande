@@ -5,6 +5,8 @@ import CartClient from '@/components/cart-client'
 import React,{useEffect} from 'react'
 import { useCartStore } from '@/lib/cart';
 
+ 
+
 const page = () => {
   useEffect(() => {
         useCartStore.persist.rehydrate();

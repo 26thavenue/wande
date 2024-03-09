@@ -7,6 +7,8 @@ import Container from '@/components/Container';
 import ProductCard from '@/components/product-card';
 import { usePathname } from 'next/navigation';
 import { PuffLoader } from "react-spinners";
+
+
 const CategoryPage = () => {
   const [category, setCategory] = useState<CategoryType | null>(null);
   const [loading, setLoading] = useState(true);

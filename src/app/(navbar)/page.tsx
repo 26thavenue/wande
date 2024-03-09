@@ -12,11 +12,13 @@ import {useUser} from '@clerk/nextjs'
 import { useSignUp } from "@clerk/nextjs";
 import { createUser } from "@/lib/data";
 import { useCartStore } from '@/lib/cart'
+import Newest from '@/components/New'
+import Start from '@/components/start'
 const page = () => {
   const {user} = useUser()
   const firstName = user?.firstName as string
   const lastName = user?.lastName
-  const name =  firstName + "" + lastName
+  const name =  firstName + " " + lastName
   const email = user?.emailAddresses[0]?.emailAddress
   const externalId = user?.id
   useEffect(()=>{
@@ -35,7 +37,8 @@ const page = () => {
           <FeaturedProducts />
           <ExploreCategory />
           <Discount />
-          <WhyChooseUs />
+          <Newest/>
+          <Start/>
         </div>
         
       

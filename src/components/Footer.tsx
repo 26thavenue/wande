@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <div className='text-sm mt-16 bg-black text-white'>
       <Container>
-        <footer className='container md:grid md:grid-cols-4 gap-3 items-center md:p-8 bg-black w-full text-white h-full '>
+        <footer className='container grid md:grid-cols-2 lg:grid-cols-4  xl:grid-cols-4 gap-3 items-center p-12 bg-black w-full text-white h-full '>
         
-          <div  className='hidden md:block'>
+          <div  className=''>
             <h1 className='text-4xl '>WANDE</h1>
         </div>
         <div className='px-6 my-6'>

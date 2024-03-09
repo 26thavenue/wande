@@ -58,7 +58,7 @@ export default function CustomPagination() {
 
   return (
     <div>
-      <div className=" mt-8 grid grid-cols-4 gap-4">
+      <div className=" mt-8 grid grid-cols-2 lg;grid-cols-4 xl:grid-cols-4 gap-4">
         
         {loading ? (
            <div className="h-screen flex justify-center items-center">

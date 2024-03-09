@@ -33,8 +33,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
   }, [product.categoryId]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <Image src={parseImageUrl(product.imageUrl)} alt={product.name} width={500} height={500} />
+    <div className="grid justify-center  md:grid-cols-2 gap-12 items-center">
+      <Image src={parseImageUrl(product.imageUrl)} alt={product.name} width={200} height={200} />
       <div className="flex flex-col gap-1 text-slate-500">
         <h1 className="text-3xl font-medium text-slate-600">{product.name}</h1>
         <h1 className="text-2xl font-medium text-black mt-2">${product.price}</h1>
@@ -43,7 +43,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         <Separator orientation="horizontal" className="my-3" />
         <div className="flex gap-2">
           <h3>Quantity: </h3>
-          {/* <QuantityButton product={product} /> */}
+          <QuantityButton product={product} />
         </div>
         <h3>Category: {categoryName}</h3>
         <h3>Brand: {product.brand}</h3>

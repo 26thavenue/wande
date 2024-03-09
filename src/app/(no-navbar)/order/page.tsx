@@ -10,8 +10,8 @@ import {parseImageUrl} from '@/lib/utils'
 import Image from "next/image";
 import Link from 'next/link'
 import {formatNumber} from '@/lib/utils'
-import { createOrder } from "@/lib/data";
-
+import { createOrder, getUserById } from "@/lib/data";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   address: z.string().min(5).max(100),
@@ -23,13 +23,15 @@ const schema = z.object({
 const OrderForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [subTotal, setSubTotal] = useState(0);
-
-  const { cart } = useCartStore();
+  const router =useRouter()
+  const { cart , removeAll} = useCartStore();
   const {user} = useUser();
-  
-  const userId = user?.id;
+  const userID = user?.id;
+  const email = user?.emailAddresses[0].emailAddress;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if(!userID) return toast.error('You need to be logged in to place an order')
     const formData = new FormData(e.currentTarget);
     const checkAdress = formData.get('address') as string 
     if(checkAdress === ''){
@@ -37,21 +39,22 @@ const OrderForm = () => {
       return
     }
     const address = formData.get('address') as string + '' + formData.get('city') as string + '' + formData.get('state') as string;
-    
+    const phoneNumber =  formData.get('phoneNumber') as string
+    const user = await getUserById(userID as string)
+    const userId = user.id as string
     try {
-      const order = {
-        address: address,
-        phoneNumber: formData.get('phoneNumber') as string,
-        userId: userId,
-      };
+      // const order = await createOrder(
+      //   address,
+      //   phoneNumber,
+      //   userId
+      // )
+      // console.log(order)
+      // await sendOrderConfirmationMail(email as string)
+      // if (order) removeAll() 
       
-      console.log(order);
-      schema.parse(order);
-    
-      await createOrder(order)
-      // console.log(orderObject);
       setError(null);
       toast.success('Your order has been placed');
+      router.push('/received')
     } catch (err) {
       if (err instanceof ZodError) {
         setError(err.errors[0].message);
@@ -74,7 +77,7 @@ const OrderForm = () => {
     const getTotal = () =>{
         const { cart } = useCartStore.getState();
         if(cart){
-            const total = cart?.reduce((prev, curr) => prev + curr.price * curr.count,0 );
+            const total = cart?.reduce((prev:any, curr:any) => prev + curr.price * curr.count,0 );
             setSubTotal(total)
         return total 
         }
@@ -169,6 +172,9 @@ const OrderForm = () => {
               </div>
             <div className="mb-6 flex justify-between items-center ">
               <Link href='/cart' className='underline p-2 hover:no-underline transition'> Back to cart</Link>
+              <Button type="submit"  className="float-right">
+                  Place Order
+                </Button>
                
             </div>
             {error && <p className="text-red-500 text-xs italic">{error}</p>}
@@ -182,7 +188,7 @@ const OrderForm = () => {
 
             <>
             <h2 className="text-2xl font-semibold">Your Order</h2>
-              {cart.map((item, index) => 
+              {cart.map((item:any, index:any) => 
                 <div key={item.id} className="flex p-6 xl:gap-24 lg:gap-20 md:gap-16 sm:gap-8  overflow-y-auto no-scrollbar    items-center   ">
                   <Image alt='cartItem' src={parseImageUrl(item.imageUrl)} width={50} height={50}/>
                   <div className="flex text-sm flex-col gap-1 justify-start  items-center">
@@ -216,11 +222,9 @@ const OrderForm = () => {
               <p className="text-sm mb-4">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
               {/* <h3 className="text-sm font-semibold">Pay with card</h3>
               <p className="text-sm">Not yet supported...</p> */}
-              <Link href='/received'>
-                   <Button type="submit"  className="float-right">
-                  Place Order
-                </Button>
-              </Link>
+              
+                
+              
             
             </div>  
       </div>

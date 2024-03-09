@@ -17,6 +17,7 @@ import { ShoppingBasket } from "lucide-react";
 import Link from 'next/link'
 import Image from 'next/image'
 import { parseImageUrl } from "@/lib/utils"
+import QuantityButton from './quantity-button';
 
 export function Cart({count}:{count:number}) {
   const { cart } = useCartStore();
@@ -35,29 +36,30 @@ export function Cart({count}:{count:number}) {
     <Sheet >
       <SheetTrigger asChild>
         <div className="flex gap-2 items-center text-white bg-black rounded-xl p-2">
-            <ShoppingBasket className="w-4 h-4" />
-            <p className="text-[12px]">{count}</p>
+            <ShoppingBasket className=" xl:w-4 xl:h-4 lg:h-4 lg:w-4 md:w-3 md:h-3 w-3 h-3" />
+            <p className="text-[10px] xl:text-[12px] lg:text-[12px] ">{count}</p>
           </div>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle> YOUR CART</SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-6 mb-3 h-[60vh]  overflow-y-auto no-scrollbar">
+        <div className="flex flex-col gap-6 my-3 h-[60vh]  overflow-y-auto no-scrollbar">
           {cart.length > 0 && cart
             ? 
             cart.map((item:any, index:any) => 
-            <div key={item.id} className="flex items-center justify-between gap-2">
-              <Image alt='cartItem' src={parseImageUrl(item.imageUrl)} width={150} height={150}/>
-              <div className="flex flex-col gap-1 justify-start  items-center">
-                <p>{item.name}</p>
+            <div key={item.id} className="flex items-center  text-sm justify-between gap-4">
+              <Image alt='cartItem' src={parseImageUrl(item.imageUrl)} width={50} height={50}/>
+              <p className="w-4">{item.name}</p>
+              <div className="flex flex-col gap-1 justify-center  items-center">
+                
                 <p className="text-right">${item.price}</p>
-                <p className="text-center justify-self-start">{item.quantity}</p>
+                <p className="text-center justify-self-start"> <QuantityButton product={item}/></p>
                 <p className="text-center">
-                  <button
+                  {/* <button
                   className="underline hover:scale-95 transition"
                   onClick={() => handleRemoveFromCart(item.id ? item.id : '')} 
-                   > Remove</button>
+                   > Remove</button> */}
                 </p>
               </div>
               

@@ -7,7 +7,7 @@ import { getAllProducts } from '@/lib/data'
 import { PuffLoader } from 'react-spinners'
 
 
-const FeaturedProducts = () => {
+const Newest = () => {
   const [products, setProducts] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
@@ -24,15 +24,15 @@ const FeaturedProducts = () => {
 
   return (
     <div className='mx-auto w-full '>
-        <p className="text-xl  p-6">FEATURED PRODUCTS</p>
+        <p className="text-xl  p-6">NEWEST PRODUCTS</p>
         <Separator orientation='horizontal' className="w-full" />
         {loading ? 
         <div className="h-screen flex justify-center items-center">
                  <PuffLoader color="#b6b6b6" className="mx-auto "/>
             </div> : 
             (
-              <div className="text-sm pt-4 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {products ? products.slice(0, 20).map((product:ProductType) => 
+              <div className="text-sm pt-4 grid  grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {products ? products.slice(0, 10).map((product:ProductType) => 
                   <ProductCard key={product.id} 
                   id={product.id} 
                   name={product.name} 
@@ -56,4 +56,4 @@ const FeaturedProducts = () => {
   )
 }
 
-export default FeaturedProducts
+export default Newest

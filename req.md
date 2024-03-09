@@ -1,42 +1,47 @@
 - [x] Adding a toast on every action
-- [ ] Handle session in clerk
-- [ ] Filter functionality
+- [X] Add loader for the featured products
 - [x] Search functionality
 - [x] Mapping the pages to its category and product
 - [x] Change the any type in ItemsContentProps to cartProduct
 - [x] Properly add the quantity and imageUrl to the cart
-- [x] Do the set quantity
+- [x] Do the set quantity  
+- [x] Fix the state
+- [x] If there is no internet
 - [x] Clear cart
+- [x] Delivery fee
+- [x] The picture
 - [x] Make the category Name check case sensitive
 - [x] Truncate all the text in the cart sheet and cart
-- [ ] Protect admin route with clerk
+- [x] Fix the broken login from product page
 - [x] An out of stock banner on the app
 - [x] Adding pagination to the products
-- [ ] Adding pagination for the payments table
 - [x] Use navigation menu for category
-- Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
-- [ ] Add metadata
-- [ ] Disable normal email signup
-- [ ] Make the email big
-- [ ] Turn the remove button to remove all the instances of the objectn, 
-- [ ] We have to make sure that the products being ordered is lesser than the number in stock
 - [x] Add a loading state for everything that has useEffect
-- [ ] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [x] Add transactions in the order page
 - [x] If the user is logged in they cant go to the login and signup page
 - [x] The image
 - [x] Calculating price at the backend
-- [ ] Connect the cart Item
-- [x] If there is no internet
+- [x] Protect admin route with rbac
+- [x] Responsiveness
+- [ ] Confirm Responsiveness
+- [<>] Connect the cart Item(ongoing)
+- [ ] Handle session in clerk
+- [ ] Filter functionality and Product Page
+- [-] Add metadata
+- [x] Disable normal email signup
+- [ ] Turn the remove button to remove all the instances of the objectn, 
+- [ ] We have to make sure that the products being ordered is lesser than the number in stock
+- [ ] Check if the user id matches the userid in the cart and cart item before deleting or  updating
+- [ ] Adding pagination for the payments table
 - [ ] Fix the search params
 - [ ] Confrim order to trigger the payment api and confirmation mail
-- [x] Delivery fee
 - [ ] Add a suspense
-- [ ] Add more life e.gillustrations and all to the pages
+- [ ] Add more life e.g illustrations and all to the pages
 - [ ] Order page
-- [ ] Add loader for the feature page
+- [ ] Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
 - [ ] If its out of stock diable the add to cart button on the product details 
-- [x] Fix the state
+- [ ] Add cart items to order table before clearing the cart
+
 
 Version 2
 - Handle Review
@@ -46,6 +51,7 @@ Version 2
 - Create a new brand table
 - Better error handling
 - Create a layout folder in the components
+- Please notify me for out stock 
 
 
 Flow
