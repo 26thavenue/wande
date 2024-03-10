@@ -70,7 +70,7 @@ model Order{
   id          String @id @default(cuid())
   userId      String
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status      String @default("created")
+  status      String @default("PENDING")
   deliveryStatus String @default("PENDING")
   deliveryDate DateTime?
   createdAt   DateTime @default(now()) 

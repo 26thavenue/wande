@@ -25,20 +25,21 @@
 - [x] Responsiveness
 - [ ] Confirm Responsiveness
 - [<>] Connect the cart Item(ongoing)
-- [ ] Handle session in clerk
+- [-] Handle session in clerk
 - [ ] Filter functionality and Product Page
 - [-] Add metadata
 - [x] Disable normal email signup
+- [ ] Update , Delete Order , Product and Category
 - [ ] Turn the remove button to remove all the instances of the objectn, 
 - [ ] We have to make sure that the products being ordered is lesser than the number in stock
-- [ ] Check if the user id matches the userid in the cart and cart item before deleting or  updating
+- [-] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [ ] Adding pagination for the payments table
 - [ ] Fix the search params
 - [ ] Confrim order to trigger the payment api and confirmation mail
 - [ ] Add a suspense
-- [ ] Add more life e.g illustrations and all to the pages
-- [ ] Order page
-- [ ] Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
+- [x] Add more life e.g illustrations and all to the pages
+- [x] Order page
+- [<>] Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
 - [ ] If its out of stock diable the add to cart button on the product details 
 - [ ] Add cart items to order table before clearing the cart
 

@@ -30,8 +30,20 @@ export function Navbar() {
   const {user} = useUser();
   const [data,setData] = useState([])
   const [error,setError] = useState(false)
-  const { count, populateCart } = useCartStore();
+  const { count, populateCart ,check} = useCartStore();
+  const userID = user?.id ? user.id : ""
+  // console.log(userID)
+  // console.log(cart)
+  useEffect (() => { 
 
+   async function fetchCartFromDB(){
+      if (userID){
+        await check(userID)
+      }
+   }
+    
+  }
+  ,[])
   useEffect(() => {
     getAllCategories().then((data) => {
       setData(data)

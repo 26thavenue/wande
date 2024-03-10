@@ -9,21 +9,13 @@ import { useCartStore } from "@/lib/cart";
 
 export default function Page() {
   const {user, isSignedIn} = useUser();
-  const {populateCart} = useCartStore();
+
   const router = useRouter();
 
-  useEffect(() => {
-    const PopulateCart = async () => {
-      if (isSignedIn) {
-        await populateCart(user);
-      }
-    };
-    PopulateCart();
-    
-  }, [])
+
   return (
     <>
-    {isSignedIn ? router.push('/dashboard') : 
+    {isSignedIn ? router.push('/') : 
     <>
       <div className="flex items-center justify-center ">
        <SignIn  />

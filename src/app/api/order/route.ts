@@ -3,13 +3,11 @@
 import {  NextResponse} from "next/server";
 import { prisma } from "@/lib/prisma";
 import { OrderType} from "@/lib/types";
-
+import {sendOrderConfirmationMail} from '@/service/email'
 export async function GET(req: Request) {
     const orders = await prisma.order.findMany();
     if(!orders || orders.length === 0) return NextResponse.json({message:'No orders found'}, {status: 404});
-    return NextResponse.json(orders, {status: 200});
-    
-     
+    return NextResponse.json(orders, {status: 200});    
 }
 
 // export async function POST(req: Request) {
@@ -74,10 +72,25 @@ export async function POST (req:Request){
             }
         });
 
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        });
+        if(!user){
+            return NextResponse.json({message:'User not found'}, {status: 404});
+        }
+        try{
+            await sendOrderConfirmationMail(user.email)
+        }catch(err){
+            return NextResponse.json({message : 'Cannot send email'})
+        }
+        
         if(cartItems.length === 0) return NextResponse.json({message:'No items found in the cart'}, {status: 404});
          const total = cartItems.reduce((prev, current) => {
             return prev + (current.quantity * +current.product.price)
         }, 0);
+
         const order = await prisma.order.create({ 
             data: {
                 userId,

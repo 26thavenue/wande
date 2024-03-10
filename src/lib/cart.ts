@@ -31,6 +31,7 @@ type CartStore = {
     totalPrice:(cart:CartItem[]) => number,
     removeAll: () => void
     populateCart:(user:any) => void
+    check:(userId:string) => void
 }
 
 
@@ -78,9 +79,14 @@ export const useCartStore:any = create<CartStore>()(
             
             
             const updatedCart = await populateCartIfUserWithCartItemsExist(user, cart)
-            // console.log(updatedCart)
+            console.log(updatedCart)
             set({cart:updatedCart})
-            // console.log('cart:', cart);
+            console.log('cart:', cart);
+        },
+        check: async(userId:string) => {
+            const {cart} = get();
+            const updatedCart = await checkCartWithDB(userId);
+            set({cart:updatedCart})
         }
             
         
@@ -170,6 +176,7 @@ async function populateCartIfUserWithCartItemsExist(user: any, cart: CartItem[])
 
     try {
         const data: UserWithItems = await getUserById(externalId);
+        // console.log(data)
         
         if (data.items.length > 0) {
             const products = data.items.map((item: any) => ({
@@ -192,9 +199,39 @@ async function populateCartIfUserWithCartItemsExist(user: any, cart: CartItem[])
             // console.log(productArray)
             return productArray;
         }
+        return cart
     } catch (error) {
         console.log(error);
     }
 
     return cart;
+}
+
+async function checkCartWithDB(userId: string) {
+    try {
+        // Retrieve user data including cart items from the database
+        const user = await getUserById(userId);
+        
+        // If user doesn't exist, return early
+        if (!user) {
+            return;
+        }
+
+        console.log(user)
+        // Get the cart items from the user's data
+        const cart = user.items;
+
+        // Modify the cart items to include updated prices
+        const updatedCart = cart.map((cartItem: any) => {
+            const updatedPrice = cartItem.product.price;
+            return { ...cartItem, price: updatedPrice };
+        });
+
+        // Return the updated cart (optional)
+        return updatedCart;
+    } catch (error) {
+        // Handle any errors
+        console.error('Error checking cart with database:', error);
+        throw error; // Optionally re-throw the error
+    }
 }

@@ -8,6 +8,7 @@ export async function GET(req: Request,{ params }: { params: { id: string } }) {
     const order = await prisma.order.findUnique({
         where: {
             id: orderId,
+           
         },
     });
 
@@ -32,18 +33,39 @@ export async function DELETE(req: Request,{ params }: { params: { id: string } }
 export async function UPDATE(req: Request,{ params }: { params: { id: string } }){
     const orderId = params.id as string
     if(!orderId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    const {deliveryStatus, deliveryDate } = await req.json() as unknown as OrderType;
-    //
+    const {deliveryStatus, deliveryDate,status } = await req.json() 
+    
+    const user = await prisma.order.findUnique({
+        where: {
+            id: orderId,
+        },
+        include: {
+            user: {
+                include:{
+                    items:{
+                        include:{
+                            product:true
+                        }
+                    }
+                }
+            },
+        },
+    });
+    console.log(user)
+    // if(status.toUpperCase() == 'PAID'){
+    //     await prisma.user
+    // }
     const order = await prisma.order.update({
         data: {
             deliveryStatus,
-            deliveryDate
+            deliveryDate,
+            status
         },
         where: {
             id: orderId,
         },
         include: {
-                items: true, 
+                products: true, 
         },
     });
     return NextResponse.json(order, {status: 201});

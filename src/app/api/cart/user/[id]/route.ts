@@ -20,3 +20,12 @@ const updatedCartItems = cartItems.map(cartItem => {
 return NextResponse.json({cartItems}, {status: 200});
 
 }
+
+export async function DELETE(req: Request , { params }: { params: { id: string } }){
+    const userId = params.id as string
+    await prisma.cartItem.deleteMany({
+    where: {
+        userId: userId
+    }
+});
+}

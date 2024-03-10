@@ -84,7 +84,7 @@ const ExploreCategory = () => {
       ) : error ? (
         <div>Error occurred while fetching data</div>
       ) : (
-        <div className="flex gap-4 uppercase cursor-pointer items-center justify-between">
+        <div className="flex overflow-x-auto no-scrollbar  gap-4 uppercase cursor-pointer items-center justify-between">
           <div
             className={`cursor-pointer ${activeCategory === 'all' ? 'bg-black text-white' : ''}`}
             onClick={() => handleCategoryClick('all')}
