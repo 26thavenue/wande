@@ -61,7 +61,7 @@ export async function GET(req: Request) {
 // }
 
 export async function POST (req:Request){
-    return await prisma.$transaction(async (prisma) => {
+    
         const {userId, address, phoneNumber} = await req.json() 
         const cartItems = await prisma.cartItem.findMany({
             where:{
@@ -109,11 +109,11 @@ export async function POST (req:Request){
         })
 
         await prisma.cartItem.deleteMany({
-        where: {
-            userId: userId
-        }
-    })
+            where: {
+                userId: userId
+            }
+        })
         return NextResponse.json({message:'Order succesfully created'}, {status: 201})  
-    })
+    
     
 }

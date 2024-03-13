@@ -35,13 +35,13 @@
 - [-] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [ ] Adding pagination for the payments table
 - [ ] Fix the search params
-- [ ] Confrim order to trigger the payment api and confirmation mail
+- [x] Confrim order to trigger the payment api and confirmation mail
 - [ ] Add a suspense
 - [x] Add more life e.g illustrations and all to the pages
 - [x] Order page
-- [<>] Decreasing the number InStock for every succesful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
+- [<>] Decreasing the number InStock for every successful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
 - [ ] If its out of stock diable the add to cart button on the product details 
-- [ ] Add cart items to order table before clearing the cart
+- [x] Add cart items to order table before clearing the cart
 
 
 Version 2
@@ -53,6 +53,7 @@ Version 2
 - Better error handling
 - Create a layout folder in the components
 - Please notify me for out stock 
+- Invalid cart item when the number in stock is less than a user cart item
 
 
 Flow

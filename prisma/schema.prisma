@@ -53,7 +53,7 @@ model CartItem{
 }
 
 model OrderProduct {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid()) 
   orderId String
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String

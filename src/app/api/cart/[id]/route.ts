@@ -22,6 +22,16 @@ export async function  PUT(req: Request, { params }: { params: { id: string } })
     const cartItemId = params.id as string
     const {quantity} = await req.json() as unknown as CartItemType;
     if(!cartItemId || !quantity) return NextResponse.json({message:'Invalid request'}, {status: 400});
+    const product = await prisma.cartItem.findUnique({
+        where: {
+            id: cartItemId
+        },
+        include:{
+            product:true
+        }
+    });
+    if(!product) return NextResponse.json({message:'Product not found'}, {status: 404});
+    if(product?.product.numberInStock < quantity) return NextResponse.json({message:'Not enough stock'}, {status: 400});
     try {
         const cart = await prisma.cartItem.update({
             where: {

@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { create , StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import {CartItems, ProductType} from '@/lib/types'
-import {getUserById, createCartItem, updateCartItem} from '@/lib/data'
+import {getUserById, createCartItem, updateCartItem,deleteCartItem,deleteAllUserCartItems} from '@/lib/data'
 
 
 interface CartItem extends ProductType {
@@ -25,11 +25,11 @@ type CartStore = {
     cart: CartItem[],
     count: () => number;
     add: (product: ProductType, userId:string) => void,
-    remove: (idProduct: string) => void,
-    increaseQuantity: (idProduct: string) => void,
-    decreaseQuantity: (idProduct: string) => void,
+    remove: (idProduct: string, userId:string) => void,
+    increaseQuantity: (idProduct: string, userId:string) => void,
+    decreaseQuantity: (idProduct: string, userId:string) => void,
     totalPrice:(cart:CartItem[]) => number,
-    removeAll: () => void
+    removeAll: ( userId:string) => void
     populateCart:(user:any) => void
     check:(userId:string) => void
 }
@@ -41,7 +41,7 @@ export const useCartStore:any = create<CartStore>()(
         cart: [],
         count: () => {
             const { cart } = get();
-            if (cart.length > 0){
+            if (cart?.length > 0){
                 return cart.reduce((prev, curr) => prev + curr.count, 0);
             }
             return 0;                
@@ -52,23 +52,26 @@ export const useCartStore:any = create<CartStore>()(
             set({ cart: updatedCart });
             toast.success('Product added to cart');
         },
-        remove: (idProduct: string) => {
+        remove: (idProduct: string,userId:string ) => {
             const { cart } = get();
-            const updatedCart = removeCart(idProduct, cart);
+            const updatedCart =  removeCart(idProduct, cart);
             set({ cart: updatedCart });
             toast.success('Product removed from cart')
         },
-        removeAll: () => set({ cart: [] }),
-        increaseQuantity: (idProduct: string) => {
+        removeAll: async(userId:string) => {
+            const updatedCart = await removeAll(userId);
+            set({ cart: [] })
+            toast.success('Your cart is empty')
+        },
+        increaseQuantity: async(idProduct: string, userId:string) => {
             const { cart } = get();
-            const updatedCart = increaseCartItemQuantity(idProduct, cart);
+            const updatedCart = await increaseCartItemQuantity(idProduct, cart, userId);
             set({ cart: updatedCart });
             toast.success('Product added to cart');
         },
-        decreaseQuantity: (idProduct: string) => {
+        decreaseQuantity: async(idProduct: string, userId:string) => {
             const { cart } = get();
-            const updatedCart = decreaseCartItemQuantity(idProduct, cart);
-
+            const updatedCart = await decreaseCartItemQuantity(idProduct, cart, userId);
             set({ cart: updatedCart });
             toast.success('Product removed to cart');
         },
@@ -84,8 +87,9 @@ export const useCartStore:any = create<CartStore>()(
             console.log('cart:', cart);
         },
         check: async(userId:string) => {
-            const {cart} = get();
+            // const {cart} = get();
             const updatedCart = await checkCartWithDB(userId);
+            console.log(updatedCart)
             set({cart:updatedCart})
         }
             
@@ -116,7 +120,7 @@ async function updateCart(product: ProductType, cart: CartItem[], userId: string
                 user.id,
                 quantity
             );
-            console.log(data);
+            // console.log(data);
         }
 
         const cartItem = { ...product, count: 1 } as unknown as CartItem;
@@ -136,8 +140,7 @@ async function updateCart(product: ProductType, cart: CartItem[], userId: string
     }
 }
 
-
-function removeCart(idProduct: string, cart: CartItem[]): CartItem[] {
+ function removeCart(idProduct: string, cart: CartItem[]): CartItem[] {
     return cart.map(item => {
         if (item.id === idProduct)
             return { ...item, count: item.count - 1 }
@@ -147,23 +150,94 @@ function removeCart(idProduct: string, cart: CartItem[]): CartItem[] {
     });
 }
 
-function increaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem[] {
-    return cart.map(item => {
-        if (item.id === idProduct) {
-            return { ...item, count: item.count + 1 };
+async function removeAll(userId:string){
+    try {
+        const user = await getUserById(userId);
+        if(user){
+            const data = await deleteAllUserCartItems(user.id);
+            console.log(data);
         }
-        return item;
-    });
+    } catch (error) {
+        console.log(error)
+    }
+    
+
 }
 
-function decreaseCartItemQuantity(idProduct: string, cart: CartItem[]): CartItem[] {
-    return cart.map(item => {
-        if (item.id === idProduct && item.count > 1) {
-            return { ...item, count: item.count - 1 };
+async function increaseCartItemQuantity(idProduct: string, cart: CartItem[], userId: string): Promise<CartItem[]> {
+    try {
+        if (userId) {
+            const user = await getUserById(userId);
+            const item = cart.find(item => item.id === idProduct);
+            const itemId = item?.id as string;
+            const quantity = item?.count as number;
+            const decreasedQty = quantity + 1;
+
+            if (user) {
+                // Update the quantity of the item in the database
+                await updateCartItem(itemId, decreasedQty);
+                // Update the quantity of the item in the cart array
+                const updatedCart = cart.map(item => {
+                    if (item.id === idProduct && item.count > 1) {
+                        return { ...item, count: item.count - 1 };
+                    }
+                    return item;
+                });
+                return updatedCart;
+            }
         }
-        return item;
-    });
+
+        // If no user or userId provided, just decrease the quantity in the cart array
+        const updatedCart = cart.map(item => {
+            if (item.id === idProduct && item.count > 1) {
+                return { ...item, count: item.count - 1 };
+            }
+            return item;
+        });
+        return updatedCart;
+    } catch (error) {
+        console.log(error);
+        return cart; // Return the original cart array if an error occurs
+    }
 }
+
+async function decreaseCartItemQuantity(idProduct: string, cart: CartItem[], userId: string): Promise<CartItem[]> {
+    try {
+        if (userId) {
+            const user = await getUserById(userId);
+            const item = cart.find(item => item.id === idProduct);
+            const itemId = item?.id as string;
+            const quantity = item?.count as number;
+            const decreasedQty = quantity - 1;
+
+            if (user) {
+                // Update the quantity of the item in the database
+                await updateCartItem(itemId, decreasedQty);
+                // Update the quantity of the item in the cart array
+                const updatedCart = cart.map(item => {
+                    if (item.id === idProduct && item.count > 1) {
+                        return { ...item, count: item.count - 1 };
+                    }
+                    return item;
+                });
+                return updatedCart;
+            }
+        }
+
+        // If no user or userId provided, just decrease the quantity in the cart array
+        const updatedCart = cart.map(item => {
+            if (item.id === idProduct && item.count > 1) {
+                return { ...item, count: item.count - 1 };
+            }
+            return item;
+        });
+        return updatedCart;
+    } catch (error) {
+        console.log(error);
+        return cart; // Return the original cart array if an error occurs
+    }
+}
+
 
 function getTotalPrice(cart: CartItem[]): number {
     if(cart.length === 0 || !cart) return 0;
@@ -209,26 +283,27 @@ async function populateCartIfUserWithCartItemsExist(user: any, cart: CartItem[])
 
 async function checkCartWithDB(userId: string) {
     try {
-        // Retrieve user data including cart items from the database
-        const user = await getUserById(userId);
         
-        // If user doesn't exist, return early
-        if (!user) {
-            return;
+        const user = await getUserById(userId);
+        // console.log(user)
+        
+        if (user) {  
+              
+            if (user.items.length > 0) {
+                const products = user.items.map((item: any) => ({
+                    ...item.product,
+                    count: item.quantity
+                }));
+
+                const mergedCartItems: CartItem[] = [...products];
+                return mergedCartItems
+            }
+    
+           
         }
 
-        console.log(user)
-        // Get the cart items from the user's data
-        const cart = user.items;
-
-        // Modify the cart items to include updated prices
-        const updatedCart = cart.map((cartItem: any) => {
-            const updatedPrice = cartItem.product.price;
-            return { ...cartItem, price: updatedPrice };
-        });
-
-        // Return the updated cart (optional)
-        return updatedCart;
+       
+        
     } catch (error) {
         // Handle any errors
         console.error('Error checking cart with database:', error);

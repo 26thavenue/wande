@@ -1,5 +1,5 @@
 import {prisma} from '@/lib/prisma';
-import {OrderType, CartItemType} from '@/lib/types'
+import {OrderType,ProductType, CartItemType} from '@/lib/types'
 import {NextResponse} from 'next/server'
 
 export async function GET(req: Request,{ params }: { params: { id: string } }) {
@@ -35,25 +35,19 @@ export async function UPDATE(req: Request,{ params }: { params: { id: string } }
     if(!orderId) return NextResponse.json({message:'Invalid params'}, {status: 400});
     const {deliveryStatus, deliveryDate,status } = await req.json() 
     
-    const user = await prisma.order.findUnique({
+    const products = await prisma.order.findUnique({
         where: {
             id: orderId,
         },
         include: {
-            user: {
-                include:{
-                    items:{
-                        include:{
-                            product:true
-                        }
-                    }
-                }
-            },
+            products:true
         },
     });
-    console.log(user)
+    console.log(products)
     // if(status.toUpperCase() == 'PAID'){
-    //     await prisma.user
+    //     products?.map((product) =>{
+
+    //     })
     // }
     const order = await prisma.order.update({
         data: {

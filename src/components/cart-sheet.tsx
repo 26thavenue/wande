@@ -26,7 +26,7 @@ export function Cart({count}:{count:number}) {
   // console.log(cart)
   
   useEffect(() => {
-    const total = cart.reduce((prev:any, curr:any) => prev + curr.price * curr.count, 0);
+    const total = cart?.reduce((prev:any, curr:any) => prev + curr.price * curr.count, 0);
     setSubTotal(total);
   }, [cart]);
   
@@ -45,7 +45,7 @@ export function Cart({count}:{count:number}) {
           <SheetTitle> YOUR CART</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-6 my-3 h-[60vh]  overflow-y-auto no-scrollbar">
-          {cart.length > 0 && cart
+          {cart?.length > 0 && cart
             ? 
             cart.map((item:any, index:any) => 
             <div key={item.id} className="flex items-center  text-sm justify-between gap-4">
@@ -56,10 +56,10 @@ export function Cart({count}:{count:number}) {
                 <p className="text-right">${item.price}</p>
                 <p className="text-center justify-self-start"> <QuantityButton product={item}/></p>
                 <p className="text-center">
-                  {/* <button
+                  <button
                   className="underline hover:scale-95 transition"
                   onClick={() => handleRemoveFromCart(item.id ? item.id : '')} 
-                   > Remove</button> */}
+                   > Remove</button>
                 </p>
               </div>
               

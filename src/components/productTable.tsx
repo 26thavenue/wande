@@ -23,9 +23,21 @@ import { Separator } from '@/components/ui/separator'
 import {  getAllProducts } from '@/lib/data'
 import { MoreHorizontal } from 'lucide-react'
 import { useEffect,useState } from 'react'
+import {updateProducts, deleteProducts} from '@/lib/data'
 
 export  function ProductTable()  {
   const[products,setProducts] = useState([])
+
+  // const handleUpdate = async(id:string) => {
+  //   const data = products.find((product:ProductType) => product.id === id)
+  //   await updateProducts(id,data)
+  // }
+  const handleDelete = async(id:string) => {
+    // const data = products.find((product:ProductType) => product.id === id)
+    await deleteProducts(id)
+  }
+
+
   
   useEffect(() => {
     getAllProducts().then((data) => { setProducts(data) }).catch((error) => { console.log(error) })
@@ -62,14 +74,12 @@ export  function ProductTable()  {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>
-                        Update Product
-                        
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                      DeleteProduct
-                        
-                      </DropdownMenuItem>
+                      <div className='p-2'>
+                        <button className=' text-xs hover:bg-slate-50'>Update Product</button>
+                      </div>
+                      <div className='p-2'>
+                          <button className=' text-xs hover:bg-slate-50'>Delete Product</button>
+                      </div>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
