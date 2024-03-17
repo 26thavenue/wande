@@ -197,14 +197,16 @@ export async function createCartItem(productId:string, userId:string, quantity:n
 
 export async function updateCartItem(id:string,quantity:number){
     try {
+        console.log({id,quantity})
         const res = await fetch(`http://localhost:3000/api/cart/${id}`,{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify(quantity)
+            body:JSON.stringify({quantity})
         })
         const cartItem = await res.json()
+       
         return cartItem
     } catch (error) {
         console.log(error)

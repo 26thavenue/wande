@@ -1,8 +1,7 @@
 "use client"
 import { useCartStore } from "@/lib/cart"
 import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { CartItemType } from "@/lib/types"
+import { useUser} from "@clerk/nextjs";
 import {
   Sheet,
   SheetClose,
@@ -23,7 +22,8 @@ export function Cart({count}:{count:number}) {
   const { cart } = useCartStore();
   const{remove:handleRemoveFromCart} = useCartStore()
   const [subTotal, setSubTotal] = useState(0);
-  // console.log(cart)
+  const {user} = useUser();
+  const userID = user?.id ? user.id : ""
   
   useEffect(() => {
     const total = cart?.reduce((prev:any, curr:any) => prev + curr.price * curr.count, 0);
@@ -54,7 +54,7 @@ export function Cart({count}:{count:number}) {
               <div className="flex flex-col gap-1 justify-center  items-center">
                 
                 <p className="text-right">${item.price}</p>
-                <p className="text-center justify-self-start"> <QuantityButton product={item}/></p>
+                <p className="text-center justify-self-start"> <QuantityButton product={item} userID={userID}/></p>
                 <p className="text-center">
                   <button
                   className="underline hover:scale-95 transition"

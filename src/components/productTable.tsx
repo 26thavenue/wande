@@ -1,5 +1,6 @@
 'use client'
 
+import { MouseEventHandler } from 'react'
 import React from 'react'
 import { ProductType } from '@/lib/types'
 import {
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Separator } from '@/components/ui/separator'
 import {  getAllProducts } from '@/lib/data'
-import { MoreHorizontal } from 'lucide-react'
+import { Link, MoreHorizontal } from 'lucide-react'
 import { useEffect,useState } from 'react'
 import {updateProducts, deleteProducts} from '@/lib/data'
 
@@ -32,9 +33,9 @@ export  function ProductTable()  {
   //   const data = products.find((product:ProductType) => product.id === id)
   //   await updateProducts(id,data)
   // }
-  const handleDelete = async(id:string) => {
+  const handleDelete = (id:string) => {
     // const data = products.find((product:ProductType) => product.id === id)
-    await deleteProducts(id)
+     deleteProducts(id)
   }
 
 
@@ -75,10 +76,14 @@ export  function ProductTable()  {
                   <DropdownMenuContent className="w-48">
                     <DropdownMenuGroup>
                       <div className='p-2'>
-                        <button className=' text-xs hover:bg-slate-50'>Update Product</button>
+                        
+                          <button className=' text-xs hover:bg-slate-50 w-full p-2'>Update Product</button>
+                       
+                        
                       </div>
                       <div className='p-2'>
-                          <button className=' text-xs hover:bg-slate-50'>Delete Product</button>
+                          {/* console.log(product.id) */}
+                          <button onClick={ () =>  handleDelete(product?.id ? product.id : '')} className=' text-xs hover:bg-slate-50 w-full p-2'>Delete Product</button>
                       </div>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>

@@ -23,7 +23,7 @@ const schema = z.object({
 const OrderForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [subTotal, setSubTotal] = useState(0);
-  const router =useRouter()
+  const router = useRouter()
   const { cart , removeAll} = useCartStore();
   const {user} = useUser();
   const userID = user?.id;
@@ -54,7 +54,12 @@ const OrderForm = () => {
       
       setError(null);
       toast.success('Your order has been placed');
-      router.push('/received')
+
+      setTimeout(() => {
+
+        router.push('/received')
+      }, 2000);
+      
     } catch (err) {
       if (err instanceof ZodError) {
         setError(err.errors[0].message);

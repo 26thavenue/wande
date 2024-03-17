@@ -10,9 +10,22 @@ export async function GET(req: NextRequest, res:NextResponse) {
   try {
     const products = await prisma.product.findMany({
       where: {
-        name: {
-          contains: query as string // Filter products by name containing the search query
-        },
+        OR:[
+          {
+            name:{
+              contains:query,
+              mode:'insensitive'
+            }
+          },
+          {
+            category:{
+              name:{
+                contains:query,
+                mode:'insensitive'
+              }
+            }
+          }
+        ]
       },
     });
 

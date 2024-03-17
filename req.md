@@ -29,14 +29,15 @@
 - [ ] Filter functionality and Product Page
 - [-] Add metadata
 - [x] Disable normal email signup
-- [ ] Update , Delete Order , Product and Category
+- [<>] Update , Delete Order , Product and Category
 - [ ] Turn the remove button to remove all the instances of the objectn, 
 - [ ] We have to make sure that the products being ordered is lesser than the number in stock
 - [-] Check if the user id matches the userid in the cart and cart item before deleting or  updating
 - [ ] Adding pagination for the payments table
-- [ ] Fix the search params
+- [x] Fix the search params
 - [x] Confrim order to trigger the payment api and confirmation mail
 - [ ] Add a suspense
+- [ ] If user is an admin add admin route to the db and homepage also
 - [x] Add more life e.g illustrations and all to the pages
 - [x] Order page
 - [<>] Decreasing the number InStock for every successful purchase i.e if the payment status is pending run anupdate on the product.numberInStock
@@ -47,6 +48,8 @@
 Version 2
 - Handle Review
 - Add rating
+- Better Search (https://www.youtube.com/watch?v=_cqFkK3WLvg)
+- Filter products
 - Add an address table
 - Logging and test
 - Create a new brand table
@@ -54,7 +57,23 @@ Version 2
 - Create a layout folder in the components
 - Please notify me for out stock 
 - Invalid cart item when the number in stock is less than a user cart item
-
+- Dont use clerk
+- Better designs
+- Sending bulk promotional email
+- ACID transactions in the db
+- Review and Rating
+- Better error handling and fetching
+- Authorization at the backend
+- Recommendations
+- similar products
+- Discount table
+- Paystack and flutterwave payment
+- Cloudinary
+- Chart
+- Table(Discount, Reviews, Recommendation,Ratings,Images,Address,Payment)
+- Apply a condition that only products that are less than 12 days should be included in the newest category
+- Testing,pally
+- Create a user store
 
 Flow
 - Checkout button -> Order form page -> (Your order has been received/Payment Details page / Go back to shopping/Fire the orderReceivedMail button with a link to the website and some images/Fires the post request on the payment api ) -> Payment received mail by changing the status of the order from not paid to paid

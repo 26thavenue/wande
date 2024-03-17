@@ -12,9 +12,10 @@ import QuantityButton from './quantity-button';
 
 interface ProductDetailsProps {
   product: ProductType;
+  userID:string
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+const ProductDetails: React.FC<ProductDetailsProps> = ({ product, userID }) => {
   const { add: handleAddToCart } = useCartStore();
   const [categoryName, setCategoryName] = useState<string>('');
 
@@ -43,7 +44,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
         <Separator orientation="horizontal" className="my-3" />
         <div className="flex gap-2">
           <h3>Quantity: </h3>
-          <QuantityButton product={product} />
+          <QuantityButton product={product} userID={userID} />
         </div>
         <h3>Category: {categoryName}</h3>
         <h3>Brand: {product.brand}</h3>

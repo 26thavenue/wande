@@ -7,7 +7,8 @@ import ProductDetails from "@/components/product-details";
 import { usePathname } from 'next/navigation';
 import {ProductType} from '@/lib/types'
 import { PuffLoader } from "react-spinners";
-// import RelatedProducts from '@/components/related-products';
+import { useCartStore } from '@/lib/cart';
+import { useUser } from '@clerk/nextjs';
 
 const ProductPage = () => {
   const [product, setProduct] = useState<ProductType>();
@@ -15,6 +16,8 @@ const ProductPage = () => {
   const [error, setError] = useState(false);
   const pathname = usePathname();
   const id = pathname.substring(pathname.lastIndexOf("/") + 1);
+  const {user} = useUser();
+  const userID = user?.id ? user.id : ""
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,7 +51,8 @@ const ProductPage = () => {
       <Container>
         {/* <h1 className="text-2xl font-semibold">{product?.name}</h1> */}
         <ProductDetails 
-         product={product} />
+         product={product}
+         userID={userID} />
          {/* <RelatedProducts id={id} /> */}
       </Container>
     </div>

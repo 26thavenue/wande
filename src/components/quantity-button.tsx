@@ -2,12 +2,14 @@ import React,{useState, useEffect} from 'react'
 import { Button } from './ui/button'
 import { useCartStore } from '@/lib/cart'
 import { CartItemType, ProductType } from '@/lib/types'
-
+import toast,{Toaster} from 'react-hot-toast';
 interface QuantityProps {
   product:ProductType
+  cartItem:CartItemType
+  userID:string
 }
 
-const QuantityButton:React.FC<QuantityProps> = ({product}) => {
+const QuantityButton:React.FC<QuantityProps> = ({product,userID}) => {
   const {increaseQuantity:handleIncreaseQuantity} = useCartStore()
   const {decreaseQuantity:handleDecreaseQuantity} = useCartStore()
   const {cart} = useCartStore()
@@ -15,7 +17,7 @@ const QuantityButton:React.FC<QuantityProps> = ({product}) => {
 
    useEffect(() => {
     const cartItem = cart.find((item: CartItemType) => item.id === product.id);
-    console.log(cartItem)
+
     if (cartItem) {
       setQuantity(cartItem.count);
     } else {
@@ -24,13 +26,14 @@ const QuantityButton:React.FC<QuantityProps> = ({product}) => {
   }, [cart, product]);
 
    const handleIncrease = () => {
-    handleIncreaseQuantity(product.id);
+    if(quantity > product.numberInStock) return toast.error('Not enough stock')
+    handleIncreaseQuantity(product.id,userID);
     setQuantity(prevQuantity => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
     if (quantity > 1) {
-      handleDecreaseQuantity(product.id);
+      handleDecreaseQuantity(product.id,userID);
       setQuantity(prevQuantity => prevQuantity - 1);
     }
   };
@@ -46,6 +49,7 @@ const QuantityButton:React.FC<QuantityProps> = ({product}) => {
       onClick={handleIncrease} 
       variant="secondary"
       className='py-1 px-3 '> + </Button>
+      <Toaster/>
     </div>
   )
 }

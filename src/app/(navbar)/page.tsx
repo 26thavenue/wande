@@ -5,7 +5,6 @@ import Banner from '@/components/Banner'
 import FeaturedProducts from '@/components/featured-products'
 import Container from '@/components/Container'
 import ExploreCategory from '@/components/exploreCategory'
-import WhyChooseUs from '@/components/WhyChooseUs'
 import Discount from '@/components/Discount'
 import { useEffect } from "react";
 import {useUser} from '@clerk/nextjs'

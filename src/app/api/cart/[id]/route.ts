@@ -20,8 +20,9 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
 export async function  PUT(req: Request, { params }: { params: { id: string } }) {
     const cartItemId = params.id as string
-    const {quantity} = await req.json() as unknown as CartItemType;
-    if(!cartItemId || !quantity) return NextResponse.json({message:'Invalid request'}, {status: 400});
+    const {quantity} = await req.json() 
+    console.log({cartItemId,quantity})
+    if(!cartItemId || !quantity) return NextResponse.json({message:'Invalid request in the api'}, {status: 400});
     const product = await prisma.cartItem.findUnique({
         where: {
             id: cartItemId
