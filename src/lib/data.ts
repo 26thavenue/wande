@@ -2,7 +2,7 @@ import {ProductType, CartItemType,OrderType,Category, PaymentType, CategoryType}
 
 export async function getAllProducts(){
     try {
-         const res = await fetch('http://localhost:3000/api/product')
+         const res = await fetch('/api/product')
          const products = await res.json()
         // console.log(products);
         return products
@@ -17,7 +17,7 @@ export async function getAllProducts(){
 
 export async function getProductsByCategory(category:string){
     try {
-        const res = await fetch(`http://localhost:3000/api/product?category=${category}`)
+        const res = await fetch(`/api/product?category=${category}`)
         const products = await res.json()
         return products
     } catch (error) {
@@ -28,7 +28,7 @@ export async function getProductsByCategory(category:string){
 
 export async function getPaginatedProducts(limit:number){
     try {
-        const res = await fetch(`http://localhost:3000/api/product/query?limit=${limit}`)
+        const res = await fetch(`/api/product/query?limit=${limit}`)
         const products = await res.json()
         return products
     } catch (error) {
@@ -39,7 +39,7 @@ export async function getPaginatedProducts(limit:number){
 
 export async function getProductsBySearch(searchParams:string){
     try {
-         const res = await fetch(`http://localhost:3000/api/product/query?query=${searchParams}`)
+         const res = await fetch(`/api/product/query?query=${searchParams}`)
         const products = await res.json()
         return products
     } catch (error) {
@@ -50,7 +50,7 @@ export async function getProductsBySearch(searchParams:string){
 
 export async function getProductById(id:string){
     try {
-        const res = await fetch(`http://localhost:3000/api/product/${id}`)
+        const res = await fetch(`/api/product/${id}`)
         const product = await res.json()
         return product
     } catch (error) {
@@ -61,7 +61,7 @@ export async function getProductById(id:string){
 
 export async function createProducts(data:FormData){
     try {
-         const res = await fetch('http://localhost:3000/api/product',{
+         const res = await fetch('/api/product',{
                 method:'POST',
                 body: data
                 })
@@ -79,7 +79,7 @@ export async function createProducts(data:FormData){
 
 export async function updateProducts(id:string,data:ProductType){
     try {
-             const res = await fetch(`http://localhost:3000/api/product/${id}`,{
+             const res = await fetch(`/api/product/${id}`,{
                 method:'PUT',
                 headers:{
                     'Content-Type':'application/json'
@@ -95,7 +95,7 @@ export async function updateProducts(id:string,data:ProductType){
 }
 export async function deleteProducts(id:string){
     try {
-             const res = await fetch(`http://localhost:3000/api/product/${id}`,{
+             const res = await fetch(`/api/product/${id}`,{
                 method:'DELETE',
                 headers:{
                     'Content-Type':'application/json'
@@ -116,7 +116,7 @@ export async function deleteProducts(id:string){
 
 export async function getCategoryById(id:string){
     try {
-         const res = await fetch(`http://localhost:3000/api/category/${id}`)
+         const res = await fetch(`/api/category/${id}`)
         const category = await res.json()
         return category
     } catch (error) {
@@ -127,7 +127,7 @@ export async function getCategoryById(id:string){
 
 export async function getAllCategories(){
     try {
-        const res = await fetch('http://localhost:3000/api/category')
+        const res = await fetch('/api/category')
         const categories = await res.json()
         return categories
     } catch (error) {
@@ -138,7 +138,7 @@ export async function getAllCategories(){
 
 export async function deleteCategory(id:string,data:CategoryType){
     try {
-         const res = await fetch(`http://localhost:3000/api/product/${id}`,{
+         const res = await fetch(`/api/product/${id}`,{
         method:'DELETE',
         headers:{
             'Content-Type':'application/json'
@@ -155,7 +155,7 @@ export async function deleteCategory(id:string,data:CategoryType){
 
 export async function createCategory(data:Category){
     try {
-        const res = await fetch('http://localhost:3000/api/category',{
+        const res = await fetch('/api/category',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -178,7 +178,7 @@ export async function createCategory(data:Category){
 
 export async function createCartItem(productId:string, userId:string, quantity:number){
     try {
-         const res = await fetch('http://localhost:3000/api/cart',{
+         const res = await fetch('/api/cart',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'
@@ -198,7 +198,7 @@ export async function createCartItem(productId:string, userId:string, quantity:n
 export async function updateCartItem(id:string,quantity:number){
     try {
         console.log({id,quantity})
-        const res = await fetch(`http://localhost:3000/api/cart/${id}`,{
+        const res = await fetch(`/api/cart/${id}`,{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json'
@@ -216,7 +216,7 @@ export async function updateCartItem(id:string,quantity:number){
 
 export async function deleteCartItem(id:string){
     try {
-        const res = await fetch(`http://localhost:3000/api/cart/${id}`,{
+        const res = await fetch(`/api/cart/${id}`,{
             method:'DELETE'
         })
         const cartItem = await res.json()
@@ -229,7 +229,7 @@ export async function deleteCartItem(id:string){
 
 export async function deleteAllUserCartItems(userId:string){
     try {
-             const res = await fetch(`http://localhost:3000/api/cart/user/${userId}`,{
+             const res = await fetch(`/api/cart/user/${userId}`,{
                 method:'DELETE'
             })
             const cartItem = await res.json()
@@ -245,7 +245,7 @@ export async function deleteAllUserCartItems(userId:string){
 
 export async function createPayment(data:PaymentType){
     try {
-         const res = await fetch('http://localhost:3000/api/payment',{
+         const res = await fetch('/api/payment',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -262,7 +262,7 @@ export async function createPayment(data:PaymentType){
 
 export async function getPaymentById(id:string){
     try {
-        const res = await fetch(`http://localhost:3000/api/payment/${id}`)
+        const res = await fetch(`/api/payment/${id}`)
         const payment = await res.json()
         return payment 
     } catch (error) {
@@ -273,7 +273,7 @@ export async function getPaymentById(id:string){
 
 export async function updatePayment(id:string,data:PaymentType){
     try {
-        const res = await fetch(`http://localhost:3000/api/payment/${id}`,{
+        const res = await fetch(`/api/payment/${id}`,{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json'
@@ -290,7 +290,7 @@ export async function updatePayment(id:string,data:PaymentType){
 
 export async function deletePayment(id:string){
 
-    const res = await fetch(`http://localhost:3000/api/payment/${id}`,{
+    const res = await fetch(`/api/payment/${id}`,{
         method:'DELETE'
     })
     const payment = await res.json()
@@ -298,7 +298,7 @@ export async function deletePayment(id:string){
 }
 
 export async function getAllPayments(){
-    const res = await fetch('http://localhost:3000/api/payment')
+    const res = await fetch('/api/payment')
     const payments = await res.json()
     return payments
 }
@@ -307,7 +307,7 @@ export async function getAllPayments(){
 
 export async function createOrder(address:string,phoneNumber:string,userId:string){
     try {
-        const res = await fetch('http://localhost:3000/api/order',{
+        const res = await fetch('/api/order',{
             method:'POST',
             body:JSON.stringify({address,phoneNumber,userId})
             })
@@ -324,7 +324,7 @@ export async function createOrder(address:string,phoneNumber:string,userId:strin
 
 export async function getOrderById(id:string){
     try {
-         const res = await fetch(`http://localhost:3000/api/order/${id}`)
+         const res = await fetch(`/api/order/${id}`)
         const order = await res.json()
         return order
     } catch (error) {
@@ -335,7 +335,7 @@ export async function getOrderById(id:string){
 
 export async function updateOrder(id:string,data:OrderType){
     try {
-            const res = await fetch(`http://localhost:3000/api/order/${id}`,{
+            const res = await fetch(`/api/order/${id}`,{
                 method:'PUT',
                 headers:{
                     'Content-Type':'application/json'
@@ -352,7 +352,7 @@ export async function updateOrder(id:string,data:OrderType){
 
 export async function deleteOrder(id:string){
     try {
-            const res = await fetch(`http://localhost:3000/api/order/${id}`,{
+            const res = await fetch(`/api/order/${id}`,{
                 method:'DELETE'
             })
             const order = await res.json()
@@ -366,7 +366,7 @@ export async function deleteOrder(id:string){
 
 export async function getAllOrders(){
     try {
-        const res = await fetch('http://localhost:3000/api/order')
+        const res = await fetch('/api/order')
         const order = await res.json()
         return order 
     } catch (error) {
@@ -380,7 +380,7 @@ export async function getAllOrders(){
 
 export async function createUser({name,email,externalId}:{name:string,email:string,externalId:string}){
     try {
-         const res = await fetch('http://localhost:3000/api/user',{
+         const res = await fetch('/api/user',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -400,7 +400,7 @@ export async function createUser({name,email,externalId}:{name:string,email:stri
 
 export async function getUserById(id:string){
     try {
-         const res = await fetch(`http://localhost:3000/api/user/${id}`) 
+         const res = await fetch(`/api/user/${id}`) 
         if(!res.ok) {
             const errorMessage = await res.text();
             throw new Error(errorMessage);
@@ -414,7 +414,7 @@ export async function getUserById(id:string){
 
 export async function getAllUsers(){
     try {
-        const res = await fetch('http://localhost:3000/api/user')
+        const res = await fetch('/api/user')
         const user = await res.json()
         return user
     } catch (error) {
@@ -425,7 +425,7 @@ export async function getAllUsers(){
 
 export async function updateUser(id:string,data:any){
     try {
-        const res = await fetch(`http://localhost:3000/api/user/${id}`,{
+        const res = await fetch(`/api/user/${id}`,{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json'
@@ -442,7 +442,7 @@ export async function updateUser(id:string,data:any){
 
 export async function deleteUser(id:string){
     try {
-        const res = await fetch(`http://localhost:3000/api/user/${id}`,{
+        const res = await fetch(`/api/user/${id}`,{
             method:'DELETE'
         })
         const user = await res.json()
