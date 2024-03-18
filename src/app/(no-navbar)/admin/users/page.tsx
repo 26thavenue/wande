@@ -1,7 +1,7 @@
 import React from 'react'
 import Container  from '@/components/Container'
 
-const UserPage = () => {
+export default function UserPage(){
   return (
     <div>
         <Container>
@@ -11,4 +11,3 @@ const UserPage = () => {
   )
 }
 
-export default UserPage

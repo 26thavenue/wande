@@ -7,9 +7,9 @@ import { z, ZodError } from 'zod';
 import toast,{Toaster} from 'react-hot-toast';
 
 
-interface FormProps {
-  data: CategoryType[];
-}
+// interface FormProps {
+//   data: CategoryType[];
+// }
 
 
 const MAX_FILE_SIZE = 5000000;
@@ -32,7 +32,7 @@ const schema = z.object({
   categoryName: z.string().min(1, { message: 'Invalid category Name' }),
 });
 
-const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
+export default function  AddProductFormDetails(){
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedCategoryName, setSelectedCategoryName] = useState<string>();
@@ -215,8 +215,5 @@ const AddProductFormDetails: React.FC<FormProps> = ({ data }) => {
   );
 };
 
-export default AddProductFormDetails;
 
 
-//CHECK THE VALIDATION
-// CHECK THE CATEGORY DROPDOWN
