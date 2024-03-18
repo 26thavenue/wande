@@ -214,7 +214,7 @@ const OrderForm = () => {
             
           
             
-            : <div><p  className="text-center text-slate-600 py-2">''</p></div>
+            : <div><p  className="text-center text-slate-600 py-2"></p></div>
           }
           </div>
            <div className="flex items-center gap-3  p-6">
@@ -224,7 +224,7 @@ const OrderForm = () => {
             <div className="bg-[#f6f6f6] flex flex-col gap-3 p-6">
               <h2 className="text-center text-xl p-4 font-bold">Payment Method</h2>
               <h3 className="text-sm font-semibold">Direct bank transfer</h3>
-              <p className="text-sm mb-4">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+              <p className="text-sm mb-4">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order wont be shipped until the funds have cleared in our account.</p>
               {/* <h3 className="text-sm font-semibold">Pay with card</h3>
               <p className="text-sm">Not yet supported...</p> */}
               

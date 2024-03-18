@@ -41,7 +41,7 @@ export function Page() { // Renamed function to start with uppercase letter
           <main className="flex-col my-3">
             <h1 className="text-4xl font-bold">Dashboard</h1>
             <p className="text-[14px] mb-6  text-[#b6b6b6]">
-              Overview of your store's activity
+              Overview of your store&apos;sactivity
             </p>
           </main>
 

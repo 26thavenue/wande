@@ -70,7 +70,7 @@ const CartClient = () => {
                             <p>SUBTOTAL</p>
                             <span> ${subTotal}</span>
                         </div>
-                         <Link href='/checkout'>
+                         <Link href='/order'>
                             <Button type="submit"> CHECKOUT </Button>
                         </Link>
                         

@@ -1,69 +1,69 @@
-'use client'
+// 'use client'
 
-import Container from '@/components/Container'
-import React,{ useEffect,useState} from 'react'
-import { useCartStore } from '@/lib/cart'
-import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
-import { Button } from '@/components/ui/button'
-import { useAuth, useUser } from "@clerk/nextjs";
-import { PuffLoader } from "react-spinners";
+// import Container from '@/components/Container'
+// import React,{ useEffect,useState} from 'react'
+// import { useCartStore } from '@/lib/cart'
+// import { useRouter } from 'next/navigation'
+// import toast from 'react-hot-toast'
+// import { Button } from '@/components/ui/button'
+// import { useAuth, useUser } from "@clerk/nextjs";
+// import { PuffLoader } from "react-spinners";
 
 
-const Page = () => {
+// const Page = () => {
   
-  useEffect(() => {
-        useCartStore.persist.rehydrate();
-    }, []);    
+//   useEffect(() => {
+//         useCartStore.persist.rehydrate();
+//     }, []);    
 
-  const { cart} = useCartStore();
-  const [loading, setLoading] = useState(false)
-  const [error, setError] =useState(false)
+//   const { cart} = useCartStore();
+//   const [loading, setLoading] = useState(false)
+//   const [error, setError] =useState(false)
   
-  const router = useRouter()
+//   const router = useRouter()
   
   
-  const { user} = useUser() ;
+//   const { user} = useUser() ;
   
  
  
   
   
-  if(user){
-    // const  userId = user.id
-    useEffect(() => {
-    if(cart){
-      setLoading(true)
-      setError(false)
+//   if(user){
+//     // const  userId = user.id
+//     useEffect(() => {
+//     if(cart){
+//       setLoading(true)
+//       setError(false)
      
-    }
+//     }
 
-  },[cart])
-  }else{
-    router.push('/sign-in')
-  }
+//   },[cart])
+//   }else{
+//     router.push('/sign-in')
+//   }
   
-  return (
-    <div>
-      {loading &&  <div className="h-screen flex justify-center items-center">
+//   return (
+//     <div>
+//       {loading &&  <div className="h-screen flex justify-center items-center">
 
-                 <PuffLoader color="#b6b6b6" className="mx-auto "/>
-              </div>}
-        <Container>
+//                  <PuffLoader color="#b6b6b6" className="mx-auto "/>
+//               </div>}
+//         <Container>
           
-            <div className='mx-auto mt-12'>
-                {cart ? 
-                <Button
-                 >CHECKOUT</Button>: (
-                <div>
-                    <p>No items in your cart</p>
-                </div>)}
-            </div>
+//             <div className='mx-auto mt-12'>
+//                 {cart ? 
+//                 <Button
+//                  >CHECKOUT</Button>: (
+//                 <div>
+//                     <p>No items in your cart</p>
+//                 </div>)}
+//             </div>
            
           
-        </Container>
-    </div>
-  )
-}
+//         </Container>
+//     </div>
+//   )
+// }
 
-export default Page
+// export default Page

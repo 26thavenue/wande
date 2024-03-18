@@ -37,7 +37,7 @@ const AddProductFormDetails:React.FC<FormProps>= ({data}) => {
                 </div>
                 <div>
                     <label htmlFor="image">imageUrl</label>
-                    <input type="url" id="image" name="image" />// Change it to file later
+                    <input type="url" id="image" name="image" />
                 </div>
                 <div>
                     <label htmlFor="brand">Brand</label>
