@@ -50,7 +50,9 @@ Version 2
 - Add rating
 - Better Search (https://www.youtube.com/watch?v=_cqFkK3WLvg)
 - Filter products
+- Use million lint to check performance
 - Add an address table
+- Contact Page
 - Logging and test
 - Create a new brand table
 - Better error handling
