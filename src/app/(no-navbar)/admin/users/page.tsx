@@ -1,6 +1,6 @@
 import React from 'react'
 import Container  from '@/components/Container'
-const page = () => {
+const Page = () => {
   return (
     <div>
         <Container>
@@ -10,4 +10,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

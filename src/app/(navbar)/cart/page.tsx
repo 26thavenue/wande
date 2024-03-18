@@ -7,7 +7,7 @@ import { useCartStore } from '@/lib/cart';
 
  
 
-const page = () => {
+const Page = () => {
   useEffect(() => {
         useCartStore.persist.rehydrate();
     }, []);
@@ -21,4 +21,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

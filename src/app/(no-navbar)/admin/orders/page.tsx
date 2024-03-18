@@ -2,7 +2,7 @@ import React from 'react'
 import Container from '@/components/Container'
 import { Input } from '@/components/ui/input'
 import OrderTable from '@/components/orderTable'
-const page = () => {
+const Page = () => {
   return (
     <div>
       <Container>
@@ -15,4 +15,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

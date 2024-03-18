@@ -7,7 +7,7 @@ import { getAllProducts } from '@/lib/data'
 import { PuffLoader } from 'react-spinners'
 
 
-const pages = () => {
+const Pages = () => {
   const [products, setProducts] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
@@ -69,4 +69,4 @@ const pages = () => {
   )
 }
 
-export default pages
+export default Pages

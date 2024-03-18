@@ -10,7 +10,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { PuffLoader } from "react-spinners";
 
 
-const page = () => {
+const Page = () => {
   
   useEffect(() => {
         useCartStore.persist.rehydrate();
@@ -66,4 +66,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

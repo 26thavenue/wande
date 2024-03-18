@@ -13,7 +13,9 @@ import { createUser } from "@/lib/data";
 import { useCartStore } from '@/lib/cart'
 import Newest from '@/components/New'
 import Start from '@/components/start'
-const page = () => {
+
+
+const Page = () => {
   const {user} = useUser()
   const firstName = user?.firstName as string
   const lastName = user?.lastName
@@ -48,4 +50,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
