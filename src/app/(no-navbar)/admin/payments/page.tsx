@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import PaymentTable from '@/components/paymentTable'
 
 
-const PaymentPage = () => {
+export default function PaymentPage() {
   return (
     <div>
       <Container>
@@ -17,4 +17,3 @@ const PaymentPage = () => {
   )
 }
 
-export default PaymentPage

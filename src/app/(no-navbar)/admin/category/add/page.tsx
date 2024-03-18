@@ -8,7 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const schema = z.string().min(4, { message: 'Name must be at least 4 characters long' });
 
 
-const AddCategoryPage = () => {
+export default function CategoryPage()  {
   const [categoryName, setCategoryName] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -73,4 +73,4 @@ const AddCategoryPage = () => {
   );
 };
 
-export default AddCategoryPage;
+

@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import OrderTable from '@/components/orderTable'
 
 
-const OrdersPage = () => {
+export default function OrderPage() {
   return (
     <div>
       <Container>
@@ -17,4 +17,3 @@ const OrdersPage = () => {
   )
 }
 
-export default OrdersPage
