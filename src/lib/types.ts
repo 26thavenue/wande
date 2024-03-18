@@ -1,3 +1,4 @@
+import { User } from "@prisma/client"
 
 export type ProductType = {
   id?: string,
@@ -46,7 +47,7 @@ export interface CartItems{
 
 export type OrderType = {
     id: string;
-    userId: string;
+    user:UserType
     phoneNumber: string;
     total: number;
     items: CartItemType[];
@@ -63,6 +64,7 @@ export type PaymentType = {
     orderId: string,
     amount: number,
     status?: string,
+    user:UserType
 }
 
 export type UserType = {

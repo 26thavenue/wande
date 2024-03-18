@@ -5,7 +5,6 @@ import { CartItemType, ProductType } from '@/lib/types'
 import toast,{Toaster} from 'react-hot-toast';
 interface QuantityProps {
   product:ProductType
-  cartItem:CartItemType
   userID:string
 }
 

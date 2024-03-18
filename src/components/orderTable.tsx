@@ -41,8 +41,8 @@ export function OrderTable() {
             data.map((order: OrderType) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.user?.name}</TableCell>
-                <TableCell>{order.amount}</TableCell>
-                <TableCell className="text-right">{order.phone}</TableCell>
+                <TableCell>{order.total}</TableCell>
+                <TableCell className="text-right">{order.phoneNumber}</TableCell>
                 <TableCell className="text-right">{order.address}</TableCell>
                 <TableCell className="text-right flex justify-end">
                   <DropdownMenu>
