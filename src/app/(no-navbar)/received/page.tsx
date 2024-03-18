@@ -7,7 +7,7 @@ import React from 'react'
 
 
 
-const Page = () => {
+const Received = () => {
   
   return (
     <Container>
@@ -49,4 +49,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default Received

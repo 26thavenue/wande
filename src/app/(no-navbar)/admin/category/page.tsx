@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import AddCategoryButton from '@/components/addCategoryButton'
 import CategoryTable from '@/components/categoryTable'
 
-export default async function Page (){
+export default async function AdminCategoryPage (){
   
   return (
     <Container>

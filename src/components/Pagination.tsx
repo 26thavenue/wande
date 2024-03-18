@@ -8,7 +8,7 @@ import { PuffLoader } from "react-spinners";
 
 
 
-const PAGE_LIMIT = 5; // Number of products per page
+const PAGE_LIMIT = 5; 
 
 export default function CustomPagination() {
   const [products, setProducts] = useState<ProductType[]>([]);

@@ -1,21 +1,17 @@
 import { SignUp } from "@clerk/nextjs";
 import {useUser} from '@clerk/nextjs'
 import { useRouter} from "next/navigation";
-export default function Page() {
-  const {user, isSignedIn} = useUser()
-  const router = useRouter()
+
+
+export default function page() {
+
   
   return (
-    <>
-    {isSignedIn ? router.push('/dashboard') : 
-    <>
+  
       <div className="flex items-center justify-center ">
        <SignUp  />
     </div>  
-    </>
-    }
-    
-    </>
- 
+   
+   
   )
 }

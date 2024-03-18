@@ -3,7 +3,7 @@ import { BadgeCheck, MoveLeft } from "lucide-react";
 import Link from 'next/link'
 import React from 'react'
 
-const Page = () => {
+const SuccessPage = () => {
   return (
     <div>
         <Container>
@@ -20,4 +20,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default SuccessPage

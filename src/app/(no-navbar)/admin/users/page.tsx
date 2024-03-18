@@ -1,6 +1,7 @@
 import React from 'react'
 import Container  from '@/components/Container'
-const Page = () => {
+
+const UserPage = () => {
   return (
     <div>
         <Container>
@@ -10,4 +11,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default UserPage

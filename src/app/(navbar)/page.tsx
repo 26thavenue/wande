@@ -15,7 +15,7 @@ import Newest from '@/components/New'
 import Start from '@/components/start'
 
 
-const Page = () => {
+const HomePage = () => {
   const {user} = useUser()
   const firstName = user?.firstName as string
   const lastName = user?.lastName
@@ -50,4 +50,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default HomePage

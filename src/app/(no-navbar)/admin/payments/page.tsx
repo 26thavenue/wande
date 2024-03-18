@@ -2,7 +2,9 @@ import React from 'react'
 import Container from '@/components/Container'
 import { Input } from '@/components/ui/input'
 import PaymentTable from '@/components/paymentTable'
-const Page = () => {
+
+
+const PaymentPage = () => {
   return (
     <div>
       <Container>
@@ -15,4 +17,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default PaymentPage

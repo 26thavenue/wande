@@ -7,24 +7,14 @@ import { useCartStore } from "@/lib/cart";
 
 
 
-export default function Page() {
-  const {user, isSignedIn} = useUser();
-
-  const router = useRouter();
+export default function page() {
 
 
   return (
-    <>
-    {isSignedIn ? router.push('/') : 
-    <>
+   
       <div className="flex items-center justify-center ">
        <SignIn  />
     </div>  
-    </>
-    }
-    
-    </>
-    
  
   )
 }

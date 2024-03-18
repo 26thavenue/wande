@@ -10,7 +10,7 @@ import Container from '@/components/Container';
 
 
 
-const Page = () => {
+const SearchPage = () => {
   const [data, setData] = useState<ProductType[]>([]);   
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams()
@@ -74,4 +74,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default SearchPage

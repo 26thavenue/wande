@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Use 'next/router' instead of 'next/navigation'
 import { useUser } from '@clerk/nextjs';
 
-export function Page() { // Renamed function to start with uppercase letter
+export function AdminPage() { // Renamed function to start with uppercase letter
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true); // Set loading to true initially
@@ -61,4 +61,4 @@ export function Page() { // Renamed function to start with uppercase letter
   );
 }
 
-export default Page;
+export default AdminPage;

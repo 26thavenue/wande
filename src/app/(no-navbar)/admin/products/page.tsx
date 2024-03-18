@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import AddProductButton from '@/components/addProductButton'
 
 
-export default async function Page (){
+export default async function ProductsPage (){
   
   return (
     <Container>
