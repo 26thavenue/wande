@@ -29,9 +29,19 @@ const OrderForm = () => {
   const userID = user?.id;
   const email = user?.emailAddresses[0].emailAddress;
 
+  useEffect(() => {
+    if(!user) {
+        toast.error('You need to be logged in to place an order')
+        setTimeout(() => {
+        
+        router.push('/sign-in')
+      }, 1000);
+    }
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(!userID) return toast.error('You need to be logged in to place an order')
+    // if(!userID) return toast.error('You need to be logged in to place an order')
     const formData = new FormData(e.currentTarget);
     const checkAdress = formData.get('address') as string 
     if(checkAdress === ''){
@@ -97,11 +107,12 @@ const OrderForm = () => {
 
   return (
     <>
+
       {cart.length > 0 && cart ?  
       (
-        <div className=' flex xl:flex-row md:flex-col l:flex-row flex-col-reverse  '>
+        <div className=' w-full xl:flex-row md:flex-col justify-center items-center lg:flex-row flex-col-reverse  '>
       
-        <div className='flex bg-white flex-col gap-4  font-semibold items-start justify-center w-3/5 mt-8 p-6'>
+        <div className='flex bg-white flex-col gap-4  font-semibold items-start justify-center xl:w-3/5 lg:w-3/5 w-full mt-8 p-6'>
           <h2 className='text-2xl justify-self-start px-8  '> Billing Details</h2>
           <form onSubmit={handleSubmit} className="bg-white  rounded px-8 pt-6 pb-8 mb-4 w-full ">
             <div className="mb-4 flex flex-col gap-3">
@@ -186,8 +197,8 @@ const OrderForm = () => {
           </form>
         
       </div>
-      <div className=' w-2/5 flex flex-col '>
-        <div className="flex flex-col max-h-[40%] p-6 mt-8  gap-6 ">
+      <div className=' xl:w-2/5 lg:w-2/5 w-full flex flex-col justify-center items-center  '>
+        <div className="flex flex-col xl:max-h-[40%] lg:max-h-[40%]  h-full p-6 mt-8  gap-6 ">
           {cart.length > 0 && cart
             ? 
 

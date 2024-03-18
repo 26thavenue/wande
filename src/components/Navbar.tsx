@@ -19,11 +19,11 @@ import { useCartStore  } from "@/lib/cart";
 import Container from "./Container";
 import Link from 'next/link'
 import { UserButton} from "@clerk/nextjs";
-import {useEffect,useState} from "react"
+import {useEffect,useRef, useState} from "react"
 import { getAllCategories } from "@/lib/data";
 import { CategoryType } from "@/lib/types";
 import SearchBar from "@/components/searchInput";
-
+import { UserCircle } from "lucide-react";
 
 export function Navbar() {
   const { isSignedIn } = useAuth();
@@ -32,10 +32,31 @@ export function Navbar() {
   const [error,setError] = useState(false)
   const { count, check} = useCartStore();
   const userID = user?.id ? user.id : ""
+  const[show,setShow] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
 
-  // console.log(userID)
-  // console.log(cart)
+  const toggleDropdwn = () => { 
+    setShow(!show)
+  }
+
+  const toggleDropdown = () => {
+    setShow((prevShow) => !prevShow);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setShow(false);
+    }
+  };
+
+   useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   useEffect (() => { 
 
    async function fetchCartFromDB(){
@@ -117,14 +138,36 @@ export function Navbar() {
                   <UserButton afterSignOutUrl='/'/>
               </div>)
              : (
-              <div className="flex gap-3 items-center ">
+              <>
+                 <div className="xl:flex lg:flex hidden gap-3 items-center ">
                       <Link href='/sign-in'>
                         <Button className="text-white text-sm rounded-xl"> Login</Button>
                       </Link>
                       <Link href='/sign-up'>
                         <Button variant="secondary" className="text-sm"> Signup</Button>
                       </Link>
-              </div>)  }
+
+                    </div>
+                    <div className="xl:hidden lg:hidden block relative">
+                      
+                        <UserCircle className="w-6 h-6 cursor-pointer" onClick={toggleDropdwn}/>
+                          {show && (
+                              <div ref={dropdownRef} className="transition ease-in-out duration-300 absolute right-0 mt-2 bg-white flex flex-col rounded-lg gap-1 justify-center items-center shadow-lg p-4 space-y-2">
+                                <Link href="/sign-in">
+                                  <Button className="text-white bg-black text-xs rounded-xl py-3 px-6">Login</Button>
+                                </Link>
+                                <Link href="/sign-up">
+                                  <Button variant='secondary'  className= "  text-black text-xs py-3 px-6">
+                                    Signup
+                                  </Button>
+                                </Link>
+                              </div>
+                            )}
+                    </div>
+              
+              </>
+             
+              )  }
            
             
             

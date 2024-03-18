@@ -22,10 +22,10 @@ export default function SearchBar() {
   }
 
   return (
-    <form className='flex justify-center w-2/3 ' onSubmit={onSearch}>
+    <form className='flex justify-center  ' onSubmit={onSearch}>
       <input
         value={query}
-        className=" block w-1/3 rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+        className=" block   rounded-md border border-gray-200 py-[9px] pl-10 text-xs lg:text-sm  xl:text-sm outline-2 placeholder:text-gray-500"
         placeholder="Search for products"
         onChange={(e) => {
           setQuery(e.target.value);
