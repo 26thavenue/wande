@@ -73,22 +73,3 @@ export async function DELETE(req:Request, { params }: { params: { id: string } }
     }
 }
 
-export async function changeCategoryName(req:Request, { params }: { params: { id: string } }){
-    const categoryId = params.id as string
-    if(!categoryId) return NextResponse.json({message:'Invalid params'}, {status: 400});
-
-    const { name } = await req.json() as unknown as CategoryType;
-    if(!name) return NextResponse.json({message:'Invalid params'}, {status: 400});
-    try {
-        const updatedCategory = await prisma.category.update({
-        where: { id: categoryId },
-        data: {
-            name,
-        },
-        });
-        return NextResponse.json(updatedCategory,{status: 200});
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: 'Error updating category' }, {status: 500});
-    }
-}
