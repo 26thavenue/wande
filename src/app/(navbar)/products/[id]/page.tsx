@@ -10,7 +10,7 @@ import { PuffLoader } from "react-spinners";
 import { useCartStore } from '@/lib/cart';
 import { useUser } from '@clerk/nextjs';
 
-const ProductPage = () => {
+export default function ProductPage() {
   const [product, setProduct] = useState<ProductType>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -59,4 +59,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+

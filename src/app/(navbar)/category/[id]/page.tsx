@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 import { PuffLoader } from "react-spinners";
 
 
-const CategoryPage = () => {
+export default function CategoryPage() {
   const [category, setCategory] = useState<CategoryType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -82,4 +82,4 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+
