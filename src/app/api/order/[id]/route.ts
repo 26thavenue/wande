@@ -31,7 +31,7 @@ export async function DELETE(req: Request,{ params }: { params: { id: string } }
 }
 
 
-export async function UPDATE(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
   const orderId = params.id as string;
   if (!orderId) return NextResponse.json({ message: 'Invalid params' }, { status: 400 });
 
