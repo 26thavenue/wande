@@ -8,9 +8,8 @@ import { Toaster } from "react-hot-toast";
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import { PuffLoader } from "react-spinners";
 // import Loading from "@/components/loading";
-import localFont from 'next/font/local'
 
-const myFont = localFont({ src: './ojuju.tff' })
+
 
 const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
