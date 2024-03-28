@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 // import { ClerkProvider } from '@clerk/nextjs'
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono ,} from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import { PuffLoader } from "react-spinners";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
+import localFont from 'next/font/local'
 
+const myFont = localFont({ src: './ojuju.tff' })
 
 const jetbrains = JetBrains_Mono({
   subsets: ['latin'],

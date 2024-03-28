@@ -53,7 +53,7 @@ const ExploreCategory = () => {
       return <div>No products found for this category.</div>;
     }
     return (
-      <div className="flex flex-wrap gap-4 mt-8">
+      <div className="text-sm pt-4 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {products.map((product) => (
           <ProductCard
             key={product.id}

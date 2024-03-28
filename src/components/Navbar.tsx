@@ -93,7 +93,7 @@ export function Navbar() {
       <Container>
         <div className='flex justify-between items-center  py-4 bottom-1'>
         <div className="flex items-center justify-center gap-6">
-        <Link href='/'><p className="text-xl font-bold">STORE</p></Link>
+        <Link href='/'><p className="text-xl font-bold">NUNO</p></Link>
         
        
           <DropdownMenu >
