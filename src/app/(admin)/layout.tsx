@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import {  JetBrains_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
-import Navbar from './components/Layout/Navbar'
-import Footer from './components/Layout/Footer'
+import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 
 const jetBrains= JetBrains_Mono({
@@ -38,14 +37,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${Satoshi.variable} ${Ojuju.variable} ${jetBrains.variable} ${clashGrotesk.variable} flex flex-col min-h-screen`}>
-        <Navbar />
-        <div className="flex-grow">
-          {children}
-        </div>
-        <Footer />
-        </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${Satoshi.variable} ${Ojuju.variable} ${jetBrains.variable} ${clashGrotesk.variable} flex flex-col min-h-screen`}>
+          <div className="flex-grow">
+            {children}
+          </div>
+          </body>
+      </html>
+    </ClerkProvider>
   )
 }

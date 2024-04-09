@@ -1,12 +1,15 @@
 import React from 'react'
 import Container from './Container'
+import { Facebook, Twitter} from 'lucide-react'
 import Link from 'next/link'
+
+
 
 const Footer = () => {
   return (
-    <div className='text-sm mt-16 bg-black text-white font-ojuju'>
+    <div className='text-sm mt-16 bg-black text-white font-satoshi'>
       <Container>
-        <footer className='container grid md:grid-cols-2 lg:grid-cols-4  xl:grid-cols-4 gap-3 items-center p-6 bg-black w-full text-white h-full '>
+        <footer className='container grid md:grid-cols-2 lg:grid-cols-4  xl:grid-cols-4 gap-3 items-center p-12 bg-black w-full text-white h-full '>
         
           <div  className=''>
             <h1 className='text-4xl font-ojuju font-extrabold'>NUNO</h1>
