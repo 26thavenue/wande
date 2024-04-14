@@ -1,18 +1,18 @@
 'use client'
 
-
 import { useState } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Separator } from "@/components/ui/separator"
-import { Loader } from "lucide-react"
+import { Product } from "@prisma/client"
+import ProductCard from "@/components/ProductCard"
 
-const FeaturedProducts = () => {
-  const [products, setProducts] = useState([]);
+
+const FeaturedProducts = ({products}:{products:Product[]}) => {
+
   const [loading, setLoading] = useState(true);
-
   
 
-
+  
   return (
     <div className="my-12 px-6">
       <h2 className="font-satoshi text-xl font-normal mb-4">Featured Products</h2>
@@ -58,11 +58,15 @@ const FeaturedProducts = () => {
 
 
           </div>
-          
-       
-      
       }
-
+      <div className="grid items-center p-6  grid-cols-2 lg:grid-cols-4  gap-6  mt-4 ">
+         {products.map((product) =>(
+        <ProductCard key={product.id} product={product} />
+      
+      ))}
+      </div>
+     
+     
     </div>
   )
 }

@@ -22,25 +22,11 @@ model Product{
   numberInStock Int      @default(1)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  categoryId  String
-  category    Category   @relation(fields: [categoryId], references: [id])
-  brandId     String
-  brand       Brand      @relation(fields: [brandId], references: [id])
+  brand       String
+  category    String
+
+  @@index([brand, category, price, createdAt(sort:Desc)])
 
   @@map("products")
 }
 
-model Category{
-   id          String     @id @default(uuid()) 
-  name        String     @unique
-  products    Product[]
-  @@map("categories")
-
-}
-
-model Brand{
-  id          String     @id @default(uuid()) 
-  name        String     @unique
-  products    Product[]
-  @@map("brands")
-}

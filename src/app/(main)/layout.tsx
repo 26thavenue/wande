@@ -43,7 +43,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${Satoshi.variable} ${Ojuju.variable} ${jetBrains.variable} ${clashGrotesk.variable} flex flex-col min-h-screen`}>
           <Navbar />
-          <div className="flex-grow">
+          <div className="flex-grow flex justify-center items-center ">
             {children}
           </div>
           <Footer />
