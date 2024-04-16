@@ -1,8 +1,12 @@
-import React from 'react'
+import ProductList from "@/components/ProductList"
+import { getAllProducts } from "@/lib/productQueries"
 
-const ProductPage = () => {
+const ProductPage = async() => {
+
   return (
-    <div>Product</div>
+    <div>
+      <ProductList/>
+    </div>
   )
 }
 

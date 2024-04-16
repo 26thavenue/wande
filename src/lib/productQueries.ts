@@ -1,13 +1,19 @@
+
+
 import { cache } from "react";
 import {prisma} from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { Product } from "@prisma/client";
 
 
-export  const getAllProducts = cache(async () => {
-    const res = await prisma.product.findMany();
+export const getAllProducts = async () => {
+    const res = await prisma.product.findMany({
+        orderBy:{
+            price: 'asc',
+        }
+    });
     return res;
-})
+}
 
 
 

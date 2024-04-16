@@ -7,9 +7,12 @@ import { ClerkLoading, ClerkLoaded, SignedIn, UserButton, SignedOut, SignInButto
 import CategoryDropdown from '@/components/CategoryDropdown' 
 import MenuDropdown from '@/components/MenuDropdown'
 import Link from 'next/link'
+import { getAllProducts } from '@/lib/productQueries'
 
 
-const Navbar = () => {
+const Navbar = async() => {
+  const data = await getAllProducts()
+
   return (
     
        <div className=' max-w-[1920px] px-6  lg:px-20  shadow-sm  flex justify-between items-center  py-3 '>
@@ -19,7 +22,7 @@ const Navbar = () => {
               <h1 className=' font-ojuju text-2xl font-extrabold '>Nuno</h1>
             </Link>
           
-            <CategoryDropdown />
+            <CategoryDropdown products={data}/>
         </div>
       
         <SearchBar className='lg:w-[250px] w-60' params='Search for products' />

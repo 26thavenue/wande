@@ -62,7 +62,7 @@ const ExploreCategory = ({products}:{products:Product[]}) => {
         <div>
           <p>ALL</p>
           {uniqueCategories.map((category) => (
-           <p className='uppercase'>{category}</p>
+           <p key={category} className='uppercase'>{category}</p>
           ))}
               
         </div>

@@ -1,5 +1,6 @@
 import Image from 'next/image'
-
+import { Button } from './ui/button';
+import Link from 'next/link';
 
 const Banner = () => {
     return (
@@ -9,7 +10,11 @@ const Banner = () => {
                 
                      <div className=" md:mb-0 text-center text-white w-full lg:w-1/2 xl:w-1/2">
                         <h1 className="uppercase text-xl lg:text-2xl  xl:text-3xl font-bold mb-4 font-jetBrains">Get your building materials  anyday at anytime</h1>
-                         <h3 className="text-sm md:text-xl mb-2 font-[300] font-satoshi">Enjoy discounts on selected items</h3>
+                         <h3 className="text-sm md:text-xl font-[300] font-satoshi mb-4 ">Enjoy discounts on selected items</h3>
+                         <Link href='/product'>
+                             <Button variant='secondary' className='font-satoshi mt-3 text-[16px] w-full max-w-[200px]' > Start Shopping</Button>
+                         </Link>
+                        
                      </div>
                     <Image src='/Socket-bg-remove.png' alt='banner' width={700} height={700} className='rounded-lg w-1/3 relative ' />
 
