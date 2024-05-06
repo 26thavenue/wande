@@ -24,9 +24,73 @@ model Product{
   updatedAt   DateTime   @updatedAt
   brand       String
   category    String
-
+  cartItems CartItems[]
   @@index([brand, category, price, createdAt(sort:Desc)])
 
   @@map("products")
 }
+
+model CartItems{
+  id      String @id @default(uuid())
+  quantity Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+
+  @@map("cartItems")
+}
+
+model User{
+  id      String @id @default(uuid())
+  name String
+  email String @unique
+  hashedPassword String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      ROLE @default(USER)
+  cartItems CartItems[]
+  orders Order[]
+  payments Payment[]
+
+  @@map("users")
+}
+
+model Order{
+  id      String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  totalAmount Float
+  address String
+  status String @default("PENDING")
+  items Json[]
+
+  @@map("orders" )
+  
+}
+
+enum ROLE{
+  ADMIN
+  USER
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  amount    Float
+  currency  String
+  source    Json
+
+
+  @@map("payments")
+}
+
+
 

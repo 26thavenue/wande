@@ -6,13 +6,17 @@ import React from 'react'
 import ProductCard from './ProductCard'
 import { getProducts } from '@/lib/data'
 import {Loader} from 'lucide-react'
-import FilterButton from './FilterButton'
+
+
 
 
 const ProductList = () => {
 
   const [products, setProducts] = React.useState<Product[]>([])
+
   const [loading, setLoading] = React.useState(true)
+
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -37,7 +41,7 @@ const ProductList = () => {
         {!loading && 
         <div className='p-6 justify-between flex items-center '>
           <h1 className='font-jetBrains text-xl  font-bold '>Shop Our Products</h1>
-          <FilterButton/>
+          
         </div>
         }
         <div  className="grid items-center p-6  grid-cols-2 lg:grid-cols-4  gap-6  mt-4 ">
