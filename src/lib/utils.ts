@@ -19,6 +19,10 @@ export const truncateText = (text:string) =>{
 
 export const parseImageUrl = (url: string) => {
     if (!url) return '';
+
+    if (url.startsWith('http') || url.startsWith('data:image')) {
+        return url;
+    }
     const parts = url.split(/[\\\/]/);
      
     const relativePath = "/" + parts[parts.length - 1];
